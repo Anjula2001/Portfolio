@@ -1,19 +1,17 @@
-import { ArrowUpRight, Mail, Sparkles } from "lucide-react";
+import { ArrowUpRight, Mail, Sparkles, Code2, Code, Zap, FileCode, Server, Database, GitBranch, Layers } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 const skills = [
-  "Next.js",
-  "TypeScript",
-  "Node.js",
-  "PostgreSQL",
-  "Tailwind CSS",
-  "System Design",
-  "API Engineering",
-  "AI Integration",
-  "Performance Optimization",
-  "Cloud Deployment",
+  { name: "Python", Icon: Code2, color: "#3776ab" },
+  { name: "JavaScript", Icon: Code, color: "#f1e05a" },
+  { name: "React", Icon: Zap, color: "#61dafb" },
+  { name: "TypeScript", Icon: FileCode, color: "#3178c6" },
+  { name: "Node.js", Icon: Server, color: "#68a063" },
+  { name: "PostgreSQL", Icon: Database, color: "#336791" },
+  { name: "Git", Icon: GitBranch, color: "#f1502f" },
+  { name: "System Design", Icon: Layers, color: "#8b5cf6" },
 ];
 
 const projects = [
@@ -157,19 +155,31 @@ export default function Home() {
         <div className="section-head">
           <h2 className="section-title">Skills</h2>
           <p className="mt-3 max-w-2xl text-[var(--text-muted)]">
-            Technical strengths represented with a minimal, structured signal.
+            Core technologies and tools that power my work.
           </p>
         </div>
 
-        <Card className="mt-10 p-6 sm:p-8">
-          <div className="flex flex-wrap gap-3">
-            {skills.map((skill) => (
-              <span key={skill} className="skill-pill">
-                {skill}
-              </span>
-            ))}
+        <div className="mt-16 flex justify-center">
+          <div className="skill-dock">
+            {skills.map((skill, idx) => {
+              const IconComponent = skill.Icon;
+              return (
+                <div
+                  key={skill.name}
+                  className="skill-icon"
+                  style={{
+                    "--icon-delay": `${idx * 0.05}s`,
+                  } as React.CSSProperties}
+                >
+                  <div className="skill-icon-inner" title={skill.name} style={{ '--icon-color': skill.color } as React.CSSProperties}>
+                    <IconComponent size={28} strokeWidth={1.5} />
+                  </div>
+                  <div className="skill-tooltip">{skill.name}</div>
+                </div>
+              );
+            })}
           </div>
-        </Card>
+        </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-6 pb-28 sm:px-10" id="contact">

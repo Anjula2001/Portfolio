@@ -303,3 +303,119 @@ body {
   background: rgba(17, 18, 20, 0.12);
   color: var(--foreground);
 }
+
+/* macOS Dock-style Skills */
+.skill-dock {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem 1.75rem;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 28px;
+  box-shadow: 
+    0 8px 32px rgba(17, 18, 20, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  width: fit-content;
+  margin: 0 auto;
+  transition: all 300ms ease;
+}
+
+.skill-dock::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  border-radius: 28px;
+  pointer-events: none;
+}
+
+.skill-icon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.skill-icon-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(17, 18, 20, 0.08);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 
+    0 4px 16px rgba(17, 18, 20, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: bottom center;
+  color: var(--icon-color, var(--foreground));
+}
+
+.skill-emoji {
+  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skill-tooltip {
+  position: absolute;
+  bottom: -2.75rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: rgba(17, 18, 20, 0.95);
+  color: white;
+  padding: 0.5rem 0.875rem;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 200ms ease;
+  backdrop-filter: blur(12px);
+}
+
+/* macOS Dock hover wave effect */
+.skill-icon:hover .skill-icon-inner {
+  transform: scale(1.3) translateY(-14px);
+  box-shadow: 
+    0 20px 48px rgba(17, 18, 20, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.skill-icon:hover .skill-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Wave effect on nearby icons */
+.skill-icon:nth-child(n) .skill-icon-inner {
+  transition: all 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Reduce scale of icons adjacent to hovered icon */
+.skill-icon:hover ~ .skill-icon .skill-icon-inner {
+  transform: scale(0.8) translateY(0);
+}
+
+.skill-icon:has(~ .skill-icon:hover) .skill-icon-inner {
+  transform: scale(0.8) translateY(0);
+}
