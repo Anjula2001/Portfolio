@@ -1,26 +1,180 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f4f5f7;
+  --foreground: #16181b;
+  --surface: rgba(255, 255, 255, 0.62);
+  --surface-strong: rgba(255, 255, 255, 0.78);
+  --text-muted: #5d6570;
+  --accent: #111214;
+  --line: rgba(17, 18, 20, 0.1);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-sans-ui);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background:
+    radial-gradient(950px 560px at 84% -10%, rgba(255, 255, 255, 0.85), transparent 62%),
+    radial-gradient(700px 430px at 12% 10%, rgba(235, 238, 242, 0.95), transparent 58%),
+    var(--background);
+  color: var(--foreground);
+  font-family:
+    var(--font-sans-ui),
+    "SF Pro Text",
+    "SF Pro Display",
+    "Avenir Next",
+    "Helvetica Neue",
+    sans-serif;
+  min-height: 100vh;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
 }
 
-body {
-  background: var(--background);
+* {
+  box-sizing: border-box;
+}
+
+.ambient-bg {
+  background-image:
+    radial-gradient(620px 340px at 18% 3%, rgba(255, 255, 255, 0.88), transparent 70%),
+    radial-gradient(550px 300px at 88% 12%, rgba(231, 235, 240, 0.9), transparent 72%);
+}
+
+.section-card {
+  background: linear-gradient(160deg, var(--surface-strong), var(--surface));
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  backdrop-filter: blur(14px) saturate(120%);
+  box-shadow:
+    0 8px 24px rgba(17, 18, 20, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.52);
+}
+
+.glass-badge {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.68);
+  padding: 0.45rem 0.8rem;
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+}
+
+.section-head {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1rem;
+}
+
+.project-card {
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+
+.project-card:hover {
+  transform: translateY(-4px) scale(1.005);
+  border-color: rgba(17, 18, 20, 0.15);
+  box-shadow: 0 14px 28px rgba(17, 18, 20, 0.09);
+}
+
+.project-preview {
+  height: 150px;
+  border-top-left-radius: 17px;
+  border-top-right-radius: 17px;
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.76), rgba(235, 238, 242, 0.95)),
+    repeating-linear-gradient(
+      -35deg,
+      rgba(17, 18, 20, 0.04) 0,
+      rgba(17, 18, 20, 0.04) 8px,
+      transparent 8px,
+      transparent 16px
+    );
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
+}
+
+.project-preview span {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.profile-shell {
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  padding: 1rem;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.78), rgba(235, 239, 243, 0.88));
+}
+
+.profile-image {
+  width: 148px;
+  height: 148px;
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+  font-size: 2.8rem;
+  font-weight: 600;
+  color: #2a3037;
+  background: linear-gradient(160deg, #ffffff, #dfe5ec);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72), 0 10px 24px rgba(17, 18, 20, 0.12);
+}
+
+.skill-row {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.skill-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.62);
+  overflow: hidden;
+}
+
+.skill-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #23262b, #4a515a);
+}
+
+.glass-input {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.72);
+  padding: 0.78rem 0.95rem;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  outline: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.glass-input::placeholder {
+  color: #79818b;
+}
+
+.glass-input:focus {
+  border-color: rgba(17, 18, 20, 0.28);
+  box-shadow: 0 0 0 3px rgba(17, 18, 20, 0.06);
+}
+
+::selection {
+  background: rgba(17, 18, 20, 0.12);
+  color: var(--foreground);
 }
