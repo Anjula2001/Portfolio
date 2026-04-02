@@ -154,10 +154,11 @@ body {
 }
 
 .nav-logo {
-  height: 32px;
+  height: 27px;
   width: auto;
   max-width: 160px;
   object-fit: contain;
+  filter: brightness(0) saturate(100%);
 }
 
 .nav-link {
