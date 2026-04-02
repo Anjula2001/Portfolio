@@ -149,9 +149,10 @@ export default function Home() {
       <header className="sticky top-0 z-40 px-4 pt-4 sm:px-8">
         <div className={`top-nav-wrap mx-auto max-w-6xl ${navScrolled ? "top-nav-wrap--scrolled" : ""}`}>
           <div className="top-nav hidden md:flex">
-            <p className="text-xs font-semibold tracking-[0.18em] text-[var(--text-muted)] uppercase sm:text-sm">
-            Anjula Portfolio
-            </p>
+            <a href="#about" className="nav-brand" aria-label="Anju" onClick={handleSmoothScroll("about")}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/Anju.png" alt="Anju" className="nav-logo" />
+            </a>
             <nav className="flex items-center gap-8 text-sm text-[var(--text-muted)]">
               {navItems.map((item) => (
                 <a

@@ -139,6 +139,27 @@ body {
   }
 }
 
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  padding: 0.5rem 0;
+  opacity: 0.9;
+  transition: opacity 240ms ease;
+}
+
+.nav-brand:hover {
+  opacity: 1;
+}
+
+.nav-logo {
+  height: 32px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+}
+
 .nav-link {
   position: relative;
   transition: color 240ms ease;
