@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { ArrowUpRight, Mail, Sparkles, Code2, Code, Zap, FileCode, Server, Database, GitBranch, Layers } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -37,9 +38,48 @@ const projects = [
 
 const navItems = [
   { id: "about", label: "About" },
+  { id: "education", label: "Education" },
   { id: "projects", label: "Projects" },
   { id: "skills", label: "Skills" },
   { id: "contact", label: "Contact" },
+];
+
+const education = [
+  {
+    institution: "University of Moratuwa",
+    degree: "BSc in Information Technology",
+    duration: "2024 – Present",
+    description: "Focused on software engineering, systems thinking, and practical product development.",
+  },
+  {
+    institution: "Institute of Java and Software Engineering",
+    degree: "Foundation in Full-Stack Development",
+    duration: "2023 – 2024",
+    description: "Built a stronger base in modern web development, databases, and clean architecture.",
+  },
+];
+
+const certificates = [
+  {
+    title: "Meta Front-End Developer",
+    issuer: "Meta via Coursera",
+    year: "2025",
+  },
+  {
+    title: "Google UX Design",
+    issuer: "Google via Coursera",
+    year: "2025",
+  },
+  {
+    title: "AWS Cloud Foundations",
+    issuer: "Amazon Web Services",
+    year: "2024",
+  },
+  {
+    title: "Responsive Web Design",
+    issuer: "freeCodeCamp",
+    year: "2024",
+  },
 ];
 
 const SCROLL_OFFSET = 76;
@@ -150,8 +190,7 @@ export default function Home() {
         <div className={`top-nav-wrap mx-auto max-w-6xl ${navScrolled ? "top-nav-wrap--scrolled" : ""}`}>
           <div className="top-nav hidden md:flex">
             <a href="#about" className="nav-brand" aria-label="Anju" onClick={handleSmoothScroll("about")}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/Anju.png" alt="Anju" className="nav-logo" />
+              <Image src="/Anju.png" alt="Anju" className="nav-logo" width={160} height={27} priority />
             </a>
             <nav className="flex items-center gap-8 text-sm text-[var(--text-muted)]">
               {navItems.map((item) => (
@@ -193,14 +232,14 @@ export default function Home() {
       <section className="relative mx-auto max-w-5xl px-6 pb-24 pt-28 text-center sm:px-10 sm:pb-28 sm:pt-32">
         <p className="glass-badge mx-auto inline-flex items-center gap-2">
           <Sparkles size={14} />
-          Product Engineer
+          Full-Stack Developer
         </p>
         <h1 className="mt-8 text-balance text-5xl leading-[1.02] font-semibold tracking-[-0.02em] sm:text-6xl md:text-7xl">
-          Crafting calm, precise digital products
+          Designing and building thoughtful digital products
         </h1>
         <p className="mx-auto mt-8 max-w-2xl text-pretty text-base leading-8 text-[var(--text-muted)] sm:text-lg">
-          I am Anjula, a full-stack developer building thoughtful web experiences with
-          modern frontend systems, dependable backend architecture, and practical AI.
+          I’m Anjula, a full-stack developer creating scalable, clean, and user-focused digital solutions.
+
         </p>
         <div className="mt-12 flex justify-center gap-4">
           <a href="#projects" onClick={handleSmoothScroll("projects")}>
@@ -216,20 +255,80 @@ export default function Home() {
 
       <section className="section-block reveal-on-scroll mx-auto max-w-6xl px-6 sm:px-10" id="about">
         <div className="grid gap-8 md:grid-cols-[1.45fr_1fr]">
-          <Card className="reveal-item p-8 sm:p-12">
+          <Card className="project-card about-card reveal-item p-8 sm:p-12">
             <h2 className="section-title">About</h2>
-            <p className="mt-6 max-w-xl text-base leading-8 text-[var(--text-muted)]">
-              I focus on product experiences that feel effortless while staying robust in
-              production. My work combines clean interface systems, API-driven development,
-              and performance-conscious engineering to deliver clear user value.
+            <p className="mt-6 max-w-xl text-base leading-8 text-[var(--text-muted)] text-justify">
+  I’m Anjula Amarakoon, an Information Technology undergraduate at the University of Moratuwa. I enjoy building clean and reliable web applications, focusing on modern technologies, good design, and practical problem solving.
             </p>
           </Card>
-          <Card className="reveal-item p-6 sm:p-8">
+          <Card className="project-card profile-card reveal-item mx-auto w-full max-w-[290px] aspect-square rounded-none flex flex-col items-center justify-center p-4 text-center sm:p-5">
             <div className="profile-shell">
-              <div className="profile-image">A</div>
+              <div className="profile-image">
+                <Image src="/DP.jpeg" alt="Anjula" width={148} height={148} priority />
+              </div>
             </div>
-            <p className="mt-4 text-sm text-[var(--text-muted)]">Full-Stack Developer</p>
+            <p className="mt-3 text-sm text-[var(--text-muted)]">IT Undergraduate</p>
           </Card>
+        </div>
+      </section>
+
+      <section className="section-block reveal-on-scroll mx-auto max-w-6xl px-6 sm:px-10" id="education">
+        <div className="section-head reveal-item">
+          <h2 className="section-title">Education Journey</h2>
+          <p className="mt-3 max-w-2xl text-[var(--text-muted)]">
+            A concise view of the academic path behind my technical foundation.
+          </p>
+        </div>
+
+        <div className="education-grid mt-10 reveal-item" role="list" aria-label="Education Journey">
+          {education.map((item) => (
+            <Card key={`${item.institution}-${item.duration}`} className="education-card education-card--horizontal h-full" role="listitem">
+              <CardContent className="p-0">
+                <div className="education-card-body p-6 sm:p-7">
+                  <div className="education-card-head">
+                    <div>
+                      <h3 className="text-lg font-semibold tracking-[-0.015em] text-[var(--foreground)] sm:text-xl">
+                        {item.institution}
+                      </h3>
+                      <p className="mt-2 text-sm font-medium text-[var(--text-muted)] sm:text-[0.98rem]">
+                        {item.degree}
+                      </p>
+                    </div>
+                    <p className="education-duration text-xs uppercase tracking-[0.14em] text-[var(--text-muted)]">
+                      {item.duration}
+                    </p>
+                  </div>
+
+                  <div className="mt-5 border-t border-[var(--line)] pt-4">
+                    <p className="max-w-2xl text-sm leading-7 text-[var(--text-muted)]">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        <div className="certificates-group reveal-item">
+          <div className="certificates-divider" aria-hidden="true" />
+          <div className="certificates-head">
+            <h3 className="certificates-title">Certificates</h3>
+          </div>
+
+          <div className="certificates-scroll" role="list" aria-label="Certificates">
+            {certificates.map((item) => (
+              <Card key={`${item.title}-${item.year}`} className="education-card certificate-card" role="listitem">
+                <CardContent className="p-0">
+                  <div className="certificate-body">
+                    <p className="certificate-year">{item.year}</p>
+                    <h4 className="certificate-title">{item.title}</h4>
+                    <p className="certificate-issuer">{item.issuer}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 
