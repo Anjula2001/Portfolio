@@ -308,6 +308,7 @@ body {
 .education-grid {
   display: flex;
   flex-wrap: nowrap;
+  align-items: stretch;
   gap: 1rem;
   overflow-x: auto;
   overflow-y: visible;
@@ -334,27 +335,40 @@ body {
 }
 
 .education-card--horizontal {
-  min-height: 100%;
+  height: 100%;
+  min-height: 270px;
   flex: 1 0 420px;
   min-width: 420px;
+}
+
+@media (min-width: 1100px) {
+  .education-grid {
+    overflow-x: visible;
+  }
+
+  .education-card--horizontal {
+    flex: 0 0 calc((100% - 1rem) / 2);
+    min-width: calc((100% - 1rem) / 2);
+  }
 }
 
 @media (max-width: 640px) {
   .education-card--horizontal {
     flex-basis: 86vw;
     min-width: 86vw;
+    min-height: 250px;
   }
 }
 
 .education-card-body {
   display: grid;
+  height: 100%;
 }
 
 .education-card-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
   gap: 1rem;
 }
 
