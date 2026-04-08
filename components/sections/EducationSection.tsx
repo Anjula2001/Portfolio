@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { Card, CardContent } from "@/components/ui/card";
 import type { CertificateItem, EducationItem } from "@/data/portfolioData";
 
@@ -23,18 +25,37 @@ export function EducationSection({ education, certificates }: EducationSectionPr
               <div className="education-card-body p-6 sm:p-7">
                 <div className="education-card-head">
                   <div>
-                    <h3 className="text-lg font-semibold tracking-[-0.015em] text-[var(--foreground)] sm:text-xl">
-                      {item.institution}
-                    </h3>
-                    <p className="mt-2 text-sm font-medium text-[var(--text-muted)] sm:text-[0.98rem]">{item.degree}</p>
+                    <div className="education-institution-row">
+                      {item.logoSrc && (
+                        <span className="education-logo-shell" aria-hidden="true">
+                          <Image
+                            src={item.logoSrc}
+                            alt={item.logoAlt ?? `${item.institution} logo`}
+                            width={24}
+                            height={24}
+                            className="education-logo-image"
+                          />
+                        </span>
+                      )}
+                      <div className="min-w-0">
+                        <h3 className="text-lg font-semibold tracking-[-0.015em] text-[var(--foreground)] sm:text-xl">
+                          {item.institution}
+                        </h3>
+                        <p className="mt-2 text-sm font-medium text-[var(--text-muted)] sm:text-[0.98rem]">{item.degree}</p>
+                      </div>
+                    </div>
                   </div>
-                  <p className="education-duration text-xs uppercase tracking-[0.14em] text-[var(--text-muted)]">
-                    {item.duration}
-                  </p>
+                  <div className="education-meta-right">
+                    <p className="education-duration text-xs uppercase tracking-[0.14em] text-[var(--text-muted)]">
+                      {item.duration}
+                    </p>
+                  </div>
                 </div>
 
                 <div className="mt-5 border-t border-[var(--line)] pt-4">
-                  <p className="max-w-2xl text-sm leading-7 text-[var(--text-muted)]">{item.description}</p>
+                  <p className="max-w-2xl text-sm leading-7 text-[var(--text-muted)]">
+                    {item.description}
+                  </p>
                 </div>
               </div>
             </CardContent>

@@ -27,6 +27,8 @@ export type EducationItem = {
   degree: string;
   duration: string;
   description: string;
+  logoSrc?: string;
+  logoAlt?: string;
 };
 
 export type CertificateItem = {
@@ -80,16 +82,21 @@ export const navItems: NavItem[] = [
 export const education: EducationItem[] = [
   {
     institution: "University of Moratuwa",
-    degree: "BSc in Information Technology",
+    degree: "BSc (Hons) in Information Technology",
     duration: "2024 – Present",
-    description: "Focused on software engineering, systems thinking, and practical product development.",
+    description: "A second-year BSc (Hons) Information Technology undergraduate at the University of Moratuwa, focusing on software engineering and full-stack development, with a developing interest in artificial intelligence and machine learning.",
+    logoSrc: "https://upload.wikimedia.org/wikipedia/en/6/60/University_of_Moratuwa_logo.png",
+    logoAlt: "University of Moratuwa logo",
   },
   {
-    institution: "Institute of Java and Software Engineering",
-    degree: "Foundation in Full-Stack Development",
-    duration: "2023 – 2024",
+    institution: "R/Elapatha Maha Vidyalaya",
+    degree: "Advanced Level Studies",
+    duration: "2018 – 2020",
     description: "Built a stronger base in modern web development, databases, and clean architecture.",
+    logoSrc:"",
+    logoAlt:"Elapatha Maha Vidyalaya Logo",
   },
+  
 ];
 
 export const certificates: CertificateItem[] = [
