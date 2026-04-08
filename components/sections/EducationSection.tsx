@@ -49,6 +49,11 @@ export function EducationSection({ education, certificates }: EducationSectionPr
                     <p className="education-duration text-xs uppercase tracking-[0.14em] text-[var(--text-muted)]">
                       {item.duration}
                     </p>
+                    {item.results && (
+                      <p className="text-xs tracking-[0.14em] text-[var(--text-muted)]">
+                        {item.results}
+                      </p>
+                    )}
                   </div>
                 </div>
 

@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "upload.wikimedia.org",
       },
+      {
+        protocol: "https",
+        hostname: "scontent.fcmb11-3.fna.fbcdn.net",
+      },
     ],
   },
 };

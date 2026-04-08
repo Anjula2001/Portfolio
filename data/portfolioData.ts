@@ -29,6 +29,7 @@ export type EducationItem = {
   description: string;
   logoSrc?: string;
   logoAlt?: string;
+  results?: string;
 };
 
 export type CertificateItem = {
@@ -89,12 +90,13 @@ export const education: EducationItem[] = [
     logoAlt: "University of Moratuwa logo",
   },
   {
-    institution: "R/Elapatha Maha Vidyalaya",
+    institution: "R/ Elapatha Maha Vidyalaya",
     degree: "Advanced Level Studies",
     duration: "2018 – 2020",
-    description: "Built a stronger base in modern web development, databases, and clean architecture.",
-    logoSrc:"",
+    description: "Completed Advanced Level studies in Combined Mathematics, Physics, and Information Technology with good results.",
+    logoSrc:"/elp.png",
     logoAlt:"Elapatha Maha Vidyalaya Logo",
+    results: "Results - ABB",
   },
   
 ];
