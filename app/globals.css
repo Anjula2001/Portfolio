@@ -305,16 +305,42 @@ body {
     0 16px 30px rgba(17, 18, 20, 0.05);
 }
 
+.education-carousel {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  overflow: hidden;
+}
+
 .education-grid {
+  --education-gap: 1.25rem;
+  --education-inline-pad: calc(max((100vw - 72rem) / 2, 0px) + 1.6rem);
   display: flex;
   flex-wrap: nowrap;
   align-items: stretch;
-  gap: 1rem;
+  gap: var(--education-gap);
   overflow-x: auto;
   overflow-y: visible;
-  padding: 0.65rem 0.35rem 1rem;
-  scrollbar-width: thin;
+  padding: 0.65rem var(--education-inline-pad) 1rem var(--education-inline-pad);
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--education-inline-pad);
+  scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+  width: 100vw;
+  max-width: 100vw;
+  margin: 0;
+}
+
+@media (min-width: 640px) {
+  .education-grid {
+    --education-inline-pad: calc(max((100vw - 72rem) / 2, 0px) + 2.65rem);
+  }
+}
+
+.education-grid::-webkit-scrollbar {
+  display: none;
 }
 
 .education-card {
@@ -335,34 +361,132 @@ body {
 }
 
 .education-card--horizontal {
-  height: 100%;
-  min-height: 270px;
-  flex: 1 0 420px;
-  min-width: 420px;
+  height: 24rem;
+  min-height: 24rem;
+  max-height: 24rem;
+  flex: 0 0 calc((100% - (var(--education-gap) * 2)) / 3);
+  min-width: calc((100% - (var(--education-gap) * 2)) / 3);
+  width: calc((100% - (var(--education-gap) * 2)) / 3);
+  flex-shrink: 0;
+  align-self: stretch;
+  overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
-@media (min-width: 1100px) {
-  .education-grid {
-    overflow-x: visible;
-  }
+.education-card--horizontal:nth-child(n+2) {
+  height: 24rem;
+  min-height: 24rem;
+  max-height: 24rem;
+  flex: 0 0 calc((100% - (var(--education-gap) * 2)) / 3);
+  min-width: calc((100% - (var(--education-gap) * 2)) / 3);
+}
 
-  .education-card--horizontal {
-    flex: 0 0 calc((100% - 1rem) / 2);
-    min-width: calc((100% - 1rem) / 2);
+.education-scroll-btn {
+  position: absolute;
+  top: 50%;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  border: 1px solid rgba(17, 18, 20, 0.13);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.66);
+  color: rgba(17, 18, 20, 0.7);
+  backdrop-filter: blur(6px);
+  transform: translateY(-50%);
+  transition: opacity 240ms ease, transform 240ms ease, background-color 220ms ease, color 220ms ease;
+}
+
+.education-scroll-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.86);
+  color: rgba(17, 18, 20, 0.95);
+}
+
+.education-scroll-btn:disabled {
+  cursor: default;
+}
+
+.education-scroll-btn--left {
+  left: 0.85rem;
+}
+
+.education-scroll-btn--right {
+  right: 0.85rem;
+}
+
+.education-scroll-btn.is-inactive {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.education-scroll-btn.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 1200px) {
+  .education-card--horizontal,
+  .education-card--horizontal:nth-child(n+2) {
+    flex: 0 0 calc((100% - var(--education-gap)) / 2);
+    min-width: calc((100% - var(--education-gap)) / 2);
+    width: calc((100% - var(--education-gap)) / 2);
+    height: 24rem;
+    min-height: 24rem;
+    max-height: 24rem;
   }
 }
 
 @media (max-width: 640px) {
-  .education-card--horizontal {
-    flex-basis: 86vw;
-    min-width: 86vw;
-    min-height: 250px;
+  .education-grid {
+    --education-gap: 0.9rem;
+    --education-inline-pad: calc(max((100vw - 72rem) / 2, 0px) + 1.6rem);
+  }
+
+  .education-card--horizontal,
+  .education-card--horizontal:nth-child(n+2) {
+    flex: 0 0 100%;
+    min-width: 100%;
+    width: 100%;
+    height: 22rem;
+    min-height: 22rem;
+    max-height: 22rem;
+  }
+
+  .education-scroll-btn {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .education-scroll-btn--left {
+    left: 0.5rem;
+  }
+
+  .education-scroll-btn--right {
+    right: 0.5rem;
   }
 }
 
 .education-card-body {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   height: 100%;
+}
+
+.education-card-body h3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.education-card-body .text-sm.font-medium.text-\[var\(--text-muted\)\] {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
 .education-card-head {
@@ -370,6 +494,17 @@ body {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: start;
   gap: 1rem;
+}
+
+.education-card-body > .mt-5 {
+  flex: 1 1 auto;
+}
+
+.education-card-body > .mt-5 p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }
 
 .education-institution-row {
@@ -534,13 +669,11 @@ body {
   border-bottom: 1px solid var(--line);
   background:
     linear-gradient(140deg, rgba(255, 255, 255, 0.76), rgba(235, 238, 242, 0.95)),
-    repeating-linear-gradient(
-      -35deg,
+    repeating-linear-gradient(-35deg,
       rgba(17, 18, 20, 0.04) 0,
       rgba(17, 18, 20, 0.04) 8px,
       transparent 8px,
-      transparent 16px
-    );
+      transparent 16px);
   display: flex;
   align-items: flex-end;
   padding: 1rem;
@@ -659,7 +792,7 @@ body {
   backdrop-filter: blur(16px) saturate(120%);
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 28px;
-  box-shadow: 
+  box-shadow:
     0 8px 32px rgba(17, 18, 20, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
   width: fit-content;
@@ -674,12 +807,10 @@ body {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.8),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.8),
+      transparent);
   border-radius: 28px;
   pointer-events: none;
 }
@@ -703,7 +834,7 @@ body {
   border: 1px solid rgba(17, 18, 20, 0.08);
   border-radius: 16px;
   backdrop-filter: blur(12px);
-  box-shadow: 
+  box-shadow:
     0 4px 16px rgba(17, 18, 20, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
   transition: all 240ms ease-out;
@@ -756,7 +887,7 @@ body {
 /* Premium subtle hover effect - Only hovered icon reacts */
 .skill-icon:hover .skill-icon-inner {
   transform: scale(1.10) translateY(-4px);
-  box-shadow: 
+  box-shadow:
     0 8px 24px rgba(17, 18, 20, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
@@ -773,6 +904,45 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
+  .top-nav-wrap,
+  .nav-link,
+  .nav-link::after,
+  .nav-cta,
+  .mobile-nav a,
+  .reveal-on-scroll,
+  .reveal-item,
+  .project-card,
+  .education-card,
+  .skill-pill,
+  .about-card,
+  .profile-card {
+    transition-duration: 0ms !important;
+  }
+
+  .reveal-on-scroll,
+  .reveal-item,
+  .reveal-on-scroll.is-visible .reveal-item {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+
+/* Soft glow appears on hover */
+.skill-icon:hover .skill-icon-inner::before {
+  opacity: 1;
+}
+
+/* Tooltip animation on hover */
+.skill-icon:hover .skill-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
   .top-nav-wrap,
   .nav-link,
   .nav-link::after,

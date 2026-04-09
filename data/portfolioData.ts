@@ -98,6 +98,24 @@ export const education: EducationItem[] = [
     logoAlt:"Elapatha Maha Vidyalaya Logo",
     results: "Results - ABB",
   },
+   {
+    institution: "R/ Delwala Maha Vidyalaya",
+    degree: "Ordinary Level Studies",
+    duration: "2018 – 2020",
+    description: "Completed Ordinary Level studies Subjects with Information Technology & Communication with good results.",
+    logoSrc:"/del.png",
+    logoAlt:"Delwala Maha Vidyalaya Logo",
+    results: "Results - A8C1",
+  },
+    {
+    institution: "R/ Delwala Maha Vidyalaya",
+    degree: "Ordinary Level Studies",
+    duration: "2018 – 2020",
+    description: "Completed Ordinary Level studies Subjects with Information Technology & Communication with good results.",
+    logoSrc:"/del.png",
+    logoAlt:"Delwala Maha Vidyalaya Logo",
+    results: "Results - A8C1",
+  },
   
 ];
 
