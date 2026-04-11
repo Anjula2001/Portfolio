@@ -605,9 +605,11 @@ body {
 }
 
 .certificate-body {
-  display: grid;
-  gap: 0.55rem;
-  padding: 0.95rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: 100%;
+  padding: 0;
 }
 
 .certificate-year {
@@ -618,9 +620,9 @@ body {
 }
 
 .certificate-title {
-  font-size: 1rem;
-  line-height: 1.35;
-  letter-spacing: -0.014em;
+  font-size: clamp(1.125rem, 1.5vw, 1.25rem);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
   font-weight: 600;
   color: var(--foreground);
 }

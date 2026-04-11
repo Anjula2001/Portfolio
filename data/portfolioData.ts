@@ -70,6 +70,11 @@ export const projects: ProjectItem[] = [
     description: "Collaboration dashboard with low-latency updates and role-aware workspaces.",
     stack: "TypeScript · Node.js · WebSockets",
   },
+  {
+    name: "Signalboard",
+    description: "Collaboration dashboard with low-latency updates and role-aware workspaces.",
+    stack: "TypeScript · Node.js · WebSockets",
+  },
 ];
 
 export const navItems: NavItem[] = [
