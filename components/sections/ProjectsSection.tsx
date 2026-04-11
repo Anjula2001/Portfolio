@@ -86,7 +86,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
 
         <div ref={scrollRef} className="education-grid" role="list" aria-label="Projects">
           {projects.map((project, idx) => (
-            <Card key={project.name} className="project-card project-card--horizontal education-card education-card--horizontal" role="listitem">
+            <Card key={`${project.name}-${idx}`} className="project-card project-card--horizontal education-card education-card--horizontal" role="listitem">
               <CardContent className="p-0 h-full">
                 <div className="flex h-full flex-col overflow-hidden">
                   <div className="project-preview">

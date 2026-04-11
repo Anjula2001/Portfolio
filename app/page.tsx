@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { AboutSection } from "@/components/sections/AboutSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { EducationSection } from "@/components/sections/EducationSection";
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -167,7 +166,6 @@ export default function Home() {
         onProjectsClick={handleSmoothScroll("projects")}
         onContactClick={handleSmoothScroll("contact")}
       />
-      <AboutSection />
       <EducationSection education={education} certificates={certificates} />
       <ProjectsSection projects={projects} />
       <SkillsSection skills={skills} />

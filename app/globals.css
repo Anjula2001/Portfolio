@@ -96,6 +96,221 @@ body {
   backdrop-filter: blur(8px);
 }
 
+.hero-apple-shell {
+  position: relative;
+  overflow: hidden;
+  border-radius: 32px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.9), rgba(242, 245, 249, 0.72));
+}
+
+.hero-apple-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: clamp(2.2rem, 4vw, 4.6rem);
+  align-items: center;
+}
+
+.hero-apple-copy {
+  text-align: left;
+}
+
+.hero-apple-title {
+  font-size: clamp(2.7rem, 7vw, 5.3rem);
+  line-height: 0.98;
+  letter-spacing: -0.038em;
+  font-weight: 660;
+  color: var(--foreground);
+}
+
+.hero-apple-description {
+  color: #717b87;
+  font-size: clamp(1rem, 1.45vw, 1.15rem);
+  line-height: 1.85;
+  letter-spacing: -0.012em;
+}
+
+.hero-apple-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.hero-apple-actions a {
+  display: inline-flex;
+}
+
+.hero-apple-btn-primary {
+  border-radius: 999px;
+  background: #111418;
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(17, 20, 24, 0.18);
+  transition: transform 240ms ease, box-shadow 240ms ease, background-color 240ms ease;
+}
+
+.hero-apple-btn-primary:hover {
+  background: #1a1f25;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 12px 26px rgba(17, 20, 24, 0.22);
+}
+
+.hero-apple-btn-secondary {
+  border: 1px solid rgba(17, 20, 24, 0.08);
+  border-radius: 999px;
+  background: rgba(240, 243, 247, 0.86);
+  color: #1e242b;
+  box-shadow: 0 6px 14px rgba(17, 20, 24, 0.08);
+  transition: transform 240ms ease, box-shadow 240ms ease, background-color 240ms ease, border-color 240ms ease;
+}
+
+.hero-apple-btn-secondary:hover {
+  background: rgba(236, 240, 245, 0.98);
+  border-color: rgba(17, 20, 24, 0.14);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 10px 18px rgba(17, 20, 24, 0.1);
+}
+
+.hero-apple-profile-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-apple-profile-card {
+  position: relative;
+  width: min(100%, 22.5rem);
+  border-radius: 24px;
+  padding: clamp(1rem, 2.4vw, 1.35rem);
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.32), rgba(251, 253, 255, 0.2));
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  backdrop-filter: blur(26px) saturate(125%);
+  -webkit-backdrop-filter: blur(26px) saturate(125%);
+  box-shadow:
+    0 10px 24px rgba(17, 20, 24, 0.06),
+    0 2px 10px rgba(17, 20, 24, 0.03);
+  animation: hero-card-float 5.4s ease-in-out infinite;
+  overflow: hidden;
+}
+
+.hero-apple-profile-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 16% 14%, rgba(255, 255, 255, 0.2), transparent 52%);
+  pointer-events: none;
+}
+
+.hero-apple-image-frame {
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: transparent;
+  border: none;
+  width: min(100%, 16.5rem);
+  margin-inline: auto;
+}
+
+@media (max-width: 640px) {
+  .hero-apple-image-frame {
+    width: min(100%, 14.75rem);
+  }
+}
+
+.hero-apple-image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-apple-caption {
+  margin-top: 0.85rem;
+  padding: 0 0.25rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+  color: #7b8592;
+}
+
+.hero-apple-blur {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(26px);
+  pointer-events: none;
+}
+
+.hero-apple-blur--left {
+  width: 300px;
+  height: 300px;
+  top: -90px;
+  left: -65px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.hero-apple-blur--right {
+  width: 260px;
+  height: 260px;
+  right: -80px;
+  bottom: 10%;
+  background: rgba(224, 231, 239, 0.54);
+}
+
+@media (min-width: 960px) {
+  .hero-apple-grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  }
+}
+
+@media (max-width: 959px) {
+  .hero-apple-shell {
+    border-radius: 26px;
+  }
+
+  .hero-apple-title {
+    line-height: 1.02;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-apple-shell {
+    padding-top: 0.2rem;
+    border-radius: 22px;
+  }
+
+  .hero-apple-profile-card {
+    width: min(100%, 17.75rem);
+  }
+
+  .hero-apple-actions {
+    gap: 0.65rem;
+  }
+}
+
+@keyframes hero-card-float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-apple-profile-card {
+    animation: none;
+  }
+
+  .hero-apple-btn-primary,
+  .hero-apple-btn-secondary {
+    transition-duration: 0ms !important;
+  }
+}
+
 .top-nav-wrap {
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.56);
