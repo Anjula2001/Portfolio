@@ -14,19 +14,25 @@ type EducationSectionProps = {
 
 export function EducationSection({ education, certificates }: EducationSectionProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const certificateScrollRef = useRef<HTMLDivElement | null>(null);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+  const [canCertificateScrollPrev, setCanCertificateScrollPrev] = useState(false);
+  const [canCertificateScrollNext, setCanCertificateScrollNext] = useState(false);
 
-  const syncScrollState = () => {
-    const rail = scrollRef.current;
+  const syncScrollState = (
+    rail: HTMLDivElement | null,
+    setPrev: (value: boolean) => void,
+    setNext: (value: boolean) => void,
+  ) => {
     if (!rail) {
       return;
     }
 
     const maxScroll = rail.scrollWidth - rail.clientWidth;
     const threshold = 2;
-    setCanScrollPrev(rail.scrollLeft > threshold);
-    setCanScrollNext(rail.scrollLeft < maxScroll - threshold);
+    setPrev(rail.scrollLeft > threshold);
+    setNext(rail.scrollLeft < maxScroll - threshold);
   };
 
   useEffect(() => {
@@ -35,24 +41,44 @@ export function EducationSection({ education, certificates }: EducationSectionPr
       return;
     }
 
-    syncScrollState();
-    const onScroll = () => syncScrollState();
+    syncScrollState(rail, setCanScrollPrev, setCanScrollNext);
+    const onScroll = () => syncScrollState(rail, setCanScrollPrev, setCanScrollNext);
     rail.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", syncScrollState);
+    window.addEventListener("resize", onScroll);
 
     return () => {
       rail.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", syncScrollState);
+      window.removeEventListener("resize", onScroll);
     };
   }, [education.length]);
 
-  const scrollByCard = (direction: "prev" | "next") => {
-    const rail = scrollRef.current;
+  useEffect(() => {
+    const rail = certificateScrollRef.current;
     if (!rail) {
       return;
     }
 
-    const firstCard = rail.querySelector<HTMLElement>(".education-card--horizontal");
+    syncScrollState(rail, setCanCertificateScrollPrev, setCanCertificateScrollNext);
+    const onScroll = () => syncScrollState(rail, setCanCertificateScrollPrev, setCanCertificateScrollNext);
+    rail.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+
+    return () => {
+      rail.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [certificates.length]);
+
+  const scrollByCard = (
+    rail: HTMLDivElement | null,
+    selector: string,
+    direction: "prev" | "next",
+  ) => {
+    if (!rail) {
+      return;
+    }
+
+    const firstCard = rail.querySelector<HTMLElement>(selector);
     const cardWidth = firstCard?.offsetWidth ?? rail.clientWidth * 0.82;
     const styles = window.getComputedStyle(rail);
     const gap = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
@@ -76,7 +102,7 @@ export function EducationSection({ education, certificates }: EducationSectionPr
           type="button"
           className={`education-scroll-btn education-scroll-btn--left ${canScrollPrev ? "is-active" : "is-inactive"}`}
           aria-label="Scroll education cards left"
-          onClick={() => scrollByCard("prev")}
+          onClick={() => scrollByCard(scrollRef.current, ".education-card--horizontal", "prev")}
           disabled={!canScrollPrev}
         >
           <ChevronLeft size={24} aria-hidden="true" />
@@ -140,7 +166,7 @@ export function EducationSection({ education, certificates }: EducationSectionPr
           type="button"
           className={`education-scroll-btn education-scroll-btn--right ${canScrollNext ? "is-active" : "is-inactive"}`}
           aria-label="Scroll education cards right"
-          onClick={() => scrollByCard("next")}
+          onClick={() => scrollByCard(scrollRef.current, ".education-card--horizontal", "next")}
           disabled={!canScrollNext}
         >
           <ChevronRight size={24} aria-hidden="true" />
@@ -153,18 +179,62 @@ export function EducationSection({ education, certificates }: EducationSectionPr
           <h3 className="certificates-title">Certificates</h3>
         </div>
 
-        <div className="certificates-scroll" role="list" aria-label="Certificates">
-          {certificates.map((item) => (
-            <Card key={`${item.title}-${item.year}`} className="education-card certificate-card" role="listitem">
-              <CardContent className="p-0">
-                <div className="certificate-body">
-                  <p className="certificate-year">{item.year}</p>
-                  <h4 className="certificate-title">{item.title}</h4>
-                  <p className="certificate-issuer">{item.issuer}</p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+        <div className="education-carousel mt-6">
+          <button
+            type="button"
+            className={`education-scroll-btn education-scroll-btn--left ${canCertificateScrollPrev ? "is-active" : "is-inactive"}`}
+            aria-label="Scroll certificate cards left"
+            onClick={() => scrollByCard(certificateScrollRef.current, ".certificate-card--horizontal", "prev")}
+            disabled={!canCertificateScrollPrev}
+          >
+            <ChevronLeft size={24} aria-hidden="true" />
+          </button>
+
+          <div ref={certificateScrollRef} className="education-grid" role="list" aria-label="Certificates">
+            {certificates.map((item) => (
+              <Card
+                key={`${item.title}-${item.year}`}
+                className="education-card education-card--horizontal certificate-card certificate-card--horizontal"
+                role="listitem"
+              >
+                <CardContent className="p-0">
+                  <div className="education-card-body certificate-card-body p-6 sm:p-7">
+                    <div className="education-card-head">
+                      <div className="min-w-0">
+                        <h4 className="certificate-title text-lg font-semibold tracking-[-0.015em] text-[var(--foreground)] sm:text-xl">
+                          {item.title}
+                        </h4>
+                        <p className="mt-2 text-sm font-medium text-[var(--text-muted)] sm:text-[0.98rem]">
+                          {item.issuer}
+                        </p>
+                      </div>
+                      <div className="education-meta-right">
+                        <p className="education-duration text-xs uppercase tracking-[0.14em] text-[var(--text-muted)]">
+                          {item.year}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-5 border-t border-[var(--line)] pt-4">
+                      <p className="max-w-2xl text-sm leading-7 text-[var(--text-muted)]">
+                        Professional credential focused on applied technical skills and practical delivery.
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            className={`education-scroll-btn education-scroll-btn--right ${canCertificateScrollNext ? "is-active" : "is-inactive"}`}
+            aria-label="Scroll certificate cards right"
+            onClick={() => scrollByCard(certificateScrollRef.current, ".certificate-card--horizontal", "next")}
+            disabled={!canCertificateScrollNext}
+          >
+            <ChevronRight size={24} aria-hidden="true" />
+          </button>
         </div>
       </div>
     </section>
