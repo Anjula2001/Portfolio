@@ -525,7 +525,10 @@ body {
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
+  padding-bottom: 1.4rem;
+  margin-bottom: -1.4rem;
 }
 
 .education-grid {
@@ -537,7 +540,8 @@ body {
   gap: var(--education-gap);
   overflow-x: auto;
   overflow-y: visible;
-  padding: 0.65rem var(--education-inline-pad) 1rem var(--education-inline-pad);
+  padding: 0.65rem var(--education-inline-pad) 2.75rem var(--education-inline-pad);
+  margin-bottom: -1.75rem;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   scroll-padding-inline: var(--education-inline-pad);
@@ -597,6 +601,13 @@ body {
   min-width: calc((100% - (var(--education-gap) * 2)) / 3);
 }
 
+.education-grid--journey .education-card--horizontal,
+.education-grid--journey .education-card--horizontal:nth-child(n+2) {
+  flex: 0 0 calc((100% - var(--education-gap)) / 2);
+  min-width: calc((100% - var(--education-gap)) / 2);
+  width: calc((100% - var(--education-gap)) / 2);
+}
+
 .education-scroll-btn {
   position: absolute;
   top: 50%;
@@ -651,6 +662,13 @@ body {
     height: 24rem;
     min-height: 24rem;
     max-height: 24rem;
+  }
+
+  .education-grid--journey .education-card--horizontal,
+  .education-grid--journey .education-card--horizontal:nth-child(n+2) {
+    flex: 0 0 min(100%, 42rem);
+    min-width: min(100%, 42rem);
+    width: min(100%, 42rem);
   }
 }
 

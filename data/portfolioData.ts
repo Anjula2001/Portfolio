@@ -90,7 +90,7 @@ export const education: EducationItem[] = [
     institution: "University of Moratuwa",
     degree: "BSc (Hons) in Information Technology",
     duration: "2024 – Present",
-    description: "A second-year BSc (Hons) Information Technology undergraduate at the University of Moratuwa.",
+    description: "A second-year BSc (Hons) Information Technology undergraduate at the University of Moratuwa, Sri Lanka. Engaged in coursework covering software development, data structures, algorithms, and system design.",
     logoSrc: "https://upload.wikimedia.org/wikipedia/en/6/60/University_of_Moratuwa_logo.png",
     logoAlt: "University of Moratuwa logo",
   },
@@ -106,22 +106,13 @@ export const education: EducationItem[] = [
    {
     institution: "R/ Delwala Maha Vidyalaya",
     degree: "Ordinary Level Studies",
-    duration: "2018 – 2020",
+    duration: "2006 – 2018",
     description: "Completed Ordinary Level studies Subjects with Information Technology & Communication with good results.",
     logoSrc:"/del.png",
     logoAlt:"Delwala Maha Vidyalaya Logo",
     results: "Results - A8C1",
   },
-    {
-    institution: "R/ Delwala Maha Vidyalaya",
-    degree: "Ordinary Level Studies",
-    duration: "2018 – 2020",
-    description: "Completed Ordinary Level studies Subjects with Information Technology & Communication with good results.",
-    logoSrc:"/del.png",
-    logoAlt:"Delwala Maha Vidyalaya Logo",
-    results: "Results - A8C1",
-  },
-  
+
 ];
 
 export const certificates: CertificateItem[] = [

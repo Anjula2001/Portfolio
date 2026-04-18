@@ -108,7 +108,7 @@ export function EducationSection({ education, certificates }: EducationSectionPr
           <ChevronLeft size={24} aria-hidden="true" />
         </button>
 
-        <div ref={scrollRef} className="education-grid" role="list" aria-label="Education Journey">
+        <div ref={scrollRef} className="education-grid education-grid--journey" role="list" aria-label="Education Journey">
           {education.map((item, index) => {
             const isMoratuwaCard = item.institution === "University of Moratuwa";
             const isElapathaCard = item.institution === "R/ Elapatha Maha Vidyalaya";
