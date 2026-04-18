@@ -90,7 +90,7 @@ export const education: EducationItem[] = [
     institution: "University of Moratuwa",
     degree: "BSc (Hons) in Information Technology",
     duration: "2024 – Present",
-    description: "A second-year BSc (Hons) Information Technology undergraduate at the University of Moratuwa, focusing on software engineering and full-stack development, with a developing interest in artificial intelligence and machine learning.",
+    description: "A second-year BSc (Hons) Information Technology undergraduate at the University of Moratuwa.",
     logoSrc: "https://upload.wikimedia.org/wikipedia/en/6/60/University_of_Moratuwa_logo.png",
     logoAlt: "University of Moratuwa logo",
   },

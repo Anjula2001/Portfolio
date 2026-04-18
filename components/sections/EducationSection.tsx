@@ -109,57 +109,81 @@ export function EducationSection({ education, certificates }: EducationSectionPr
         </button>
 
         <div ref={scrollRef} className="education-grid" role="list" aria-label="Education Journey">
-          {education.map((item, index) => (
-            <Card
-              key={`${item.institution}-${item.duration}-${index}`}
-              className="education-card education-card--horizontal"
-              role="listitem"
-            >
-              <CardContent className="p-0">
-                <div className="education-card-body p-6 sm:p-7">
-                  <div className="education-card-head">
-                    <div>
-                      <div className="education-institution-row">
-                        {item.logoSrc && (
-                          <span className="education-logo-shell" aria-hidden="true">
-                            <Image
-                              src={item.logoSrc}
-                              alt={item.logoAlt ?? `${item.institution} logo`}
-                              width={24}
-                              height={24}
-                              className="education-logo-image"
-                            />
-                          </span>
-                        )}
-                        <div className="min-w-0">
-                          <h3 className="text-lg font-semibold tracking-[-0.015em] text-[var(--foreground)] sm:text-xl">
-                            {item.institution}
-                          </h3>
-                          <p className="mt-2 text-sm font-medium text-[var(--text-muted)] sm:text-[0.98rem]">{item.degree}</p>
+          {education.map((item, index) => {
+            const isMoratuwaCard = item.institution === "University of Moratuwa";
+            const isElapathaCard = item.institution === "R/ Elapatha Maha Vidyalaya";
+            const isDelwalaCard = item.institution === "R/ Delwala Maha Vidyalaya";
+            const hasBottomResultMeta = isElapathaCard || isDelwalaCard;
+            const useBottomMeta = isMoratuwaCard || hasBottomResultMeta;
+
+            return (
+              <Card
+                key={`${item.institution}-${item.duration}-${index}`}
+                className="education-card education-card--horizontal"
+                role="listitem"
+              >
+                <CardContent className="h-full p-0">
+                  <div className="education-card-body p-6 sm:p-7">
+                    <div className="education-card-head">
+                      <div>
+                        <div className="education-institution-row">
+                          {item.logoSrc && (
+                            <span className="education-logo-shell" aria-hidden="true">
+                              <Image
+                                src={item.logoSrc}
+                                alt={item.logoAlt ?? `${item.institution} logo`}
+                                width={24}
+                                height={24}
+                                className="education-logo-image"
+                              />
+                            </span>
+                          )}
+                          <div className="min-w-0">
+                            <h3 className="text-lg font-semibold tracking-[-0.015em] text-[var(--foreground)] sm:text-xl">
+                              {item.institution}
+                            </h3>
+                            <p className="mt-2 text-sm font-medium text-[var(--text-muted)] sm:text-[0.98rem]">{item.degree}</p>
+                          </div>
                         </div>
                       </div>
+                      <div className="education-meta-right">
+                        {!useBottomMeta && (
+                          <p className="education-duration text-xs uppercase tracking-[0.14em] text-[var(--text-muted)]">
+                            {item.duration}
+                          </p>
+                        )}
+                        {!hasBottomResultMeta && item.results && (
+                          <p className="mt-2 text-xs tracking-[0.14em] text-[var(--text-muted)]">
+                            {item.results}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                    <div className="education-meta-right">
-                      <p className="education-duration text-xs uppercase tracking-[0.14em] text-[var(--text-muted)]">
-                        {item.duration}
+
+                    <div className="mt-5 flex flex-1 flex-col border-t border-[var(--line)] pt-4">
+                      <p className="max-w-2xl text-sm leading-7 text-[var(--text-muted)]">
+                        {item.description}
                       </p>
-                      {item.results && (
-                        <p className="mt-2 text-xs tracking-[0.14em] text-[var(--text-muted)]">
-                          {item.results}
-                        </p>
+                      {useBottomMeta && (
+                        <div className="mt-auto pt-3">
+                          {hasBottomResultMeta && item.results ? (
+                            <div className="flex items-center justify-between gap-3 text-xs tracking-[0.14em] text-[var(--text-muted)]">
+                              <span className="education-duration uppercase">{item.duration}</span>
+                              <span className="text-right">{item.results}</span>
+                            </div>
+                          ) : (
+                            <p className="education-duration text-xs uppercase tracking-[0.14em] text-[var(--text-muted)]">
+                              {item.duration}
+                            </p>
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>
-
-                  <div className="mt-5 border-t border-[var(--line)] pt-4">
-                    <p className="max-w-2xl text-sm leading-7 text-[var(--text-muted)]">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
 
         <button
