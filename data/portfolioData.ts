@@ -1,19 +1,8 @@
-import type { LucideIcon } from "lucide-react";
-import {
-  Code2,
-  Code,
-  Zap,
-  FileCode,
-  Server,
-  Database,
-  GitBranch,
-  Layers,
-} from "lucide-react";
-
 export type SkillItem = {
   name: string;
-  Icon: LucideIcon;
-  color: string;
+  category: "Web Development" | "Database" | "Programming Languages" | "Other";
+  logoSrc: string;
+  logoAlt: string;
 };
 
 export type ProjectItem = {
@@ -51,14 +40,32 @@ export type NavItem = {
 };
 
 export const skills: SkillItem[] = [
-  { name: "Python", Icon: Code2, color: "#3776ab" },
-  { name: "JavaScript", Icon: Code, color: "#f1e05a" },
-  { name: "React", Icon: Zap, color: "#61dafb" },
-  { name: "TypeScript", Icon: FileCode, color: "#3178c6" },
-  { name: "Node.js", Icon: Server, color: "#68a063" },
-  { name: "PostgreSQL", Icon: Database, color: "#336791" },
-  { name: "Git", Icon: GitBranch, color: "#f1502f" },
-  { name: "System Design", Icon: Layers, color: "#8b5cf6" },
+  { name: "HTML", category: "Web Development", logoSrc: "/logos/html.webp", logoAlt: "HTML logo" },
+  { name: "CSS", category: "Web Development", logoSrc: "/logos/css.webp", logoAlt: "CSS logo" },
+  { name: "JavaScript", category: "Web Development", logoSrc: "/logos/js.webp", logoAlt: "JavaScript logo" },
+  { name: "TypeScript", category: "Web Development", logoSrc: "/logos/ts.webp", logoAlt: "TypeScript logo" },
+  { name: "React", category: "Web Development", logoSrc: "/logos/react.webp", logoAlt: "React logo" },
+  { name: "Next.js", category: "Web Development", logoSrc: "/logos/next.webp", logoAlt: "Next.js logo" },
+  { name: "Node.js", category: "Web Development", logoSrc: "/logos/node-js.webp", logoAlt: "Node.js logo" },
+  { name: "Express", category: "Web Development", logoSrc: "/logos/express.webp", logoAlt: "Express logo" },
+  { name: "Tailwind CSS", category: "Web Development", logoSrc: "/logos/tailwind.webp", logoAlt: "Tailwind CSS logo" },
+  { name: "Spring Boot", category: "Web Development", logoSrc: "/logos/springboot.webp", logoAlt: "Spring Boot logo" },
+
+
+  { name: "MySQL", category: "Database", logoSrc: "/logos/mysql.webp", logoAlt: "MySQL logo" },
+  { name: "PostgreSQL", category: "Database", logoSrc: "/logos/postger.webp", logoAlt: "PostgreSQL logo" },
+  { name: "MongoDB", category: "Database", logoSrc: "/logos/mongodb.webp", logoAlt: "MongoDB logo" },
+
+  { name: "Python", category: "Programming Languages", logoSrc: "/logos/python.webp", logoAlt: "Python logo" },
+  { name: "Java", category: "Programming Languages", logoSrc: "/logos/java.webp", logoAlt: "Java logo" },
+  { name: "C", category: "Programming Languages", logoSrc: "/logos/c.webp", logoAlt: "C language logo" },
+  { name: "C++", category: "Programming Languages", logoSrc: "/logos/c++.png", logoAlt: "C++ language logo" },
+
+  { name: "Git", category: "Other", logoSrc: "/logos/git.webp", logoAlt: "Git logo" },
+  { name: "Figma", category: "Other", logoSrc: "/logos/figma.webp", logoAlt: "Figma logo" },
+  { name: "Postman", category: "Other", logoSrc: "/logos/postman.webp", logoAlt: "Postman logo" },
+  { name: "Arduino", category: "Other", logoSrc: "/logos/arduino.webp", logoAlt: "Arduino logo" },
+  { name: "Photoshop", category: "Other", logoSrc: "/logos/photoshop.png", logoAlt: "Photoshop logo" },
 ];
 
 export const projects: ProjectItem[] = [
