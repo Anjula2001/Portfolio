@@ -97,7 +97,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                       {project.name}
                       <ArrowUpRight size={17} className="text-[var(--text-muted)]" />
                     </h3>
-                    <p className="mt-3 line-clamp-4 text-sm leading-7 text-[var(--text-muted)]">{project.description}</p>
+                    <p className="mt-3 text-sm leading-7 text-[var(--text-muted)]">{project.description}</p>
                     <p className="mt-auto border-t border-[var(--line)] pt-4 text-xs uppercase tracking-[0.08em] text-[var(--text-muted)]">
                       {project.stack}
                     </p>

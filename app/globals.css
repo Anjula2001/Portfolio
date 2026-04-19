@@ -580,23 +580,23 @@ body {
 }
 
 .education-card--horizontal {
-  height: 24rem;
+  height: auto;
   min-height: 24rem;
-  max-height: 24rem;
+  max-height: none;
   flex: 0 0 calc((100% - (var(--education-gap) * 2)) / 3);
   min-width: calc((100% - (var(--education-gap) * 2)) / 3);
   width: calc((100% - (var(--education-gap) * 2)) / 3);
   flex-shrink: 0;
   align-self: stretch;
-  overflow: hidden;
+  overflow: visible;
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
 
 .education-card--horizontal:nth-child(n+2) {
-  height: 24rem;
+  height: auto;
   min-height: 24rem;
-  max-height: 24rem;
+  max-height: none;
   flex: 0 0 calc((100% - (var(--education-gap) * 2)) / 3);
   min-width: calc((100% - (var(--education-gap) * 2)) / 3);
 }
@@ -659,9 +659,9 @@ body {
     flex: 0 0 calc((100% - var(--education-gap)) / 2);
     min-width: calc((100% - var(--education-gap)) / 2);
     width: calc((100% - var(--education-gap)) / 2);
-    height: 24rem;
+    height: auto;
     min-height: 24rem;
-    max-height: 24rem;
+    max-height: none;
   }
 
   .education-grid--journey .education-card--horizontal,
@@ -683,9 +683,9 @@ body {
     flex: 0 0 100%;
     min-width: 100%;
     width: 100%;
-    height: 22rem;
+    height: auto;
     min-height: 22rem;
-    max-height: 22rem;
+    max-height: none;
   }
 
   .education-scroll-btn {
@@ -734,10 +734,12 @@ body {
 }
 
 .education-card-body > .mt-5 p {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
+  display: block;
+  width: 100%;
+  text-align: justify;
+  text-align-last: auto;
+  text-justify: inter-word;
+  hyphens: auto;
 }
 
 .education-institution-row {
