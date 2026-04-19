@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Sparkles } from "lucide-react";
 
 type HeroSectionProps = {
   onProjectsClick: (event: React.MouseEvent<HTMLAnchorElement>) => void;
@@ -15,11 +14,6 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
 
       <div className="hero-apple-grid">
         <div className="hero-apple-copy">
-          <p className="glass-badge inline-flex items-center gap-2">
-            <Sparkles size={14} />
-            Full Stack Developer
-          </p>
-
           <h1 className="hero-apple-title mt-8 text-balance">
             Anjula Amarakoon
           </h1>
