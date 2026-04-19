@@ -20,6 +20,10 @@ export type ProjectItem = {
   name: string;
   description: string;
   stack: string;
+  linkedinUrl?: string;
+  githubUrl?: string;
+  imageSrc?: string;
+  imageAlt?: string;
 };
 
 export type EducationItem = {
@@ -59,9 +63,13 @@ export const skills: SkillItem[] = [
 
 export const projects: ProjectItem[] = [
   {
-    name: "Vision Assist",
-    description: "Real-time scene guidance tool with concise spoken outputs.",
-    stack: "Next.js · Python · OpenCV",
+    name: "ChessWiz",
+    description: "ChessWiz is an intelligent automated chess system that connects a physical chessboard with a real-time web interface and smart move validation.",
+    stack: "React.js · Stockfish · Node.js · Socket.IO · C++ · Express.js · PhotoShop",
+    linkedinUrl: "https://www.linkedin.com/in/anjulaamarakoon/details/projects/",
+    githubUrl: "https://github.com/Anjula2001/ChessWiz.git",
+    imageSrc: "/Projects/ChessWiz.jpeg",
+    imageAlt: "ChessWiz automated chess board with monitor interface",
   },
   {
     name: "Career Atlas",

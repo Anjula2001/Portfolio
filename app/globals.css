@@ -506,6 +506,9 @@ body {
 }
 
 .project-card {
+  --project-card-radius: 22px;
+  border-radius: var(--project-card-radius);
+  overflow: hidden;
   transition:
     transform 260ms ease,
     box-shadow 260ms ease,
@@ -1070,9 +1073,10 @@ body {
 }
 
 .project-preview {
+  position: relative;
   height: 164px;
-  border-top-left-radius: 17px;
-  border-top-right-radius: 17px;
+  border-top-left-radius: var(--project-card-radius);
+  border-top-right-radius: var(--project-card-radius);
   border-bottom: 1px solid var(--line);
   background:
     linear-gradient(140deg, rgba(255, 255, 255, 0.76), rgba(235, 238, 242, 0.95)),
@@ -1084,13 +1088,79 @@ body {
   display: flex;
   align-items: flex-end;
   padding: 1rem;
+  overflow: hidden;
+}
+
+.project-card-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: var(--project-card-radius);
+  overflow: hidden;
+}
+
+.project-card-media {
+  flex: 0 0 auto;
+}
+
+.project-card-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  padding: 1.3rem 1.25rem 1.2rem;
+  border-bottom-left-radius: var(--project-card-radius);
+  border-bottom-right-radius: var(--project-card-radius);
+  border-top: 1px solid rgba(20, 24, 30, 0.08);
+  background: rgba(250, 252, 255, 0.96);
+}
+
+.project-card--horizontal,
+.project-card--horizontal:nth-child(n+2) {
+  min-height: 21.5rem;
 }
 
 .project-preview span {
+  position: relative;
+  z-index: 1;
   color: var(--text-muted);
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.project-preview-image {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.95) contrast(0.96) brightness(1.02);
+  transform: scale(1.01);
+  transition: transform 320ms ease;
+}
+
+.project-preview-badge {
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  background: rgba(246, 249, 253, 0.85);
+  padding: 0.22rem 0.55rem;
+}
+
+.project-card:hover .project-preview-image {
+  transform: scale(1.06);
+}
+
+@media (max-width: 640px) {
+  .project-card--horizontal,
+  .project-card--horizontal:nth-child(n+2) {
+    flex: 0 0 min(92vw, 30rem);
+    min-width: min(92vw, 30rem);
+    width: min(92vw, 30rem);
+    min-height: 20rem;
+  }
 }
 
 .profile-shell {
