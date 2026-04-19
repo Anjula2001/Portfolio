@@ -831,6 +831,149 @@ body {
   scroll-snap-align: start;
 }
 
+.certificate-card--horizontal {
+  min-height: auto;
+}
+
+.certificate-preview-card {
+  position: relative;
+  overflow: hidden;
+  min-height: clamp(280px, 36vw, 420px);
+  background: rgba(250, 252, 255, 0.96);
+  border-color: rgba(20, 24, 30, 0.1);
+}
+
+.certificate-preview-button {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  background: transparent;
+}
+
+.certificate-preview-media {
+  position: relative;
+  flex: 0 0 58%;
+  min-height: 170px;
+  overflow: hidden;
+}
+
+.certificate-preview-image {
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.95) contrast(0.96) brightness(1.02);
+  transform: scale(1.01);
+  transition: transform 320ms ease;
+}
+
+.certificate-preview-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 14% 6%, rgba(255, 255, 255, 0.22), transparent 52%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, var(--certificate-tint, rgba(243, 246, 250, 0.2)) 100%);
+}
+
+.certificate-preview-content {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  padding: 1rem 1.1rem 1.1rem;
+  border-top: 1px solid rgba(20, 24, 30, 0.08);
+  background: rgba(250, 252, 255, 0.96);
+}
+
+.certificate-preview-kicker {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(60, 70, 82, 0.78);
+}
+
+.certificate-preview-card:hover .certificate-preview-image {
+  transform: scale(1.06);
+}
+
+.certificate-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: grid;
+  place-items: center;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  background: rgba(6, 9, 14, 0.78);
+  backdrop-filter: blur(4px);
+}
+
+.certificate-modal-shell {
+  position: relative;
+  width: min(1200px, 94vw);
+  height: min(92vh, 860px);
+  max-height: 92vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(240, 243, 247, 0.96);
+  overflow: hidden;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.34);
+}
+
+.certificate-modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 1px solid rgba(17, 18, 20, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--foreground);
+}
+
+.certificate-modal-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.certificate-modal-image {
+  object-fit: contain;
+  object-position: center;
+}
+
+.certificate-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.certificate-image {
+  object-fit: cover;
+  object-position: center;
+}
+
+.certificate-meta {
+  min-width: 0;
+}
+
 .certificate-card:hover {
   transform: translateY(-6px) scale(1.02);
   border-color: rgba(17, 18, 20, 0.18);
@@ -880,6 +1023,33 @@ body {
 
   .certificate-card {
     min-height: 124px;
+  }
+
+  .certificate-preview-card {
+    min-height: 290px;
+  }
+
+  .certificate-preview-media {
+    flex-basis: 52%;
+    min-height: 150px;
+  }
+
+  .certificate-preview-content {
+    padding: 0.85rem 0.95rem 0.95rem;
+  }
+
+  .certificate-modal-shell {
+    width: min(96vw, 96vw);
+    height: min(88vh, 720px);
+    border-radius: 14px;
+  }
+
+  .certificate-modal-image-wrap {
+    min-height: 0;
+  }
+
+  .certificate-image-wrap {
+    aspect-ratio: 16 / 11;
   }
 
   .certificates-scroll {

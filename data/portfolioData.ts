@@ -34,8 +34,11 @@ export type EducationItem = {
 
 export type CertificateItem = {
   title: string;
-  issuer: string;
   year: string;
+  issuer: string;
+  imageSrc: string;
+  imageAlt: string;
+  themeTint: string;
 };
 
 export type NavItem = {
@@ -117,23 +120,43 @@ export const education: EducationItem[] = [
 
 export const certificates: CertificateItem[] = [
   {
-    title: "Meta Front-End Developer",
-    issuer: "Meta via Coursera",
+    title: "Introduction to HTML",
     year: "2025",
+    issuer: "SoloLearn",
+    imageSrc: "/Certificates/IntroductionToHtml.jpeg",
+    imageAlt: "Introduction to HTML course certificate",
+    themeTint: "rgba(223, 236, 248, 0.96)",
   },
   {
-    title: "Google UX Design",
-    issuer: "Google via Coursera",
-    year: "2025",
-  },
-  {
-    title: "AWS Cloud Foundations",
-    issuer: "Amazon Web Services",
+    title: "Python for Beginners",
     year: "2024",
+    issuer: "University of Moratuwa - CODL",
+    imageSrc: "/Certificates/PythonForBeginers.jpeg",
+    imageAlt: "Python for Beginners certificate",
+    themeTint: "rgba(245, 239, 228, 0.96)",
+  },
+  {
+    title: "ML for Beginners",
+    year: "2025",
+    issuer: "SoloLearn",
+    imageSrc: "/Certificates/MlForBeginers.jpeg",
+    imageAlt: "ML for Beginners course certificate",
+    themeTint: "rgba(223, 236, 248, 0.96)",
+  },
+  {
+    title: "Web Design for Beginners",
+    year: "2024",
+    issuer: "University of Moratuwa - CODL",
+    imageSrc: "/Certificates/WebDesignForBeginers.jpeg",
+    imageAlt: "Web Design for Beginners certificate",
+    themeTint: "rgba(246, 239, 227, 0.96)",
   },
   {
     title: "Responsive Web Design",
+    year: "2025",
     issuer: "freeCodeCamp",
-    year: "2024",
+    imageSrc: "/Certificates/ResponsiveWebDesign.jpeg",
+    imageAlt: "Responsive Web Design certificate",
+    themeTint: "rgba(230, 235, 246, 0.96)",
   },
 ];

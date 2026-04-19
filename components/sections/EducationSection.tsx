@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { createPortal } from "react-dom";
 
 import { Card, CardContent } from "@/components/ui/card";
 import type { CertificateItem, EducationItem } from "@/data/portfolioData";
@@ -19,6 +20,8 @@ export function EducationSection({ education, certificates }: EducationSectionPr
   const [canScrollNext, setCanScrollNext] = useState(false);
   const [canCertificateScrollPrev, setCanCertificateScrollPrev] = useState(false);
   const [canCertificateScrollNext, setCanCertificateScrollNext] = useState(false);
+  const [activeCertificate, setActiveCertificate] = useState<CertificateItem | null>(null);
+  const [hasMounted, setHasMounted] = useState(false);
 
   const syncScrollState = (
     rail: HTMLDivElement | null,
@@ -53,6 +56,10 @@ export function EducationSection({ education, certificates }: EducationSectionPr
   }, [education.length]);
 
   useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  useEffect(() => {
     const rail = certificateScrollRef.current;
     if (!rail) {
       return;
@@ -68,6 +75,27 @@ export function EducationSection({ education, certificates }: EducationSectionPr
       window.removeEventListener("resize", onScroll);
     };
   }, [certificates.length]);
+
+  useEffect(() => {
+    if (!activeCertificate) {
+      return;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setActiveCertificate(null);
+      }
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [activeCertificate]);
 
   const scrollByCard = (
     rail: HTMLDivElement | null,
@@ -218,33 +246,36 @@ export function EducationSection({ education, certificates }: EducationSectionPr
             {certificates.map((item) => (
               <Card
                 key={`${item.title}-${item.year}`}
-                className="education-card education-card--horizontal certificate-card certificate-card--horizontal"
+                className="education-card education-card--horizontal certificate-card certificate-card--horizontal certificate-preview-card"
+                style={{ "--certificate-tint": item.themeTint } as CSSProperties}
                 role="listitem"
               >
-                <CardContent className="p-0">
-                  <div className="education-card-body certificate-card-body p-6 sm:p-7">
-                    <div className="education-card-head">
-                      <div className="min-w-0">
-                        <h4 className="certificate-title text-lg font-semibold tracking-[-0.015em] text-[var(--foreground)] sm:text-xl">
-                          {item.title}
-                        </h4>
-                        <p className="mt-2 text-sm font-medium text-[var(--text-muted)] sm:text-[0.98rem]">
-                          {item.issuer}
-                        </p>
-                      </div>
-                      <div className="education-meta-right">
-                        <p className="education-duration text-xs uppercase tracking-[0.14em] text-[var(--text-muted)]">
-                          {item.year}
-                        </p>
-                      </div>
+                <CardContent className="h-full p-0">
+                  <button
+                    type="button"
+                    className="certificate-preview-button"
+                    onClick={() => setActiveCertificate(item)}
+                    aria-label={`Open ${item.title} certificate`}
+                  >
+                    <div className="certificate-preview-media" aria-hidden="true">
+                      <Image
+                        src={item.imageSrc}
+                        alt=""
+                        fill
+                        className="certificate-preview-image"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1200px) 42rem, 34rem"
+                      />
+                      <div className="certificate-preview-overlay" aria-hidden="true" />
                     </div>
-
-                    <div className="mt-5 border-t border-[var(--line)] pt-4">
-                      <p className="max-w-2xl text-sm leading-7 text-[var(--text-muted)]">
-                        Professional credential focused on applied technical skills and practical delivery.
-                      </p>
+                    <div className="certificate-preview-content">
+                      <p className="certificate-preview-kicker">Certificate</p>
+                      <h4 className="certificate-title text-lg font-semibold tracking-[-0.015em] text-[var(--foreground)] sm:text-xl">
+                        {item.title}
+                      </h4>
+                      <p className="mt-2 text-sm font-medium text-[var(--text-muted)] sm:text-[0.98rem]">{item.issuer}</p>
+                      <p className="mt-4 text-xs uppercase tracking-[0.14em] text-[var(--text-muted)]">{item.year}</p>
                     </div>
-                  </div>
+                  </button>
                 </CardContent>
               </Card>
             ))}
@@ -261,6 +292,42 @@ export function EducationSection({ education, certificates }: EducationSectionPr
           </button>
         </div>
       </div>
+
+      {hasMounted && activeCertificate && createPortal(
+        <div
+          className="certificate-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${activeCertificate.title} certificate preview`}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              setActiveCertificate(null);
+            }
+          }}
+        >
+          <div className="certificate-modal-shell">
+            <button
+              type="button"
+              className="certificate-modal-close"
+              onClick={() => setActiveCertificate(null)}
+              aria-label="Close certificate preview"
+            >
+              <X size={18} aria-hidden="true" />
+            </button>
+
+            <div className="certificate-modal-image-wrap">
+              <Image
+                src={activeCertificate.imageSrc}
+                alt={activeCertificate.imageAlt}
+                fill
+                className="certificate-modal-image"
+                sizes="92vw"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      , document.body)}
     </section>
   );
 }
