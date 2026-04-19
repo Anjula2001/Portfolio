@@ -81,7 +81,7 @@ export const projects: ProjectItem[] = [
   {
     name: "Todo Application",
     description: "A simple and efficient todo application with a clean and intuitive user interface.",
-    stack: "Next.js · TypeScript · PostgreSQL · Java · Tailwind CSS",
+    stack: "Next.js · TypeScript · Spring Boot · PostgreSQL · Java · Tailwind CSS",
     linkedinUrl: "https://www.linkedin.com/in/anjulaamarakoon/details/projects/",
     githubUrl: "https://github.com/Anjula2001/TodoNew.git",
     imageSrc: "/Projects/Todo.jpeg",
