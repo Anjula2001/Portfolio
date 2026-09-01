@@ -6,7 +6,7 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "section-card rounded-[18px] border border-[var(--line)] text-[var(--foreground)]",
+        "section-card rounded-[var(--card-radius)] text-[var(--foreground)]",
         className
       )}
       {...props}

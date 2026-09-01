@@ -39,6 +39,11 @@ export type NavItem = {
   label: string;
 };
 
+export type ContactLink = {
+  label: string;
+  href: string;
+};
+
 export const skills: SkillItem[] = [
   { name: "HTML", category: "Web Development", logoSrc: "/logos/html.webp", logoAlt: "HTML logo" },
   { name: "CSS", category: "Web Development", logoSrc: "/logos/css.webp", logoAlt: "CSS logo" },
@@ -105,6 +110,12 @@ export const projects: ProjectItem[] = [
     imageSrc: "/Projects/Portfolio.png",
     imageAlt: "Portfolio interface",
   },
+];
+
+export const contactLinks: ContactLink[] = [
+  { label: "GitHub", href: "https://github.com/Anjula2001" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/anjulaamarakoon/" },
+  { label: "Email", href: "mailto:prasadanjula1@gmail.com" },
 ];
 
 export const navItems: NavItem[] = [
