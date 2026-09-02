@@ -111,38 +111,35 @@ export function EducationSection({ education, certificates }: EducationSectionPr
             >
               <CardContent className="h-full p-0">
                 <div className="education-card-body p-6 sm:p-7">
-                  <div className="education-card-head">
-                    <div className="education-institution-row">
-                      {item.logoSrc ? (
-                        <span className="education-logo-shell" aria-hidden="true">
-                          <Image
-                            src={item.logoSrc}
-                            alt=""
-                            width={32}
-                            height={32}
-                            className="education-logo-image"
-                          />
-                        </span>
-                      ) : null}
-                      <div className="min-w-0">
-                        <h3>{item.institution}</h3>
-                        <p className="mt-1.5 text-sm text-[var(--text-muted)]">
-                          {item.degree}
-                        </p>
-                      </div>
-                    </div>
+                  <div className="education-card-meta">
+                    {item.logoSrc ? (
+                      <span className="education-logo-shell" aria-hidden="true">
+                        <Image
+                          src={item.logoSrc}
+                          alt=""
+                          width={36}
+                          height={36}
+                          className="education-logo-image"
+                        />
+                      </span>
+                    ) : (
+                      <span />
+                    )}
+                    <span className="education-duration">{item.duration}</span>
                   </div>
 
-                  <div className="education-card-copy mt-5 flex flex-1 flex-col border-t border-[var(--line)] pt-4">
-                    <p>{item.description}</p>
-
-                    {/* One consistent footer row: period on the left, result on
-                        the right. Replaces per-institution special cases. */}
-                    <div className="mt-auto flex items-center justify-between gap-3 pt-4 text-xs uppercase tracking-[0.14em] text-[var(--text-muted)]">
-                      <span className="education-duration">{item.duration}</span>
-                      {item.results ? <span className="text-right">{item.results}</span> : null}
-                    </div>
+                  <div>
+                    <h3>{item.institution}</h3>
+                    <p className="education-degree">{item.degree}</p>
                   </div>
+
+                  <p className="education-summary">{item.description}</p>
+
+                  {item.results ? (
+                    <div className="education-card-foot">
+                      <span className="education-result">{item.results}</span>
+                    </div>
+                  ) : null}
                 </div>
               </CardContent>
             </Card>

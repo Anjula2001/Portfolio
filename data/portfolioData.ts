@@ -134,6 +134,7 @@ export const education: EducationItem[] = [
     description: "Currently pursuing a BSc (Hons) in Information Technology at the University of Moratuwa, Sri Lanka. Actively building a strong foundation in software engineering through coursework in data structures, algorithms, system design, and full-stack development. Passionate about creating scalable, user-focused applications while continuously exploring modern technologies and real-world problem solving.",
     logoSrc: "https://upload.wikimedia.org/wikipedia/en/6/60/University_of_Moratuwa_logo.png",
     logoAlt: "University of Moratuwa logo",
+    results: "CGPA - 3.6",
   },
   {
     institution: "R/ Elapatha Maha Vidyalaya",

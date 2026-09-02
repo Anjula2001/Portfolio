@@ -61,27 +61,76 @@ export default function Home() {
       { threshold: 0.14, rootMargin: "0px 0px -10% 0px" },
     );
 
-    const activeObserver = new IntersectionObserver(
-      (entries) => {
-        const visibleEntries = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-        if (visibleEntries.length > 0) {
-          setActiveSection(visibleEntries[0].target.id);
-        }
-      },
-      { threshold: [0.2, 0.45, 0.65], rootMargin: "-38% 0px -48% 0px" },
-    );
-
     sections.forEach((section) => {
       revealObserver.observe(section);
-      activeObserver.observe(section);
     });
 
     return () => {
       revealObserver.disconnect();
-      activeObserver.disconnect();
+    };
+  }, [sectionIds]);
+
+  /**
+   * Active nav item, resolved from scroll position rather than an
+   * IntersectionObserver. Observer thresholds compare against each section's
+   * own height, so a section taller than the observation band can never reach
+   * them and would never become active — leaving whichever short section
+   * activated last stuck as the highlighted item.
+   */
+  useEffect(() => {
+    // Section offsets are measured once per layout change, so the scroll
+    // handler stays pure arithmetic and never reads layout.
+    let offsets: Array<{ id: string; top: number }> = [];
+
+    const update = () => {
+      if (offsets.length === 0) {
+        return;
+      }
+
+      const line = window.scrollY + SCROLL_OFFSET + 1;
+      let current = offsets[0].id;
+
+      offsets.forEach(({ id, top }) => {
+        if (top <= line) {
+          current = id;
+        }
+      });
+
+      // The last section can be too short to ever reach the line, so it claims
+      // the highlight once the page cannot scroll any further.
+      const atBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 2;
+
+      setActiveSection(atBottom ? offsets[offsets.length - 1].id : current);
+    };
+
+    const measure = () => {
+      offsets = sectionIds.flatMap((id) => {
+        const section = document.getElementById(id);
+        return section
+          ? [{ id, top: section.getBoundingClientRect().top + window.scrollY }]
+          : [];
+      });
+
+      update();
+    };
+
+    measure();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", measure);
+
+    // Images and fonts settling shift the sections, so re-measure on reflow.
+    const main = document.getElementById("main");
+    const observer = new ResizeObserver(measure);
+    if (main) {
+      observer.observe(main);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", measure);
+      observer.disconnect();
     };
   }, [sectionIds]);
 
@@ -153,7 +202,7 @@ export default function Home() {
                   src="/Anju.png"
                   alt="Anju"
                   className="nav-logo"
-                  width={150}
+                  width={57}
                   height={25}
                   priority
                 />
@@ -192,7 +241,7 @@ export default function Home() {
                 aria-label="Anjula Amarakoon, back to top"
                 onClick={handleSmoothScroll("about")}
               >
-                <Image src="/Anju.png" alt="Anju" className="nav-logo" width={150} height={25} />
+                <Image src="/Anju.png" alt="Anju" className="nav-logo" width={57} height={25} />
               </a>
               <ThemeToggle />
             </div>

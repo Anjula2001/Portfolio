@@ -236,7 +236,6 @@ body {
 .nav-logo {
   height: 25px;
   width: auto;
-  max-width: 150px;
   object-fit: contain;
   /* The wordmark ships as black art; invert it for dark mode. */
   filter: brightness(0) saturate(100%);
@@ -689,7 +688,6 @@ body {
 .education-card--horizontal,
 .project-card--horizontal {
   height: auto;
-  min-height: 24rem;
   flex: 0 0 calc((100% - (var(--education-gap) * 2)) / 3);
   width: calc((100% - (var(--education-gap) * 2)) / 3);
   align-self: stretch;
@@ -700,6 +698,10 @@ body {
 
 .project-card--horizontal {
   min-height: 21.5rem;
+}
+
+.certificate-card.education-card--horizontal {
+  min-height: clamp(280px, 36vw, 400px);
 }
 
 .education-grid--journey .education-card--horizontal {
@@ -827,45 +829,15 @@ body {
 .education-card-body {
   display: flex;
   flex-direction: column;
+  gap: 0.75rem;
   height: 100%;
 }
 
-.education-card-body h3 {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  font-size: 1.0625rem;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
-  font-weight: 600;
-}
-
-.education-card-head {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: start;
-  gap: 1rem;
-}
-
-.education-card-copy {
-  flex: 1 1 auto;
-}
-
-/* Ragged-right: justification opens rivers in a card this narrow. */
-.education-card-copy p {
-  text-align: left;
-  hyphens: none;
-  font-size: 0.875rem;
-  line-height: 1.65;
-  color: var(--text-muted);
-}
-
-.education-institution-row {
+.education-card-meta {
   display: flex;
-  align-items: flex-start;
-  gap: 0.85rem;
-  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
 }
 
 .education-logo-shell {
@@ -873,9 +845,9 @@ body {
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 8px;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9px;
   overflow: hidden;
   background: var(--surface-muted);
 }
@@ -884,23 +856,77 @@ body {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 0.2rem;
+  padding: 0.25rem;
 }
 
 .education-duration {
-  letter-spacing: 0.11em;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text-muted);
+}
+
+.education-card-body h3 {
+  font-size: 1.0625rem;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.education-degree {
+  margin-top: 0.2rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+/* Clamped so the three cards converge in height instead of the longest one
+   dictating a tall box the others fill with blank space.
+   Justified, with hyphenation on: in a column this narrow, justification
+   without hyphens stretches word spacing into visible rivers. */
+.education-summary {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
+}
+
+/* Narrower cards fit fewer characters per line, so the clamp has to grow to
+   keep the same copy from being cut off on phones. */
+@media (max-width: 640px) {
+  .education-summary {
+    -webkit-line-clamp: 9;
+  }
+}
+
+/* Descriptions differ in length, so the leftover space varies per card. A
+   hairline turns it into a deliberate footer rule instead of a hole, and
+   keeps every result pill on the same baseline across the row. */
+.education-card-foot {
+  margin-top: auto;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line);
+}
+
+.education-result {
+  display: inline-block;
+  border-radius: var(--pill);
+  border: 1px solid var(--line);
+  padding: 0.25rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
   white-space: nowrap;
 }
-
-.education-meta-right {
-  display: flex;
-  flex-direction: column;
-  text-align: right;
-}
-
-/* ==========================================================================
-   Certificates
-   ========================================================================== */
 
 .certificates-group {
   margin-top: 1.05rem;
