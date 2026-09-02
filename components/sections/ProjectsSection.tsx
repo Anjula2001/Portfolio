@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { useRef } from "react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
+import { GitHubIcon, LinkedInIcon } from "@/components/ui/icons";
+import { useRail } from "@/lib/useRail";
 import type { ProjectItem } from "@/data/portfolioData";
 
 type ProjectsSectionProps = {
@@ -12,63 +14,18 @@ type ProjectsSectionProps = {
 };
 
 export function ProjectsSection({ projects }: ProjectsSectionProps) {
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(false);
-
-  const syncScrollState = (
-    rail: HTMLDivElement | null,
-    setPrev: (value: boolean) => void,
-    setNext: (value: boolean) => void,
-  ) => {
-    if (!rail) {
-      return;
-    }
-
-    const maxScroll = rail.scrollWidth - rail.clientWidth;
-    const threshold = 2;
-    setPrev(rail.scrollLeft > threshold);
-    setNext(rail.scrollLeft < maxScroll - threshold);
-  };
-
-  useEffect(() => {
-    const rail = scrollRef.current;
-    if (!rail) {
-      return;
-    }
-
-    syncScrollState(rail, setCanScrollPrev, setCanScrollNext);
-    const onScroll = () => syncScrollState(rail, setCanScrollPrev, setCanScrollNext);
-    rail.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-
-    return () => {
-      rail.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [projects.length]);
-
-  const scrollByCard = (direction: "prev" | "next") => {
-    const rail = scrollRef.current;
-    if (!rail) {
-      return;
-    }
-
-    const firstCard = rail.querySelector<HTMLElement>(".project-card--horizontal");
-    const cardWidth = firstCard?.offsetWidth ?? rail.clientWidth * 0.82;
-    const styles = window.getComputedStyle(rail);
-    const gap = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
-    const distance = cardWidth + gap;
-    const amount = direction === "next" ? distance : -distance;
-
-    rail.scrollBy({ left: amount, behavior: "smooth" });
-  };
+  const railRef = useRef<HTMLDivElement | null>(null);
+  const { canPrev, canNext, page, pageCount, scrollBy, scrollToPage, onKeyDown } =
+    useRail(railRef, ".project-card--horizontal", projects.length);
 
   return (
-    <section className="section-block reveal-on-scroll mx-auto max-w-6xl px-6 sm:px-10" id="projects">
+    <section
+      className="section-block reveal-on-scroll mx-auto max-w-6xl px-6 sm:px-10"
+      id="projects"
+    >
       <div className="section-head reveal-item">
         <h2 className="section-title">Projects</h2>
-        <p className="mt-3 max-w-2xl text-[var(--text-muted)]">
+        <p className="section-lede">
           Recent work where usability, architecture quality, and reliability align.
         </p>
       </div>
@@ -76,31 +33,77 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
       <div className="education-carousel mt-10 reveal-item">
         <button
           type="button"
-          className={`education-scroll-btn education-scroll-btn--left ${canScrollPrev ? "is-active" : "is-inactive"}`}
-          aria-label="Scroll project cards left"
-          onClick={() => scrollByCard("prev")}
-          disabled={!canScrollPrev}
+          className={`education-scroll-btn education-scroll-btn--left ${canPrev ? "is-active" : "is-inactive"}`}
+          aria-label="Previous projects"
+          onClick={() => scrollBy("prev")}
+          disabled={!canPrev}
         >
-          <ChevronLeft size={24} aria-hidden="true" />
+          <ChevronLeft size={18} aria-hidden="true" />
         </button>
 
-        <div ref={scrollRef} className="education-grid" role="list" aria-label="Projects">
+        <div
+          ref={railRef}
+          className="education-grid"
+          role="list"
+          aria-label="Projects"
+          tabIndex={0}
+          onKeyDown={onKeyDown}
+        >
           {projects.map((project, idx) => (
-            <Card key={project.name} className="project-card project-card--horizontal education-card education-card--horizontal" role="listitem">
-              <CardContent className="p-0 h-full">
-                <div className="flex h-full flex-col overflow-hidden">
+            <Card
+              key={project.name}
+              className="project-card project-card--horizontal"
+              role="listitem"
+            >
+              <CardContent className="h-full p-0">
+                <div className="project-card-shell">
                   <div className="project-preview">
-                    <span>{idx === 0 ? "Featured" : `Preview ${String(idx + 1).padStart(2, "0")}`}</span>
+                    {project.imageSrc ? (
+                      <Image
+                        src={project.imageSrc}
+                        alt={project.imageAlt ?? `${project.name} preview`}
+                        fill
+                        className="project-preview-image"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1200px) 42rem, 34rem"
+                      />
+                    ) : null}
                   </div>
-                  <div className="flex flex-1 flex-col p-7">
-                    <h3 className="flex items-center justify-between text-xl font-semibold tracking-[-0.01em]">
-                      {project.name}
-                      <ArrowUpRight size={17} className="text-[var(--text-muted)]" />
-                    </h3>
-                    <p className="mt-3 line-clamp-4 text-sm leading-7 text-[var(--text-muted)]">{project.description}</p>
-                    <p className="mt-auto border-t border-[var(--line)] pt-4 text-xs uppercase tracking-[0.08em] text-[var(--text-muted)]">
-                      {project.stack}
+
+                  <div className="project-card-content">
+                    <p className={`kicker ${idx === 0 ? "kicker--featured" : ""}`}>
+                      {idx === 0 ? "Featured" : "Project"}
                     </p>
+
+                    <h3 className="project-title-row mt-1">
+                      <span>{project.name}</span>
+                      <span className="project-links">
+                        {project.linkedinUrl ? (
+                          <a
+                            href={project.linkedinUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={`${project.name} on LinkedIn`}
+                            className="project-link"
+                          >
+                            <LinkedInIcon className="h-[17px] w-[17px]" />
+                          </a>
+                        ) : null}
+                        {project.githubUrl ? (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={`${project.name} source on GitHub`}
+                            className="project-link"
+                          >
+                            <GitHubIcon className="h-[17px] w-[17px]" />
+                          </a>
+                        ) : null}
+                      </span>
+                    </h3>
+
+                    <p className="project-summary">{project.description}</p>
+                    <p className="project-stack">{project.stack}</p>
                   </div>
                 </div>
               </CardContent>
@@ -110,14 +113,28 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
 
         <button
           type="button"
-          className={`education-scroll-btn education-scroll-btn--right ${canScrollNext ? "is-active" : "is-inactive"}`}
-          aria-label="Scroll project cards right"
-          onClick={() => scrollByCard("next")}
-          disabled={!canScrollNext}
+          className={`education-scroll-btn education-scroll-btn--right ${canNext ? "is-active" : "is-inactive"}`}
+          aria-label="Next projects"
+          onClick={() => scrollBy("next")}
+          disabled={!canNext}
         >
-          <ChevronRight size={24} aria-hidden="true" />
+          <ChevronRight size={18} aria-hidden="true" />
         </button>
       </div>
+
+      {pageCount > 1 ? (
+        <div className="rail-dots reveal-item">
+          {Array.from({ length: pageCount }, (_, i) => (
+            <button
+              key={i}
+              type="button"
+              aria-current={i === page}
+              aria-label={`Go to project ${i + 1}`}
+              onClick={() => scrollToPage(i)}
+            />
+          ))}
+        </div>
+      ) : null}
     </section>
   );
 }

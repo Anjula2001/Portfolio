@@ -1,25 +1,18 @@
-import type { LucideIcon } from "lucide-react";
-import {
-  Code2,
-  Code,
-  Zap,
-  FileCode,
-  Server,
-  Database,
-  GitBranch,
-  Layers,
-} from "lucide-react";
-
 export type SkillItem = {
   name: string;
-  Icon: LucideIcon;
-  color: string;
+  category: "Web Development" | "Database" | "Programming Languages" | "Other";
+  logoSrc: string;
+  logoAlt: string;
 };
 
 export type ProjectItem = {
   name: string;
   description: string;
   stack: string;
+  linkedinUrl?: string;
+  githubUrl?: string;
+  imageSrc?: string;
+  imageAlt?: string;
 };
 
 export type EducationItem = {
@@ -34,8 +27,11 @@ export type EducationItem = {
 
 export type CertificateItem = {
   title: string;
-  issuer: string;
   year: string;
+  issuer: string;
+  imageSrc: string;
+  imageAlt: string;
+  themeTint: string;
 };
 
 export type NavItem = {
@@ -43,38 +39,83 @@ export type NavItem = {
   label: string;
 };
 
+export type ContactLink = {
+  label: string;
+  href: string;
+};
+
 export const skills: SkillItem[] = [
-  { name: "Python", Icon: Code2, color: "#3776ab" },
-  { name: "JavaScript", Icon: Code, color: "#f1e05a" },
-  { name: "React", Icon: Zap, color: "#61dafb" },
-  { name: "TypeScript", Icon: FileCode, color: "#3178c6" },
-  { name: "Node.js", Icon: Server, color: "#68a063" },
-  { name: "PostgreSQL", Icon: Database, color: "#336791" },
-  { name: "Git", Icon: GitBranch, color: "#f1502f" },
-  { name: "System Design", Icon: Layers, color: "#8b5cf6" },
+  { name: "HTML", category: "Web Development", logoSrc: "/logos/html.webp", logoAlt: "HTML logo" },
+  { name: "CSS", category: "Web Development", logoSrc: "/logos/css.webp", logoAlt: "CSS logo" },
+  { name: "JavaScript", category: "Web Development", logoSrc: "/logos/js.webp", logoAlt: "JavaScript logo" },
+  { name: "TypeScript", category: "Web Development", logoSrc: "/logos/ts.webp", logoAlt: "TypeScript logo" },
+  { name: "React", category: "Web Development", logoSrc: "/logos/react.webp", logoAlt: "React logo" },
+  { name: "Next.js", category: "Web Development", logoSrc: "/logos/next.webp", logoAlt: "Next.js logo" },
+  { name: "Node.js", category: "Web Development", logoSrc: "/logos/node-js.webp", logoAlt: "Node.js logo" },
+  { name: "Express", category: "Web Development", logoSrc: "/logos/express.webp", logoAlt: "Express logo" },
+  { name: "Tailwind CSS", category: "Web Development", logoSrc: "/logos/tailwind.webp", logoAlt: "Tailwind CSS logo" },
+  { name: "Spring Boot", category: "Web Development", logoSrc: "/logos/springboot.webp", logoAlt: "Spring Boot logo" },
+
+
+  { name: "MySQL", category: "Database", logoSrc: "/logos/mysql.webp", logoAlt: "MySQL logo" },
+  { name: "PostgreSQL", category: "Database", logoSrc: "/logos/postger.webp", logoAlt: "PostgreSQL logo" },
+  { name: "MongoDB", category: "Database", logoSrc: "/logos/mongodb.webp", logoAlt: "MongoDB logo" },
+
+  { name: "Python", category: "Programming Languages", logoSrc: "/logos/python.webp", logoAlt: "Python logo" },
+  { name: "Java", category: "Programming Languages", logoSrc: "/logos/java.webp", logoAlt: "Java logo" },
+  { name: "C", category: "Programming Languages", logoSrc: "/logos/c.webp", logoAlt: "C language logo" },
+  { name: "C++", category: "Programming Languages", logoSrc: "/logos/c++.png", logoAlt: "C++ language logo" },
+
+  { name: "Git", category: "Other", logoSrc: "/logos/git.webp", logoAlt: "Git logo" },
+  { name: "Figma", category: "Other", logoSrc: "/logos/figma.webp", logoAlt: "Figma logo" },
+  { name: "Postman", category: "Other", logoSrc: "/logos/postman.webp", logoAlt: "Postman logo" },
+  { name: "Arduino", category: "Other", logoSrc: "/logos/arduino.webp", logoAlt: "Arduino logo" },
+  { name: "Photoshop", category: "Other", logoSrc: "/logos/photoshop.png", logoAlt: "Photoshop logo" },
 ];
 
 export const projects: ProjectItem[] = [
   {
-    name: "Vision Assist",
-    description: "Real-time scene guidance tool with concise spoken outputs.",
-    stack: "Next.js · Python · OpenCV",
+    name: "ChessWiz",
+    description: "ChessWiz is an intelligent automated chess system that connects a physical chessboard with a real-time web interface and smart move validation.",
+    stack: "React.js · Stockfish · Node.js · Socket.IO · C++ · Express.js · PhotoShop",
+    linkedinUrl: "https://www.linkedin.com/in/anjulaamarakoon/details/projects/",
+    githubUrl: "https://github.com/Anjula2001/ChessWiz.git",
+    imageSrc: "/Projects/ChessWiz.jpeg",
+    imageAlt: "ChessWiz automated chess board with monitor interface",
   },
   {
-    name: "Career Atlas",
-    description: "Portfolio intelligence app for growth plans and interview preparation.",
-    stack: "React · FastAPI · PostgreSQL",
+    name: "Todo Application",
+    description: "A simple and efficient todo application with a clean and intuitive user interface.",
+    stack: "Next.js · TypeScript · Spring Boot · PostgreSQL · Java · Tailwind CSS",
+    linkedinUrl: "https://www.linkedin.com/in/anjulaamarakoon/details/projects/",
+    githubUrl: "https://github.com/Anjula2001/TodoNew.git",
+    imageSrc: "/Projects/Todo.jpeg",
+    imageAlt: "Todo Application interface",
   },
   {
-    name: "Signalboard",
-    description: "Collaboration dashboard with low-latency updates and role-aware workspaces.",
-    stack: "TypeScript · Node.js · WebSockets",
+    name: "Grand Restaurant",
+    description: "A modern restaurant management system with real-time order processing and inventory control.",
+    stack: "PHP · MySQL · JavaScript · HTML · CSS · Rest API",
+    linkedinUrl: "https://www.linkedin.com/in/anjulaamarakoon/details/projects/",
+    githubUrl: "https://github.com/Anjula2001/restuarent.git",
+    imageSrc: "/Projects/GrandRestaurant.jpeg",
+    imageAlt: "Grand Restaurant management system interface",
   },
   {
-    name: "Signalboard",
-    description: "Collaboration dashboard with low-latency updates and role-aware workspaces.",
-    stack: "TypeScript · Node.js · WebSockets",
+    name: "Portfolio",
+    description: "A clean, responsive portfolio to showcase my projects, skills, and achievements.",
+    stack: "Next.js · React · TypeScript · Tailwind CSS · Framer Motion · Lenis · Lucide",
+    linkedinUrl: "https://www.linkedin.com/in/anjulaamarakoon/details/projects/",
+    githubUrl: "https://github.com/Anjula2001/Portfolio.git",
+    imageSrc: "/Projects/Portfolio.png",
+    imageAlt: "Portfolio interface",
   },
+];
+
+export const contactLinks: ContactLink[] = [
+  { label: "GitHub", href: "https://github.com/Anjula2001" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/anjulaamarakoon/" },
+  { label: "Email", href: "mailto:prasadanjula1@gmail.com" },
 ];
 
 export const navItems: NavItem[] = [
@@ -90,15 +131,16 @@ export const education: EducationItem[] = [
     institution: "University of Moratuwa",
     degree: "BSc (Hons) in Information Technology",
     duration: "2024 – Present",
-    description: "A second-year BSc (Hons) Information Technology undergraduate at the University of Moratuwa, focusing on software engineering and full-stack development, with a developing interest in artificial intelligence and machine learning.",
+    description: "Currently pursuing a BSc (Hons) in Information Technology at the University of Moratuwa, Sri Lanka. Actively building a strong foundation in software engineering through coursework in data structures, algorithms, system design, and full-stack development. Passionate about creating scalable, user-focused applications while continuously exploring modern technologies and real-world problem solving.",
     logoSrc: "https://upload.wikimedia.org/wikipedia/en/6/60/University_of_Moratuwa_logo.png",
     logoAlt: "University of Moratuwa logo",
+    results: "CGPA - 3.6",
   },
   {
     institution: "R/ Elapatha Maha Vidyalaya",
     degree: "Advanced Level Studies",
     duration: "2018 – 2020",
-    description: "Completed Advanced Level studies in Combined Mathematics, Physics, and Information Technology with good results.",
+    description: "Completed Advanced Level studies in Combined Mathematics, Physics, and Information Technology, developing strong analytical thinking and problem-solving skills. This phase strengthened my logical reasoning and technical foundation, preparing me for higher studies in the IT field.",
     logoSrc:"/elp.png",
     logoAlt:"Elapatha Maha Vidyalaya Logo",
     results: "Results - ABB",
@@ -106,43 +148,54 @@ export const education: EducationItem[] = [
    {
     institution: "R/ Delwala Maha Vidyalaya",
     degree: "Ordinary Level Studies",
-    duration: "2018 – 2020",
-    description: "Completed Ordinary Level studies Subjects with Information Technology & Communication with good results.",
+    duration: "2006 – 2018",
+    description: "Completed Ordinary Level studies with a focus on Information and Communication Technology, building early interest in computing and digital systems. Developed a solid academic foundation alongside discipline and consistency in learning.",
     logoSrc:"/del.png",
     logoAlt:"Delwala Maha Vidyalaya Logo",
     results: "Results - A8C1",
   },
-    {
-    institution: "R/ Delwala Maha Vidyalaya",
-    degree: "Ordinary Level Studies",
-    duration: "2018 – 2020",
-    description: "Completed Ordinary Level studies Subjects with Information Technology & Communication with good results.",
-    logoSrc:"/del.png",
-    logoAlt:"Delwala Maha Vidyalaya Logo",
-    results: "Results - A8C1",
-  },
-  
+
 ];
 
 export const certificates: CertificateItem[] = [
   {
-    title: "Meta Front-End Developer",
-    issuer: "Meta via Coursera",
+    title: "Introduction to HTML",
     year: "2025",
+    issuer: "SoloLearn",
+    imageSrc: "/Certificates/IntroductionToHtml.jpeg",
+    imageAlt: "Introduction to HTML course certificate",
+    themeTint: "rgba(223, 236, 248, 0.96)",
   },
   {
-    title: "Google UX Design",
-    issuer: "Google via Coursera",
-    year: "2025",
-  },
-  {
-    title: "AWS Cloud Foundations",
-    issuer: "Amazon Web Services",
+    title: "Python for Beginners",
     year: "2024",
+    issuer: "University of Moratuwa - CODL",
+    imageSrc: "/Certificates/PythonForBeginers.jpeg",
+    imageAlt: "Python for Beginners certificate",
+    themeTint: "rgba(245, 239, 228, 0.96)",
+  },
+  {
+    title: "ML for Beginners",
+    year: "2025",
+    issuer: "SoloLearn",
+    imageSrc: "/Certificates/MlForBeginers.jpeg",
+    imageAlt: "ML for Beginners course certificate",
+    themeTint: "rgba(223, 236, 248, 0.96)",
+  },
+  {
+    title: "Web Design for Beginners",
+    year: "2024",
+    issuer: "University of Moratuwa - CODL",
+    imageSrc: "/Certificates/WebDesignForBeginers.jpeg",
+    imageAlt: "Web Design for Beginners certificate",
+    themeTint: "rgba(246, 239, 227, 0.96)",
   },
   {
     title: "Responsive Web Design",
+    year: "2025",
     issuer: "freeCodeCamp",
-    year: "2024",
+    imageSrc: "/Certificates/ResponsiveWebDesign.jpeg",
+    imageAlt: "Responsive Web Design certificate",
+    themeTint: "rgba(230, 235, 246, 0.96)",
   },
 ];

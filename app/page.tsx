@@ -2,7 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { AboutSection } from "@/components/sections/AboutSection";
+import { BackToTop } from "@/components/chrome/BackToTop";
+import { SiteFooter } from "@/components/chrome/SiteFooter";
+import { ThemeToggle } from "@/components/chrome/ThemeToggle";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { EducationSection } from "@/components/sections/EducationSection";
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -59,27 +61,76 @@ export default function Home() {
       { threshold: 0.14, rootMargin: "0px 0px -10% 0px" },
     );
 
-    const activeObserver = new IntersectionObserver(
-      (entries) => {
-        const visibleEntries = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-        if (visibleEntries.length > 0) {
-          setActiveSection(visibleEntries[0].target.id);
-        }
-      },
-      { threshold: [0.2, 0.45, 0.65], rootMargin: "-38% 0px -48% 0px" },
-    );
-
     sections.forEach((section) => {
       revealObserver.observe(section);
-      activeObserver.observe(section);
     });
 
     return () => {
       revealObserver.disconnect();
-      activeObserver.disconnect();
+    };
+  }, [sectionIds]);
+
+  /**
+   * Active nav item, resolved from scroll position rather than an
+   * IntersectionObserver. Observer thresholds compare against each section's
+   * own height, so a section taller than the observation band can never reach
+   * them and would never become active — leaving whichever short section
+   * activated last stuck as the highlighted item.
+   */
+  useEffect(() => {
+    // Section offsets are measured once per layout change, so the scroll
+    // handler stays pure arithmetic and never reads layout.
+    let offsets: Array<{ id: string; top: number }> = [];
+
+    const update = () => {
+      if (offsets.length === 0) {
+        return;
+      }
+
+      const line = window.scrollY + SCROLL_OFFSET + 1;
+      let current = offsets[0].id;
+
+      offsets.forEach(({ id, top }) => {
+        if (top <= line) {
+          current = id;
+        }
+      });
+
+      // The last section can be too short to ever reach the line, so it claims
+      // the highlight once the page cannot scroll any further.
+      const atBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 2;
+
+      setActiveSection(atBottom ? offsets[offsets.length - 1].id : current);
+    };
+
+    const measure = () => {
+      offsets = sectionIds.flatMap((id) => {
+        const section = document.getElementById(id);
+        return section
+          ? [{ id, top: section.getBoundingClientRect().top + window.scrollY }]
+          : [];
+      });
+
+      update();
+    };
+
+    measure();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", measure);
+
+    // Images and fonts settling shift the sections, so re-measure on reflow.
+    const main = document.getElementById("main");
+    const observer = new ResizeObserver(measure);
+    if (main) {
+      observer.observe(main);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", measure);
+      observer.disconnect();
     };
   }, [sectionIds]);
 
@@ -94,20 +145,30 @@ export default function Home() {
 
       const startY = window.scrollY;
       const targetY = target.getBoundingClientRect().top + startY - SCROLL_OFFSET;
+
+      const finish = () => {
+        window.history.replaceState(null, "", `#${sectionId}`);
+      };
+
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        window.scrollTo(0, targetY);
+        finish();
+        return;
+      }
+
       const distance = targetY - startY;
       const startTime = performance.now();
 
       const step = (currentTime: number) => {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / SCROLL_DURATION, 1);
-        const easedProgress = easeInOutCubic(progress);
 
-        window.scrollTo(0, startY + distance * easedProgress);
+        window.scrollTo(0, startY + distance * easeInOutCubic(progress));
 
         if (progress < 1) {
           window.requestAnimationFrame(step);
         } else {
-          window.history.replaceState(null, "", `#${sectionId}`);
+          finish();
         }
       };
 
@@ -115,63 +176,104 @@ export default function Home() {
     };
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]">
-      <div className="ambient-bg pointer-events-none absolute inset-0" />
-      <div className="hero-orb pointer-events-none absolute left-[-140px] top-[-90px]" />
-      <div className="hero-orb hero-orb-alt pointer-events-none absolute right-[-140px] top-28" />
+    <>
+      <a className="skip-link" href="#about">
+        Skip to content
+      </a>
 
-      <header className="sticky top-0 z-40 px-4 pt-4 sm:px-8">
-        <div className={`top-nav-wrap mx-auto max-w-6xl ${navScrolled ? "top-nav-wrap--scrolled" : ""}`}>
-          <div className="top-nav hidden md:flex">
-            <a href="#about" className="nav-brand" aria-label="Anju" onClick={handleSmoothScroll("about")}>
-              <Image src="/Anju.png" alt="Anju" className="nav-logo" width={160} height={27} priority />
-            </a>
-            <nav className="flex items-center gap-8 text-sm text-[var(--text-muted)]">
+      <main
+        id="main"
+        className="relative min-h-screen flex-1 overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]"
+      >
+        <div className="ambient-bg pointer-events-none absolute inset-x-0 top-0 h-[520px]" />
+
+        <header className="sticky top-0 z-40 px-4 pt-4 sm:px-8">
+          <div
+            className={`top-nav-wrap mx-auto max-w-6xl ${navScrolled ? "top-nav-wrap--scrolled" : ""}`}
+          >
+            <div className="top-nav">
+              <a
+                href="#about"
+                className="nav-brand"
+                aria-label="Anjula Amarakoon, back to top"
+                onClick={handleSmoothScroll("about")}
+              >
+                <Image
+                  src="/Anju.png"
+                  alt="Anju"
+                  className="nav-logo"
+                  width={57}
+                  height={25}
+                  priority
+                />
+              </a>
+
+              <nav className="nav-links" aria-label="Sections">
+                {navItems.map((item) => (
+                  <a
+                    key={item.id}
+                    href={`#${item.id}`}
+                    className={`nav-link ${activeSection === item.id ? "active" : ""}`}
+                    aria-current={activeSection === item.id ? "true" : undefined}
+                    onClick={handleSmoothScroll(item.id)}
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </nav>
+
+              <div className="nav-actions">
+                <ThemeToggle />
+                <a
+                  href="#contact"
+                  className={`nav-cta ${activeSection === "contact" ? "active" : ""}`}
+                  onClick={handleSmoothScroll("contact")}
+                >
+                  Let&apos;s Talk
+                </a>
+              </div>
+            </div>
+
+            <div className="mobile-nav-bar">
+              <a
+                href="#about"
+                className="nav-brand"
+                aria-label="Anjula Amarakoon, back to top"
+                onClick={handleSmoothScroll("about")}
+              >
+                <Image src="/Anju.png" alt="Anju" className="nav-logo" width={57} height={25} />
+              </a>
+              <ThemeToggle />
+            </div>
+
+            <nav className="mobile-nav" aria-label="Sections">
               {navItems.map((item) => (
                 <a
                   key={item.id}
                   href={`#${item.id}`}
-                  className={`nav-link ${activeSection === item.id ? "active" : ""}`}
-                  aria-current={activeSection === item.id ? "page" : undefined}
+                  className={activeSection === item.id ? "active" : ""}
+                  aria-current={activeSection === item.id ? "true" : undefined}
                   onClick={handleSmoothScroll(item.id)}
                 >
                   {item.label}
                 </a>
               ))}
             </nav>
-            <a
-              href="#contact"
-              className={`nav-cta ${activeSection === "contact" ? "active" : ""}`}
-              onClick={handleSmoothScroll("contact")}
-            >
-              Let&apos;s Talk
-            </a>
           </div>
-          <div className="mobile-nav md:hidden">
-            {navItems.map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                className={activeSection === item.id ? "active" : ""}
-                aria-current={activeSection === item.id ? "page" : undefined}
-                onClick={handleSmoothScroll(item.id)}
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </header>
+        </header>
 
-      <HeroSection
-        onProjectsClick={handleSmoothScroll("projects")}
-        onContactClick={handleSmoothScroll("contact")}
-      />
-      <AboutSection />
-      <EducationSection education={education} certificates={certificates} />
-      <ProjectsSection projects={projects} />
-      <SkillsSection skills={skills} />
-      <ContactSection />
-    </main>
+        <HeroSection
+          onProjectsClick={handleSmoothScroll("projects")}
+          onContactClick={handleSmoothScroll("contact")}
+        />
+        <EducationSection education={education} certificates={certificates} />
+        <ProjectsSection projects={projects} />
+        <SkillsSection skills={skills} />
+        <ContactSection />
+      </main>
+
+      <SiteFooter />
+      <BackToTop />
+    </>
   );
 }
