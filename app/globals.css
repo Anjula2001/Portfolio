@@ -1496,6 +1496,7 @@ body {
 }
 
 .channel {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.9rem;
@@ -1505,18 +1506,29 @@ body {
   transition: background-color 220ms var(--ease-apple);
 }
 
-.channel + .channel {
-  box-shadow: inset 0 1px 0 var(--line);
+/* A flat rule drawn as its own element. An inset box-shadow or a border would
+   be clipped to the row's border-radius and bend at both ends. */
+.channel + .channel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0.6rem;
+  right: 0.6rem;
+  height: 1px;
+  background: var(--line);
+  transition: opacity 220ms var(--ease-apple);
 }
 
 .channel:hover {
   background: var(--surface-muted);
-  box-shadow: none;
 }
 
-.channel:hover + .channel {
-  box-shadow: none;
+/* Hide the rules touching a highlighted row so the fill reads as one block. */
+.channel:hover::before,
+.channel:hover + .channel::before {
+  opacity: 0;
 }
+
 
 .channel-glyph {
   width: 20px;
