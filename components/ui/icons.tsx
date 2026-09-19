@@ -62,5 +62,4 @@ export function PhoneIcon({ className }: { className?: string }) {
 //hu huu
 //huuuuuu
 //ssjjsjsj
-//joooo
 //kooooo∏
