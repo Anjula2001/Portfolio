@@ -1497,19 +1497,19 @@ body {
   padding: 0.85rem 1rem;
   border-radius: var(--control-radius);
   border: 1px solid var(--line);
-  background: var(--surface-muted);
+  background: var(--control-fill);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition:
     background-color 220ms var(--ease-apple),
     border-color 220ms var(--ease-apple),
-    transform 220ms var(--ease-apple),
-    box-shadow 220ms var(--ease-apple);
+    transform 220ms var(--ease-apple);
 }
 
 .channel:hover {
-  background: var(--surface);
+  background: light-dark(rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.15));
   border-color: var(--control-border-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px var(--shadow-soft);
+  transform: translateX(2px);
 }
 
 .channel-glyph {
@@ -1528,11 +1528,13 @@ body {
   background: var(--surface);
   color: var(--foreground);
   border: 1px solid var(--line);
-  transition: background-color 220ms var(--ease-apple);
+  transition:
+    background-color 220ms var(--ease-apple),
+    border-color 220ms var(--ease-apple);
 }
 
 .channel:hover .channel-icon {
-  background: var(--surface-sunken);
+  border-color: var(--control-border-hover);
 }
 
 .channel-body {
