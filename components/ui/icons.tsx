@@ -56,3 +56,11 @@ export function PhoneIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+export function KaggleIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className={className} fill="currentColor">
+      <path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v14.343l6.203-6.272c.165-.165.342-.246.534-.246h3.374c.165 0 .269.06.31.177.042.142.008.246-.104.317l-6.309 6.105 6.425 8.791c.092.106.126.204.099.293z" />
+    </svg>
+  );
+}

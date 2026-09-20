@@ -1439,13 +1439,6 @@ body {
   padding: 1.75rem;
 }
 
-/* Pushes the secondary block to the bottom edge so the shorter card fills
-   the height it is stretched to instead of trailing empty space. */
-.contact-card-footer {
-  margin-top: auto;
-  padding-top: 1.5rem;
-}
-
 @media (min-width: 640px) {
   .contact-card {
     padding: 2rem;
@@ -1467,7 +1460,7 @@ body {
 }
 
 .contact-form {
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
   display: grid;
   gap: 1.1rem;
 }
@@ -1485,50 +1478,39 @@ body {
   flex-wrap: wrap;
   align-items: center;
   gap: 1rem;
+  margin-top: 0.25rem;
 }
 
-/* Direct channels read as a settings list: hairline rows, monochrome glyphs,
-   a chevron to signal each one is actionable. */
+/* Direct channels: balanced, tactile interactive tiles with clear right chevrons */
 .channel-list {
   margin-top: 1.25rem;
   display: flex;
   flex-direction: column;
+  gap: 0.65rem;
 }
 
 .channel {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 0.9rem;
-  padding: 0.85rem 0.6rem;
-  margin-inline: -0.6rem;
+  gap: 0.95rem;
+  padding: 0.85rem 1rem;
   border-radius: var(--control-radius);
-  transition: background-color 220ms var(--ease-apple);
-}
-
-/* A flat rule drawn as its own element. An inset box-shadow or a border would
-   be clipped to the row's border-radius and bend at both ends. */
-.channel + .channel::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0.6rem;
-  right: 0.6rem;
-  height: 1px;
-  background: var(--line);
-  transition: opacity 220ms var(--ease-apple);
+  border: 1px solid var(--line);
+  background: var(--control-fill);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition:
+    background-color 220ms var(--ease-apple),
+    border-color 220ms var(--ease-apple),
+    transform 220ms var(--ease-apple);
 }
 
 .channel:hover {
-  background: var(--surface-muted);
+  background: light-dark(rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.15));
+  border-color: var(--control-border-hover);
+  transform: translateX(2px);
 }
-
-/* Hide the rules touching a highlighted row so the fill reads as one block. */
-.channel:hover::before,
-.channel:hover + .channel::before {
-  opacity: 0;
-}
-
 
 .channel-glyph {
   width: 20px;
@@ -1540,15 +1522,19 @@ body {
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.35rem;
+  height: 2.35rem;
   border-radius: 999px;
-  background: var(--surface-muted);
+  background: var(--surface);
   color: var(--foreground);
+  border: 1px solid var(--line);
+  transition:
+    background-color 220ms var(--ease-apple),
+    border-color 220ms var(--ease-apple);
 }
 
 .channel:hover .channel-icon {
-  background: var(--surface-sunken);
+  border-color: var(--control-border-hover);
 }
 
 .channel-body {
@@ -1559,6 +1545,7 @@ body {
 .channel-label {
   display: block;
   font-size: 0.75rem;
+  font-weight: 500;
   color: var(--text-muted);
 }
 
@@ -1572,12 +1559,20 @@ body {
 
 .channel-chevron {
   flex: 0 0 auto;
-  color: var(--text-subtle);
-  transition: transform 220ms var(--ease-apple);
+  color: var(--text-muted);
+  transition:
+    transform 220ms var(--ease-apple),
+    color 220ms var(--ease-apple);
 }
 
 .channel:hover .channel-chevron {
-  transform: translateX(2px);
+  color: var(--foreground);
+  transform: translateX(3px);
+}
+
+.contact-card-footer {
+  margin-top: auto;
+  padding-top: 1.25rem;
 }
 
 .channel-divider {
@@ -1598,17 +1593,21 @@ body {
   gap: 0.4rem;
   border-radius: var(--pill);
   border: 1px solid var(--control-border);
-  padding: 0.4rem 0.85rem;
+  padding: 0.45rem 0.85rem;
   font-size: 0.82rem;
+  font-weight: 500;
   color: var(--foreground);
+  background: var(--surface);
   transition:
     background-color 220ms var(--ease-apple),
-    border-color 220ms var(--ease-apple);
+    border-color 220ms var(--ease-apple),
+    transform 200ms var(--ease-apple);
 }
 
 .contact-chip:hover {
   background: var(--control-fill);
   border-color: var(--control-border-hover);
+  transform: translateY(-1px);
 }
 
 /* ==========================================================================
@@ -1617,33 +1616,122 @@ body {
 
 .site-footer {
   border-top: 1px solid var(--line);
-  background: var(--surface-sunken);
-  padding: 2.75rem 0 3rem;
+  background: var(--background);
+  padding: 3.5rem 0 2.25rem;
 }
 
-.footer-inner {
+.footer-main-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 860px) {
+  .footer-main-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+}
+
+.footer-statement {
+  font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.footer-nav {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 1.25rem;
-  font-size: 0.8rem;
+  gap: 0.55rem;
+}
+
+.footer-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-radius: var(--pill);
+  border: 1px solid var(--control-border);
+  padding: 0.45rem 0.85rem;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--foreground);
+  background: var(--surface);
+  transition:
+    background-color 200ms var(--ease-apple),
+    border-color 200ms var(--ease-apple),
+    transform 200ms var(--ease-apple);
+}
+
+.footer-chip:hover {
+  background: var(--control-fill);
+  border-color: var(--control-border-hover);
+  transform: translateY(-1px);
+}
+
+.footer-chip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--text-muted);
-}
-
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1.25rem;
-}
-
-.footer-links a {
   transition: color 200ms var(--ease-apple);
 }
 
-.footer-links a:hover {
+.footer-chip:hover .footer-chip-icon {
   color: var(--foreground);
+}
+
+.footer-chip-label {
+  line-height: 1;
+}
+
+.footer-chip-arrow {
+  color: var(--text-subtle);
+  transition:
+    transform 200ms var(--ease-apple),
+    color 200ms var(--ease-apple);
+}
+
+.footer-chip:hover .footer-chip-arrow {
+  color: var(--foreground);
+  transform: translate(1.5px, -1.5px);
+}
+
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 2.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.8rem;
+  color: var(--text-subtle);
+  line-height: 1.5;
+}
+
+@media (min-width: 640px) {
+  .footer-bottom {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.footer-copyright {
+  margin: 0;
+  font-weight: 400;
+}
+
+.footer-signature {
+  margin: 0;
+  font-weight: 400;
+  color: var(--text-subtle);
 }
 
 /* ==========================================================================

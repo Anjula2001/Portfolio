@@ -115,6 +115,7 @@ export const projects: ProjectItem[] = [
 export const contactLinks: ContactLink[] = [
   { label: "GitHub", href: "https://github.com/Anjula2001" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/anjulaamarakoon/" },
+  { label: "Kaggle", href: "https://www.kaggle.com/anjulaprasad" },
   { label: "Email", href: "mailto:prasadanjula1@gmail.com" },
 ];
 
