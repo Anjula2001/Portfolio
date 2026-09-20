@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import {
   GitHubIcon,
   GmailIcon,
+  KaggleIcon,
   LinkedInIcon,
   PhoneIcon,
   WhatsAppIcon,
@@ -45,6 +46,11 @@ const elsewhere = [
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/anjulaamarakoon/",
     Icon: LinkedInIcon,
+  },
+  {
+    label: "Kaggle",
+    href: "https://www.kaggle.com/anjulaprasad",
+    Icon: KaggleIcon,
   },
 ];
 
@@ -162,7 +168,7 @@ export function ContactSection() {
               <textarea
                 id="contact-message"
                 name="message"
-                rows={6}
+                rows={5}
                 className="glass-input"
                 placeholder="Tell me a little about what you have in mind."
                 aria-invalid={Boolean(errors.message)}
@@ -202,7 +208,7 @@ export function ContactSection() {
               <a
                 key={label}
                 href={href}
-                className="channel"
+                className="channel group"
                 target={external ? "_blank" : undefined}
                 rel={external ? "noreferrer" : undefined}
               >
@@ -213,7 +219,7 @@ export function ContactSection() {
                   <span className="channel-label">{label}</span>
                   <span className="channel-value">{value}</span>
                 </span>
-                <ChevronRight size={16} className="channel-chevron" aria-hidden="true" />
+                <ChevronRight size={18} className="channel-chevron" aria-hidden="true" />
               </a>
             ))}
           </div>
