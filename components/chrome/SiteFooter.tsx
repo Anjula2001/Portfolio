@@ -8,13 +8,13 @@ import { contactLinks } from "@/data/portfolioData";
 function getLinkIcon(label: string) {
   switch (label.toLowerCase()) {
     case "github":
-      return <GitHubIcon className="h-4 w-4" />;
+      return <GitHubIcon className="h-3.5 w-3.5" />;
     case "linkedin":
-      return <LinkedInIcon className="h-4 w-4" />;
+      return <LinkedInIcon className="h-3.5 w-3.5" />;
     case "kaggle":
-      return <KaggleIcon className="h-4 w-4" />;
+      return <KaggleIcon className="h-3.5 w-3.5" />;
     case "email":
-      return <Mail size={16} aria-hidden="true" />;
+      return <Mail size={14} aria-hidden="true" />;
     default:
       return null;
   }
@@ -53,7 +53,7 @@ export function SiteFooter() {
                     </span>
                     <span className="footer-chip-label">{link.label}</span>
                     <ArrowUpRight
-                      size={14}
+                      size={13}
                       className="footer-chip-arrow"
                       aria-hidden="true"
                     />
