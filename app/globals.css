@@ -650,7 +650,7 @@ body {
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   overflow-x: hidden;
-  overflow-y: visible;
+  overflow-y: hidden;
   padding-bottom: 1.4rem;
   margin-bottom: -1.4rem;
 }
@@ -663,7 +663,7 @@ body {
   align-items: stretch;
   gap: var(--education-gap);
   overflow-x: auto;
-  overflow-y: visible;
+  overflow-y: hidden;
   padding: 0.65rem var(--education-inline-pad) 2.75rem var(--education-inline-pad);
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;

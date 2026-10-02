@@ -183,7 +183,7 @@ export default function Home() {
 
       <main
         id="main"
-        className="relative min-h-screen flex-1 overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]"
+        className="relative min-h-screen flex-1 overflow-x-clip bg-[var(--background)] text-[var(--foreground)]"
       >
         <div className="ambient-bg pointer-events-none absolute inset-x-0 top-0 h-[520px]" />
 
