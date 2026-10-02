@@ -833,10 +833,9 @@ body {
   height: 100%;
 }
 
-.education-card-meta {
+.education-card-heading {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 0.75rem;
 }
 
@@ -845,8 +844,8 @@ body {
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 4.5rem;
+  height: 4.5rem;
   border-radius: 9px;
   overflow: hidden;
   background: var(--surface-muted);
@@ -866,6 +865,10 @@ body {
   text-transform: uppercase;
   white-space: nowrap;
   color: var(--text-muted);
+}
+
+.education-card-title {
+  min-width: 0;
 }
 
 .education-card-body h3 {
@@ -915,6 +918,10 @@ body {
   margin-top: auto;
   padding-top: 0.9rem;
   border-top: 1px solid var(--line);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
 }
 
 .education-result {
@@ -926,6 +933,18 @@ body {
   font-weight: 500;
   color: var(--text-muted);
   white-space: nowrap;
+}
+
+.education-card-foot .education-duration {
+  margin-left: auto;
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .education-logo-shell {
+    width: 4rem;
+    height: 4rem;
+  }
 }
 
 .certificates-group {

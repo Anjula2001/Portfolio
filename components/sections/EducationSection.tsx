@@ -111,35 +111,35 @@ export function EducationSection({ education, certificates }: EducationSectionPr
             >
               <CardContent className="h-full p-0">
                 <div className="education-card-body p-6 sm:p-7">
-                  <div className="education-card-meta">
+                  <div className="education-card-heading">
                     {item.logoSrc ? (
                       <span className="education-logo-shell" aria-hidden="true">
                         <Image
                           src={item.logoSrc}
                           alt=""
-                          width={36}
-                          height={36}
+                          width={64}
+                          height={64}
                           className="education-logo-image"
                         />
                       </span>
                     ) : (
                       <span />
                     )}
-                    <span className="education-duration">{item.duration}</span>
-                  </div>
 
-                  <div>
-                    <h3>{item.institution}</h3>
-                    <p className="education-degree">{item.degree}</p>
+                    <div className="education-card-title">
+                      <h3>{item.institution}</h3>
+                      <p className="education-degree">{item.degree}</p>
+                    </div>
                   </div>
 
                   <p className="education-summary">{item.description}</p>
 
-                  {item.results ? (
-                    <div className="education-card-foot">
+                  <div className="education-card-foot">
+                    {item.results ? (
                       <span className="education-result">{item.results}</span>
-                    </div>
-                  ) : null}
+                    ) : null}
+                    <span className="education-duration">{item.duration}</span>
+                  </div>
                 </div>
               </CardContent>
             </Card>
