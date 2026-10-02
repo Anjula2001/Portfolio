@@ -102,6 +102,35 @@ body {
   transition: background-color 400ms var(--ease-apple), color 400ms var(--ease-apple);
 }
 
+html {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+html.is-scrolling {
+  scrollbar-color: color-mix(in srgb, var(--foreground) 35%, transparent) transparent;
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+html.is-scrolling::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: var(--pill);
+  background: transparent;
+  background-clip: padding-box;
+}
+
+html.is-scrolling::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--foreground) 35%, transparent);
+}
+
 ::selection {
   background: color-mix(in srgb, var(--focus) 26%, transparent);
   color: var(--foreground);
