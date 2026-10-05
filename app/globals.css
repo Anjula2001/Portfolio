@@ -718,6 +718,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 .education-grid.is-dragging {
   cursor: grabbing;
+  scroll-behavior: auto !important;
   scroll-snap-type: none;
   user-select: none;
 }
