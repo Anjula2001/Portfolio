@@ -699,7 +699,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y pinch-zoom;
-  cursor: grab;
+  cursor: default;
   user-select: none;
   width: 100vw;
   max-width: 100vw;
@@ -717,13 +717,17 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .education-grid.is-dragging {
-  cursor: grabbing;
   scroll-behavior: auto !important;
 }
 
 .education-grid img {
   -webkit-user-drag: none;
   user-select: none;
+}
+
+.education-grid > *,
+.education-grid .certificate-preview-button {
+  cursor: default;
 }
 
 .education-card--horizontal,
