@@ -95,7 +95,8 @@ export function useRail(
         }
 
         if (hasBeenVisible.current && !dragState.current) {
-          rail.scrollTo({ left: 0, behavior: "auto" });
+          const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          rail.scrollTo({ left: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
           sync();
         }
       },
