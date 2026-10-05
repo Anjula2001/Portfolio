@@ -1,6 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useState, type KeyboardEvent, type RefObject } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type DragEvent,
+  type KeyboardEvent,
+  type MouseEvent,
+  type PointerEvent,
+  type RefObject,
+} from "react";
 
 type RailState = {
   canPrev: boolean;
@@ -10,6 +20,13 @@ type RailState = {
   scrollBy: (direction: "prev" | "next") => void;
   scrollToPage: (page: number) => void;
   onKeyDown: (event: KeyboardEvent<HTMLDivElement>) => void;
+  onPointerDown: (event: PointerEvent<HTMLDivElement>) => void;
+  onPointerMove: (event: PointerEvent<HTMLDivElement>) => void;
+  onPointerUp: (event: PointerEvent<HTMLDivElement>) => void;
+  onPointerCancel: (event: PointerEvent<HTMLDivElement>) => void;
+  onClick: (event: MouseEvent<HTMLDivElement>) => void;
+  onDragStart: (event: DragEvent<HTMLDivElement>) => void;
+  isDragging: boolean;
 };
 
 const EDGE_THRESHOLD = 2;
@@ -28,6 +45,17 @@ export function useRail(
   const [canNext, setCanNext] = useState(false);
   const [page, setPage] = useState(0);
   const [pageCount, setPageCount] = useState(1);
+  const [isDragging, setIsDragging] = useState(false);
+  const hasBeenVisible = useRef(false);
+  const shouldResetOnReturn = useRef(false);
+  const dragState = useRef<{
+    pointerId: number;
+    startX: number;
+    startScrollLeft: number;
+    moved: boolean;
+    previousScrollBehavior: string;
+  } | null>(null);
+  const suppressClick = useRef(false);
 
   // Stable across renders: the state setters are stable and `ref` is a ref
   // object, so the listeners below never need re-binding.
@@ -60,11 +88,33 @@ export function useRail(
     // Card widths depend on fonts and images settling, so observe the rail too.
     const observer = new ResizeObserver(sync);
     observer.observe(rail);
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (shouldResetOnReturn.current && !dragState.current) {
+            const prefersReducedMotion = window.matchMedia(
+              "(prefers-reduced-motion: reduce)",
+            ).matches;
+            rail.scrollTo({ left: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+            shouldResetOnReturn.current = false;
+          }
+          hasBeenVisible.current = true;
+          return;
+        }
+
+        if (hasBeenVisible.current && rail.scrollLeft > EDGE_THRESHOLD) {
+          shouldResetOnReturn.current = true;
+        }
+      },
+      { threshold: 0.01 },
+    );
+    visibilityObserver.observe(rail);
 
     return () => {
       rail.removeEventListener("scroll", sync);
       window.removeEventListener("resize", sync);
       observer.disconnect();
+      visibilityObserver.disconnect();
     };
   }, [ref, itemCount, sync]);
 
@@ -138,5 +188,92 @@ export function useRail(
     [ref, scrollBy],
   );
 
-  return { canPrev, canNext, page, pageCount, scrollBy, scrollToPage, onKeyDown };
+  const onPointerDown = useCallback((event: PointerEvent<HTMLDivElement>) => {
+    if (!event.isPrimary || event.button !== 0) {
+      return;
+    }
+
+    const rail = ref.current;
+    if (!rail || rail.scrollWidth <= rail.clientWidth) {
+      return;
+    }
+
+    dragState.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startScrollLeft: rail.scrollLeft,
+      moved: false,
+      previousScrollBehavior: rail.style.scrollBehavior,
+    };
+    rail.style.scrollBehavior = "auto";
+    suppressClick.current = false;
+    rail.setPointerCapture(event.pointerId);
+  }, [ref]);
+
+  const onPointerMove = useCallback((event: PointerEvent<HTMLDivElement>) => {
+    const drag = dragState.current;
+    const rail = ref.current;
+    if (!drag || !rail || drag.pointerId !== event.pointerId) {
+      return;
+    }
+
+    const distance = event.clientX - drag.startX;
+    if (!drag.moved && distance === 0) {
+      return;
+    }
+
+    drag.moved = true;
+    suppressClick.current = true;
+    setIsDragging(true);
+    rail.scrollLeft = drag.startScrollLeft - distance;
+    event.preventDefault();
+  }, [ref]);
+
+  const finishDrag = useCallback((event: PointerEvent<HTMLDivElement>) => {
+    const rail = ref.current;
+    const drag = dragState.current;
+    if (!drag || drag.pointerId !== event.pointerId) {
+      return;
+    }
+
+    if (rail?.hasPointerCapture(event.pointerId)) {
+      rail.releasePointerCapture(event.pointerId);
+    }
+    if (rail) {
+      rail.style.scrollBehavior = drag.previousScrollBehavior;
+    }
+    dragState.current = null;
+    setIsDragging(false);
+  }, [ref]);
+
+  const onClick = useCallback((event: MouseEvent<HTMLDivElement>) => {
+    if (!suppressClick.current) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    suppressClick.current = false;
+  }, []);
+
+  const onDragStart = useCallback((event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  }, []);
+
+  return {
+    canPrev,
+    canNext,
+    page,
+    pageCount,
+    scrollBy,
+    scrollToPage,
+    onKeyDown,
+    onPointerDown,
+    onPointerMove,
+    onPointerUp: finishDrag,
+    onPointerCancel: finishDrag,
+    onClick,
+    onDragStart,
+    isDragging,
+  };
 }

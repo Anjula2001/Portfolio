@@ -32,8 +32,19 @@ export default function Home() {
   const sectionIds = useMemo(() => navItems.map((item) => item.id), []);
 
   useEffect(() => {
+    let hideScrollbarTimer: ReturnType<typeof window.setTimeout> | undefined;
+
     const handleScrollState = () => {
       setNavScrolled(window.scrollY > 8);
+      document.documentElement.classList.add("is-scrolling");
+
+      if (hideScrollbarTimer !== undefined) {
+        window.clearTimeout(hideScrollbarTimer);
+      }
+
+      hideScrollbarTimer = window.setTimeout(() => {
+        document.documentElement.classList.remove("is-scrolling");
+      }, 700);
     };
 
     handleScrollState();
@@ -41,6 +52,10 @@ export default function Home() {
 
     return () => {
       window.removeEventListener("scroll", handleScrollState);
+      if (hideScrollbarTimer !== undefined) {
+        window.clearTimeout(hideScrollbarTimer);
+      }
+      document.documentElement.classList.remove("is-scrolling");
     };
   }, []);
 
@@ -183,7 +198,7 @@ export default function Home() {
 
       <main
         id="main"
-        className="relative min-h-screen flex-1 overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]"
+        className="relative min-h-screen flex-1 overflow-x-clip bg-[var(--background)] text-[var(--foreground)]"
       >
         <div className="ambient-bg pointer-events-none absolute inset-x-0 top-0 h-[520px]" />
 

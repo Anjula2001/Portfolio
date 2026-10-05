@@ -97,11 +97,17 @@ export function EducationSection({ education, certificates }: EducationSectionPr
 
         <div
           ref={journeyRef}
-          className="education-grid education-grid--journey"
+          className={`education-grid education-grid--journey ${journey.isDragging ? "is-dragging" : ""}`}
           role="list"
           aria-label="Education journey"
           tabIndex={0}
           onKeyDown={journey.onKeyDown}
+          onPointerDown={journey.onPointerDown}
+          onPointerMove={journey.onPointerMove}
+          onPointerUp={journey.onPointerUp}
+          onPointerCancel={journey.onPointerCancel}
+          onClick={journey.onClick}
+          onDragStart={journey.onDragStart}
         >
           {education.map((item) => (
             <Card
@@ -111,35 +117,35 @@ export function EducationSection({ education, certificates }: EducationSectionPr
             >
               <CardContent className="h-full p-0">
                 <div className="education-card-body p-6 sm:p-7">
-                  <div className="education-card-meta">
+                  <div className="education-card-heading">
                     {item.logoSrc ? (
                       <span className="education-logo-shell" aria-hidden="true">
                         <Image
                           src={item.logoSrc}
                           alt=""
-                          width={36}
-                          height={36}
+                          width={64}
+                          height={64}
                           className="education-logo-image"
                         />
                       </span>
                     ) : (
                       <span />
                     )}
-                    <span className="education-duration">{item.duration}</span>
-                  </div>
 
-                  <div>
-                    <h3>{item.institution}</h3>
-                    <p className="education-degree">{item.degree}</p>
+                    <div className="education-card-title">
+                      <h3>{item.institution}</h3>
+                      <p className="education-degree">{item.degree}</p>
+                    </div>
                   </div>
 
                   <p className="education-summary">{item.description}</p>
 
-                  {item.results ? (
-                    <div className="education-card-foot">
+                  <div className="education-card-foot">
+                    {item.results ? (
                       <span className="education-result">{item.results}</span>
-                    </div>
-                  ) : null}
+                    ) : null}
+                    <span className="education-duration">{item.duration}</span>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -155,6 +161,7 @@ export function EducationSection({ education, certificates }: EducationSectionPr
         >
           <ChevronRight size={18} aria-hidden="true" />
         </button>
+        {journey.canNext ? <span className="rail-scroll-hint" aria-hidden="true" /> : null}
       </div>
 
       <div className="certificates-group reveal-item">
@@ -177,11 +184,17 @@ export function EducationSection({ education, certificates }: EducationSectionPr
 
           <div
             ref={certificateRef}
-            className="education-grid"
+            className={`education-grid ${certRail.isDragging ? "is-dragging" : ""}`}
             role="list"
             aria-label="Certificates"
             tabIndex={0}
             onKeyDown={certRail.onKeyDown}
+            onPointerDown={certRail.onPointerDown}
+            onPointerMove={certRail.onPointerMove}
+            onPointerUp={certRail.onPointerUp}
+            onPointerCancel={certRail.onPointerCancel}
+            onClick={certRail.onClick}
+            onDragStart={certRail.onDragStart}
           >
             {certificates.map((item, idx) => (
               <Card
@@ -235,6 +248,7 @@ export function EducationSection({ education, certificates }: EducationSectionPr
           >
             <ChevronRight size={18} aria-hidden="true" />
           </button>
+          {certRail.canNext ? <span className="rail-scroll-hint" aria-hidden="true" /> : null}
         </div>
       </div>
 

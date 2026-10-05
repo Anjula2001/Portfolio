@@ -102,6 +102,35 @@ body {
   transition: background-color 400ms var(--ease-apple), color 400ms var(--ease-apple);
 }
 
+html {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+html.is-scrolling {
+  scrollbar-color: color-mix(in srgb, var(--foreground) 35%, transparent) transparent;
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+html.is-scrolling::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: var(--pill);
+  background: transparent;
+  background-clip: padding-box;
+}
+
+html.is-scrolling::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--foreground) 35%, transparent);
+}
+
 ::selection {
   background: color-mix(in srgb, var(--focus) 26%, transparent);
   color: var(--foreground);
@@ -650,7 +679,7 @@ body {
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   overflow-x: hidden;
-  overflow-y: visible;
+  overflow-y: hidden;
   padding-bottom: 1.4rem;
   margin-bottom: -1.4rem;
 }
@@ -663,13 +692,15 @@ body {
   align-items: stretch;
   gap: var(--education-gap);
   overflow-x: auto;
-  overflow-y: visible;
+  overflow-y: hidden;
   padding: 0.65rem var(--education-inline-pad) 2.75rem var(--education-inline-pad);
   scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
   scroll-padding-inline: var(--education-inline-pad);
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-y pinch-zoom;
+  cursor: default;
+  user-select: none;
   width: 100vw;
   max-width: 100vw;
   margin: 0 0 -1.75rem;
@@ -683,6 +714,20 @@ body {
 
 .education-grid::-webkit-scrollbar {
   display: none;
+}
+
+.education-grid.is-dragging {
+  scroll-behavior: auto !important;
+}
+
+.education-grid img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.education-grid > *,
+.education-grid .certificate-preview-button {
+  cursor: default;
 }
 
 .education-card--horizontal,
@@ -778,6 +823,46 @@ body {
   pointer-events: none;
 }
 
+.rail-scroll-hint {
+  position: absolute;
+  right: 1.45rem;
+  bottom: 0.35rem;
+  width: 2.8rem;
+  height: 0.45rem;
+  border-top: 2px solid color-mix(in srgb, var(--foreground) 52%, transparent);
+  border-right: 2px solid color-mix(in srgb, var(--foreground) 52%, transparent);
+  border-radius: 0 0.3rem 0 0;
+  transform: skewX(-28deg);
+  pointer-events: none;
+  opacity: 0.78;
+  animation: rail-scroll-hint 1.8s var(--ease-apple) infinite;
+}
+
+.rail-scroll-hint::after {
+  content: "";
+  position: absolute;
+  right: -0.15rem;
+  top: -0.31rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-top: 2px solid color-mix(in srgb, var(--foreground) 52%, transparent);
+  border-right: 2px solid color-mix(in srgb, var(--foreground) 52%, transparent);
+  transform: rotate(45deg);
+}
+
+@keyframes rail-scroll-hint {
+  0%,
+  100% {
+    translate: 0;
+    opacity: 0.45;
+  }
+
+  50% {
+    translate: 0.35rem;
+    opacity: 0.9;
+  }
+}
+
 .education-scroll-btn.is-active {
   opacity: 1;
   pointer-events: auto;
@@ -833,10 +918,9 @@ body {
   height: 100%;
 }
 
-.education-card-meta {
+.education-card-heading {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 0.75rem;
 }
 
@@ -845,8 +929,8 @@ body {
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 4.5rem;
+  height: 4.5rem;
   border-radius: 9px;
   overflow: hidden;
   background: var(--surface-muted);
@@ -866,6 +950,10 @@ body {
   text-transform: uppercase;
   white-space: nowrap;
   color: var(--text-muted);
+}
+
+.education-card-title {
+  min-width: 0;
 }
 
 .education-card-body h3 {
@@ -915,6 +1003,10 @@ body {
   margin-top: auto;
   padding-top: 0.9rem;
   border-top: 1px solid var(--line);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
 }
 
 .education-result {
@@ -926,6 +1018,18 @@ body {
   font-weight: 500;
   color: var(--text-muted);
   white-space: nowrap;
+}
+
+.education-card-foot .education-duration {
+  margin-left: auto;
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .education-logo-shell {
+    width: 4rem;
+    height: 4rem;
+  }
 }
 
 .certificates-group {
