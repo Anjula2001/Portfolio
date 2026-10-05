@@ -140,6 +140,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
         >
           <ChevronRight size={18} aria-hidden="true" />
         </button>
+        {canNext ? <span className="rail-scroll-hint" aria-hidden="true" /> : null}
       </div>
 
       {pageCount > 1 ? (

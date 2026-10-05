@@ -161,6 +161,7 @@ export function EducationSection({ education, certificates }: EducationSectionPr
         >
           <ChevronRight size={18} aria-hidden="true" />
         </button>
+        {journey.canNext ? <span className="rail-scroll-hint" aria-hidden="true" /> : null}
       </div>
 
       <div className="certificates-group reveal-item">
@@ -247,6 +248,7 @@ export function EducationSection({ education, certificates }: EducationSectionPr
           >
             <ChevronRight size={18} aria-hidden="true" />
           </button>
+          {certRail.canNext ? <span className="rail-scroll-hint" aria-hidden="true" /> : null}
         </div>
       </div>
 
