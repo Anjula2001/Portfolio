@@ -28,6 +28,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
     onPointerUp,
     onPointerCancel,
     onClick,
+    onDragStart,
     isDragging,
   } = useRail(railRef, ".project-card--horizontal", projects.length);
 
@@ -66,6 +67,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerCancel}
           onClick={onClick}
+          onDragStart={onDragStart}
         >
           {projects.map((project, idx) => (
             <Card

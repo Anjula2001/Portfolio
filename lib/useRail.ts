@@ -5,6 +5,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type DragEvent,
   type KeyboardEvent,
   type MouseEvent,
   type PointerEvent,
@@ -24,6 +25,7 @@ type RailState = {
   onPointerUp: (event: PointerEvent<HTMLDivElement>) => void;
   onPointerCancel: (event: PointerEvent<HTMLDivElement>) => void;
   onClick: (event: MouseEvent<HTMLDivElement>) => void;
+  onDragStart: (event: DragEvent<HTMLDivElement>) => void;
   isDragging: boolean;
 };
 
@@ -49,6 +51,7 @@ export function useRail(
     startX: number;
     startScrollLeft: number;
     moved: boolean;
+    previousScrollBehavior: string;
   } | null>(null);
   const suppressClick = useRef(false);
 
@@ -176,7 +179,9 @@ export function useRail(
       startX: event.clientX,
       startScrollLeft: rail.scrollLeft,
       moved: false,
+      previousScrollBehavior: rail.style.scrollBehavior,
     };
+    rail.style.scrollBehavior = "auto";
     suppressClick.current = false;
     rail.setPointerCapture(event.pointerId);
   }, [ref]);
@@ -189,7 +194,7 @@ export function useRail(
     }
 
     const distance = event.clientX - drag.startX;
-    if (!drag.moved && Math.abs(distance) < 4) {
+    if (!drag.moved && distance === 0) {
       return;
     }
 
@@ -210,6 +215,9 @@ export function useRail(
     if (rail?.hasPointerCapture(event.pointerId)) {
       rail.releasePointerCapture(event.pointerId);
     }
+    if (rail) {
+      rail.style.scrollBehavior = drag.previousScrollBehavior;
+    }
     dragState.current = null;
     setIsDragging(false);
   }, [ref]);
@@ -222,6 +230,10 @@ export function useRail(
     event.preventDefault();
     event.stopPropagation();
     suppressClick.current = false;
+  }, []);
+
+  const onDragStart = useCallback((event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
   }, []);
 
   return {
@@ -237,6 +249,7 @@ export function useRail(
     onPointerUp: finishDrag,
     onPointerCancel: finishDrag,
     onClick,
+    onDragStart,
     isDragging,
   };
 }

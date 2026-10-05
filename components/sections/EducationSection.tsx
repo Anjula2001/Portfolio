@@ -107,6 +107,7 @@ export function EducationSection({ education, certificates }: EducationSectionPr
           onPointerUp={journey.onPointerUp}
           onPointerCancel={journey.onPointerCancel}
           onClick={journey.onClick}
+          onDragStart={journey.onDragStart}
         >
           {education.map((item) => (
             <Card
@@ -192,6 +193,7 @@ export function EducationSection({ education, certificates }: EducationSectionPr
             onPointerUp={certRail.onPointerUp}
             onPointerCancel={certRail.onPointerCancel}
             onClick={certRail.onClick}
+            onDragStart={certRail.onDragStart}
           >
             {certificates.map((item, idx) => (
               <Card
