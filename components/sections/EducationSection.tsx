@@ -97,11 +97,16 @@ export function EducationSection({ education, certificates }: EducationSectionPr
 
         <div
           ref={journeyRef}
-          className="education-grid education-grid--journey"
+          className={`education-grid education-grid--journey ${journey.isDragging ? "is-dragging" : ""}`}
           role="list"
           aria-label="Education journey"
           tabIndex={0}
           onKeyDown={journey.onKeyDown}
+          onPointerDown={journey.onPointerDown}
+          onPointerMove={journey.onPointerMove}
+          onPointerUp={journey.onPointerUp}
+          onPointerCancel={journey.onPointerCancel}
+          onClick={journey.onClick}
         >
           {education.map((item) => (
             <Card
@@ -177,11 +182,16 @@ export function EducationSection({ education, certificates }: EducationSectionPr
 
           <div
             ref={certificateRef}
-            className="education-grid"
+            className={`education-grid ${certRail.isDragging ? "is-dragging" : ""}`}
             role="list"
             aria-label="Certificates"
             tabIndex={0}
             onKeyDown={certRail.onKeyDown}
+            onPointerDown={certRail.onPointerDown}
+            onPointerMove={certRail.onPointerMove}
+            onPointerUp={certRail.onPointerUp}
+            onPointerCancel={certRail.onPointerCancel}
+            onClick={certRail.onClick}
           >
             {certificates.map((item, idx) => (
               <Card

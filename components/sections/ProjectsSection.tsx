@@ -15,8 +15,21 @@ type ProjectsSectionProps = {
 
 export function ProjectsSection({ projects }: ProjectsSectionProps) {
   const railRef = useRef<HTMLDivElement | null>(null);
-  const { canPrev, canNext, page, pageCount, scrollBy, scrollToPage, onKeyDown } =
-    useRail(railRef, ".project-card--horizontal", projects.length);
+  const {
+    canPrev,
+    canNext,
+    page,
+    pageCount,
+    scrollBy,
+    scrollToPage,
+    onKeyDown,
+    onPointerDown,
+    onPointerMove,
+    onPointerUp,
+    onPointerCancel,
+    onClick,
+    isDragging,
+  } = useRail(railRef, ".project-card--horizontal", projects.length);
 
   return (
     <section
@@ -43,11 +56,16 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
 
         <div
           ref={railRef}
-          className="education-grid"
+          className={`education-grid ${isDragging ? "is-dragging" : ""}`}
           role="list"
           aria-label="Projects"
           tabIndex={0}
           onKeyDown={onKeyDown}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerCancel}
+          onClick={onClick}
         >
           {projects.map((project, idx) => (
             <Card
