@@ -47,6 +47,7 @@ export function useRail(
   const [pageCount, setPageCount] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
   const hasBeenVisible = useRef(false);
+  const shouldResetOnReturn = useRef(false);
   const dragState = useRef<{
     pointerId: number;
     startX: number;
@@ -90,14 +91,19 @@ export function useRail(
     const visibilityObserver = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          if (shouldResetOnReturn.current && !dragState.current) {
+            const prefersReducedMotion = window.matchMedia(
+              "(prefers-reduced-motion: reduce)",
+            ).matches;
+            rail.scrollTo({ left: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+            shouldResetOnReturn.current = false;
+          }
           hasBeenVisible.current = true;
           return;
         }
 
-        if (hasBeenVisible.current && !dragState.current) {
-          const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-          rail.scrollTo({ left: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
-          sync();
+        if (hasBeenVisible.current && rail.scrollLeft > EDGE_THRESHOLD) {
+          shouldResetOnReturn.current = true;
         }
       },
       { threshold: 0.01 },
