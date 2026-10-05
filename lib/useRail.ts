@@ -46,6 +46,7 @@ export function useRail(
   const [page, setPage] = useState(0);
   const [pageCount, setPageCount] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
+  const hasBeenVisible = useRef(false);
   const dragState = useRef<{
     pointerId: number;
     startX: number;
@@ -86,11 +87,27 @@ export function useRail(
     // Card widths depend on fonts and images settling, so observe the rail too.
     const observer = new ResizeObserver(sync);
     observer.observe(rail);
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          hasBeenVisible.current = true;
+          return;
+        }
+
+        if (hasBeenVisible.current && !dragState.current) {
+          rail.scrollTo({ left: 0, behavior: "auto" });
+          sync();
+        }
+      },
+      { threshold: 0.01 },
+    );
+    visibilityObserver.observe(rail);
 
     return () => {
       rail.removeEventListener("scroll", sync);
       window.removeEventListener("resize", sync);
       observer.disconnect();
+      visibilityObserver.disconnect();
     };
   }, [ref, itemCount, sync]);
 
