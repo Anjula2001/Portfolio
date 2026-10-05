@@ -695,7 +695,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   overflow-y: hidden;
   padding: 0.65rem var(--education-inline-pad) 2.75rem var(--education-inline-pad);
   scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
   scroll-padding-inline: var(--education-inline-pad);
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
@@ -719,7 +718,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 .education-grid.is-dragging {
   cursor: grabbing;
   scroll-behavior: auto !important;
-  scroll-snap-type: none;
   user-select: none;
 }
 
