@@ -823,46 +823,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   pointer-events: none;
 }
 
-.rail-scroll-hint {
-  position: absolute;
-  right: 1.45rem;
-  bottom: 0.35rem;
-  width: 2.8rem;
-  height: 0.45rem;
-  border-top: 2px solid color-mix(in srgb, var(--foreground) 52%, transparent);
-  border-right: 2px solid color-mix(in srgb, var(--foreground) 52%, transparent);
-  border-radius: 0 0.3rem 0 0;
-  transform: skewX(-28deg);
-  pointer-events: none;
-  opacity: 0.78;
-  animation: rail-scroll-hint 1.8s var(--ease-apple) infinite;
-}
-
-.rail-scroll-hint::after {
-  content: "";
-  position: absolute;
-  right: -0.15rem;
-  top: -0.31rem;
-  width: 0.55rem;
-  height: 0.55rem;
-  border-top: 2px solid color-mix(in srgb, var(--foreground) 52%, transparent);
-  border-right: 2px solid color-mix(in srgb, var(--foreground) 52%, transparent);
-  transform: rotate(45deg);
-}
-
-@keyframes rail-scroll-hint {
-  0%,
-  100% {
-    translate: 0;
-    opacity: 0.45;
-  }
-
-  50% {
-    translate: 0.35rem;
-    opacity: 0.9;
-  }
-}
-
 .education-scroll-btn.is-active {
   opacity: 1;
   pointer-events: auto;
