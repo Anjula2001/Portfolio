@@ -170,6 +170,7 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
                       width={32}
                       height={32}
                       className="skill-logo"
+                      draggable={false}
                     />
                   </span>
                   <span className="skill-tooltip" aria-hidden="true">

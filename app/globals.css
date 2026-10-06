@@ -1468,6 +1468,8 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   width: 48px;
   height: 48px;
   object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 /* Only the hovered icon reacts, the way Dock magnification reads. */
