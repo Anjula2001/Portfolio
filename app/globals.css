@@ -1317,6 +1317,23 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   color: var(--text-muted);
 }
 
+.skill-cursor-label {
+  position: fixed;
+  display: block !important;
+  z-index: 100;
+  transform: translateX(-50%);
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--control-border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--foreground);
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 .skill-slider-shell {
   display: flex;
   align-items: center;
@@ -1355,8 +1372,8 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   align-items: center;
   justify-content: safe center;
   flex-wrap: nowrap;
-  gap: 0.75rem;
-  padding: 1.25rem 1.75rem;
+  gap: 0.9rem;
+  padding: 1.1rem 1.5rem;
   border-radius: 28px;
   border: 1px solid var(--chrome-border);
   background: var(--chrome);
@@ -1373,6 +1390,51 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   scrollbar-color: transparent transparent;
   touch-action: pan-x;
   transition: none;
+}
+
+@keyframes skill-dock-content-enter-next {
+  from {
+    opacity: 0;
+    transform: translateX(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes skill-dock-content-enter-previous {
+  from {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.skill-dock-content {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: safe center;
+  gap: 0.75rem;
+  min-width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation-duration: 460ms;
+  animation-timing-function: var(--ease-apple);
+  animation-fill-mode: both;
+}
+
+.skill-dock-content--next {
+  animation-name: skill-dock-content-enter-next;
+}
+
+.skill-dock-content--previous {
+  animation-name: skill-dock-content-enter-previous;
 }
 
 .skill-dock::-webkit-scrollbar {
@@ -1407,8 +1469,8 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
+  width: 72px;
+  height: 72px;
   border: 1px solid var(--line);
   border-radius: 16px;
   background: var(--surface);
@@ -1420,24 +1482,17 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .skill-logo {
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 /* Only the hovered icon reacts, the way Dock magnification reads. */
 .skill-icon:hover .skill-icon-inner,
 .skill-icon:focus-within .skill-icon-inner {
   transform: scale(1.1) translateY(-4px);
-}
-
-.skill-tooltip {
-  display: none;
-}
-
-.skill-icon:hover .skill-tooltip,
-.skill-icon:focus-within .skill-tooltip {
-  display: none;
 }
 
 @media (max-width: 640px) {
@@ -1462,19 +1517,19 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   .skill-dock {
     width: min(52rem, calc(100vw - 6rem));
     flex-basis: min(52rem, calc(100vw - 6rem));
-    padding: 1rem;
-    gap: 0.55rem;
+    padding: 0.9rem 1rem;
+    gap: 0.65rem;
   }
 
   .skill-icon-inner {
-    width: 54px;
-    height: 54px;
+    width: 64px;
+    height: 64px;
     border-radius: 14px;
   }
 
   .skill-logo {
-    width: 28px;
-    height: 28px;
+    width: 42px;
+    height: 42px;
   }
 }
 
