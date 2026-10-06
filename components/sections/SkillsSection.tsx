@@ -1,8 +1,15 @@
 "use client";
 
-import { useMemo, useRef, useState, type MouseEvent, type PointerEvent } from "react";
+import {
+  useMemo,
+  useRef,
+  useState,
+  type MouseEvent,
+  type PointerEvent,
+} from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { createPortal } from "react-dom";
 
 import type { SkillItem } from "@/data/portfolioData";
 
@@ -39,6 +46,11 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
   } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [animationDirection, setAnimationDirection] = useState<"next" | "previous">("next");
+  const [hoveredSkill, setHoveredSkill] = useState<{
+    name: string;
+    x: number;
+    y: number;
+  } | null>(null);
   const active = groups[index];
 
   const move = (delta: number) => {
@@ -63,6 +75,7 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
       startScrollLeft: dock.scrollLeft,
       moved: false,
     };
+    setHoveredSkill(null);
     dock.setPointerCapture(event.pointerId);
   };
 
@@ -109,6 +122,14 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
       event.stopPropagation();
       suppressClickRef.current = false;
     }
+  };
+
+  const showSkillLabel = (name: string, event: PointerEvent<HTMLLIElement>) => {
+    setHoveredSkill({
+      name,
+      x: event.clientX,
+      y: event.clientY + 20,
+    });
   };
 
   return (
@@ -162,7 +183,14 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
               className={`skill-dock-content skill-dock-content--${animationDirection}`}
             >
               {active.items.map((skill) => (
-                <li key={skill.name} className="skill-icon">
+                <li
+                  key={skill.name}
+                  className="skill-icon"
+                  title={skill.name}
+                  onPointerEnter={(event) => showSkillLabel(skill.name, event)}
+                  onPointerMove={(event) => showSkillLabel(skill.name, event)}
+                  onPointerLeave={() => setHoveredSkill(null)}
+                >
                   <span className="skill-icon-inner">
                     <Image
                       src={skill.logoSrc}
@@ -172,9 +200,6 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
                       className="skill-logo"
                       draggable={false}
                     />
-                  </span>
-                  <span className="skill-tooltip" aria-hidden="true">
-                    {skill.name}
                   </span>
                   <span className="sr-only">{skill.name}</span>
                 </li>
@@ -192,6 +217,18 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
           </button>
         </div>
       </div>
+      {hoveredSkill && !isDragging
+        ? createPortal(
+            <span
+              className="skill-cursor-label"
+              style={{ left: hoveredSkill.x, top: hoveredSkill.y }}
+              role="status"
+            >
+              {hoveredSkill.name}
+            </span>,
+            document.body,
+          )
+        : null}
 
     </section>
   );

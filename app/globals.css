@@ -1317,6 +1317,23 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   color: var(--text-muted);
 }
 
+.skill-cursor-label {
+  position: fixed;
+  display: block !important;
+  z-index: 100;
+  transform: translateX(-50%);
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--control-border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--foreground);
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 .skill-slider-shell {
   display: flex;
   align-items: center;
@@ -1476,15 +1493,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 .skill-icon:hover .skill-icon-inner,
 .skill-icon:focus-within .skill-icon-inner {
   transform: scale(1.1) translateY(-4px);
-}
-
-.skill-tooltip {
-  display: none;
-}
-
-.skill-icon:hover .skill-tooltip,
-.skill-icon:focus-within .skill-tooltip {
-  display: none;
 }
 
 @media (max-width: 640px) {
