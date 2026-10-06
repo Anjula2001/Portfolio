@@ -1375,6 +1375,51 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   transition: none;
 }
 
+@keyframes skill-dock-content-enter-next {
+  from {
+    opacity: 0;
+    transform: translateX(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes skill-dock-content-enter-previous {
+  from {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.skill-dock-content {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: safe center;
+  gap: 0.75rem;
+  min-width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation-duration: 460ms;
+  animation-timing-function: var(--ease-apple);
+  animation-fill-mode: both;
+}
+
+.skill-dock-content--next {
+  animation-name: skill-dock-content-enter-next;
+}
+
+.skill-dock-content--previous {
+  animation-name: skill-dock-content-enter-previous;
+}
+
 .skill-dock::-webkit-scrollbar {
   width: 0;
   height: 0;
