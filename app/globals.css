@@ -1353,7 +1353,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: safe center;
   flex-wrap: nowrap;
   gap: 0.75rem;
   padding: 1.25rem 1.75rem;
