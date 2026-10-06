@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState, type MouseEvent, type PointerEvent } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -28,10 +28,85 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
   );
 
   const [index, setIndex] = useState(0);
+  const dockRef = useRef<HTMLUListElement | null>(null);
+  const suppressClickRef = useRef(false);
+  const dragRef = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    startScrollLeft: number;
+    moved: boolean;
+  } | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const active = groups[index];
 
   const move = (delta: number) =>
     setIndex((current) => (current + delta + groups.length) % groups.length);
+
+  const handlePointerDown = (event: PointerEvent<HTMLUListElement>) => {
+    if (!event.isPrimary || event.button !== 0) {
+      return;
+    }
+
+    const dock = dockRef.current;
+    if (!dock) {
+      return;
+    }
+
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      startScrollLeft: dock.scrollLeft,
+      moved: false,
+    };
+    dock.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerMove = (event: PointerEvent<HTMLUListElement>) => {
+    const drag = dragRef.current;
+    const dock = dockRef.current;
+    if (!drag || !dock || drag.pointerId !== event.pointerId) {
+      return;
+    }
+
+    const verticalDistance = event.clientY - drag.startY;
+    const distance = event.clientX - drag.startX;
+    if (!drag.moved && Math.abs(verticalDistance) > Math.abs(distance)) {
+      return;
+    }
+    if (Math.abs(distance) < 3 && !drag.moved) {
+      return;
+    }
+
+    drag.moved = true;
+    suppressClickRef.current = true;
+    setIsDragging(true);
+    dock.scrollLeft = drag.startScrollLeft - distance;
+    event.preventDefault();
+  };
+
+  const finishPointerDrag = (event: PointerEvent<HTMLUListElement>) => {
+    const dock = dockRef.current;
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) {
+      return;
+    }
+
+    if (dock?.hasPointerCapture(event.pointerId)) {
+      dock.releasePointerCapture(event.pointerId);
+    }
+    dragRef.current = null;
+    setIsDragging(false);
+  };
+
+  const handleDockClick = (event: MouseEvent<HTMLUListElement>) => {
+    if (suppressClickRef.current) {
+      event.preventDefault();
+      event.stopPropagation();
+      suppressClickRef.current = false;
+    }
+  };
 
   return (
     <section
@@ -58,7 +133,26 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
             <ChevronLeft size={20} aria-hidden="true" />
           </button>
 
-          <ul className="skill-dock" aria-label={`${active.title} skills`}>
+          <ul
+            ref={dockRef}
+            className={`skill-dock ${isDragging ? "is-dragging" : ""}`}
+            aria-label={`${active.title} skills`}
+            tabIndex={0}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={finishPointerDrag}
+            onPointerCancel={finishPointerDrag}
+            onClick={handleDockClick}
+            onKeyDown={(event) => {
+              if (event.key === "ArrowLeft") {
+                event.preventDefault();
+                dockRef.current?.scrollBy({ left: -180, behavior: "smooth" });
+              } else if (event.key === "ArrowRight") {
+                event.preventDefault();
+                dockRef.current?.scrollBy({ left: 180, behavior: "smooth" });
+              }
+            }}
+          >
             {active.items.map((skill) => (
               <li key={skill.name} className="skill-icon">
                 <span className="skill-icon-inner">
