@@ -178,7 +178,6 @@ export function EducationSection({ education, certificates }: EducationSectionPr
       ) : null}
 
       <div className="certificates-group reveal-item">
-        <div className="certificates-divider" aria-hidden="true" />
         <div className="certificates-head">
           <h3 className="certificates-title">Certificates</h3>
           <p className="section-lede">Select a certificate to view it full size.</p>
