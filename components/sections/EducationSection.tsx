@@ -163,6 +163,20 @@ export function EducationSection({ education, certificates }: EducationSectionPr
         </button>
       </div>
 
+      {journey.pageCount > 1 ? (
+        <div className="rail-dots reveal-item" aria-label="Education journey pages">
+          {Array.from({ length: journey.pageCount }, (_, index) => (
+            <button
+              key={index}
+              type="button"
+              aria-current={index === journey.page}
+              aria-label={`Go to education page ${index + 1}`}
+              onClick={() => journey.scrollToPage(index)}
+            />
+          ))}
+        </div>
+      ) : null}
+
       <div className="certificates-group reveal-item">
         <div className="certificates-divider" aria-hidden="true" />
         <div className="certificates-head">
@@ -248,6 +262,20 @@ export function EducationSection({ education, certificates }: EducationSectionPr
             <ChevronRight size={18} aria-hidden="true" />
           </button>
         </div>
+
+        {certRail.pageCount > 1 ? (
+          <div className="rail-dots reveal-item" aria-label="Certificate pages">
+            {Array.from({ length: certRail.pageCount }, (_, index) => (
+              <button
+                key={index}
+                type="button"
+                aria-current={index === certRail.page}
+                aria-label={`Go to certificate page ${index + 1}`}
+                onClick={() => certRail.scrollToPage(index)}
+              />
+            ))}
+          </div>
+        ) : null}
       </div>
 
       {active && activeIndex !== null

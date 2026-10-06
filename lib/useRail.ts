@@ -57,6 +57,32 @@ export function useRail(
   } | null>(null);
   const suppressClick = useRef(false);
 
+  const step = useCallback(() => {
+    const rail = ref.current;
+    if (!rail) {
+      return 0;
+    }
+
+    const card = rail.querySelector<HTMLElement>(cardSelector);
+    const width = card?.offsetWidth ?? rail.clientWidth * 0.82;
+    const styles = window.getComputedStyle(rail);
+    const gap = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
+
+    return width + gap;
+  }, [ref, cardSelector]);
+
+  const getPageOffsets = useCallback(() => {
+    const rail = ref.current;
+    if (!rail) {
+      return [];
+    }
+
+    const maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth);
+    return Array.from(rail.querySelectorAll<HTMLElement>(cardSelector))
+      .map((card) => Math.min(card.offsetLeft, maxScroll))
+      .filter((offset, index, offsets) => index === 0 || offset > offsets[index - 1]);
+  }, [cardSelector, ref]);
+
   // Stable across renders: the state setters are stable and `ref` is a ref
   // object, so the listeners below never need re-binding.
   const sync = useCallback(() => {
@@ -69,10 +95,22 @@ export function useRail(
     setCanPrev(rail.scrollLeft > EDGE_THRESHOLD);
     setCanNext(rail.scrollLeft < maxScroll - EDGE_THRESHOLD);
 
-    const pages = Math.max(1, Math.ceil(rail.scrollWidth / rail.clientWidth));
+    const pageOffsets = getPageOffsets();
+    const pages = Math.max(1, pageOffsets.length || itemCount);
     setPageCount(pages);
-    setPage(Math.min(pages - 1, Math.round(rail.scrollLeft / rail.clientWidth)));
-  }, [ref]);
+    setPage(
+      pageOffsets.length > 0
+        ? pageOffsets.reduce(
+            (closestIndex, offset, index) =>
+              Math.abs(offset - rail.scrollLeft) <
+              Math.abs(pageOffsets[closestIndex] - rail.scrollLeft)
+                ? index
+                : closestIndex,
+            0,
+          )
+        : 0,
+    );
+  }, [getPageOffsets, itemCount, ref]);
 
   useEffect(() => {
     const rail = ref.current;
@@ -118,20 +156,6 @@ export function useRail(
     };
   }, [ref, itemCount, sync]);
 
-  const step = useCallback(() => {
-    const rail = ref.current;
-    if (!rail) {
-      return 0;
-    }
-
-    const card = rail.querySelector<HTMLElement>(cardSelector);
-    const width = card?.offsetWidth ?? rail.clientWidth * 0.82;
-    const styles = window.getComputedStyle(rail);
-    const gap = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
-
-    return width + gap;
-  }, [ref, cardSelector]);
-
   const scrollBy = useCallback(
     (direction: "prev" | "next") => {
       const rail = ref.current;
@@ -152,9 +176,11 @@ export function useRail(
         return;
       }
 
-      rail.scrollTo({ left: target * rail.clientWidth, behavior: "smooth" });
+      const pageOffsets = getPageOffsets();
+      const left = pageOffsets[target] ?? 0;
+      rail.scrollTo({ left, behavior: "smooth" });
     },
-    [ref],
+    [getPageOffsets, ref],
   );
 
   const onKeyDown = useCallback(
