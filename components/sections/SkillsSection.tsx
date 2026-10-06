@@ -183,19 +183,6 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
         </div>
       </div>
 
-      {groups.length > 1 ? (
-        <div className="rail-dots" aria-label="Skill categories">
-          {groups.map((group, groupIndex) => (
-            <button
-              key={group.title}
-              type="button"
-              aria-current={groupIndex === index}
-              aria-label={`Show ${group.title} skills`}
-              onClick={() => setIndex(groupIndex)}
-            />
-          ))}
-        </div>
-      ) : null}
     </section>
   );
 }

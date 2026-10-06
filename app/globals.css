@@ -1370,12 +1370,21 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   overflow-x: auto;
   overscroll-behavior-inline: contain;
   scrollbar-width: none;
+  scrollbar-color: transparent transparent;
   touch-action: pan-x;
   transition: none;
 }
 
 .skill-dock::-webkit-scrollbar {
+  width: 0;
+  height: 0;
   display: none;
+}
+
+.skill-dock::-webkit-scrollbar-track,
+.skill-dock::-webkit-scrollbar-thumb {
+  background: transparent;
+  border: 0;
 }
 
 .skill-dock.is-dragging {
@@ -1423,30 +1432,12 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .skill-tooltip {
-  position: absolute;
-  bottom: -2.75rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(8px);
-  z-index: 5;
-  background: var(--foreground);
-  color: var(--background);
-  padding: 0.5rem 0.875rem;
-  border-radius: 8px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  transition:
-    opacity 220ms var(--ease-apple),
-    transform 220ms var(--ease-apple);
+  display: none;
 }
 
 .skill-icon:hover .skill-tooltip,
 .skill-icon:focus-within .skill-tooltip {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-2px);
+  display: none;
 }
 
 @media (max-width: 640px) {
