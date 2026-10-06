@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { BackToTop } from "@/components/chrome/BackToTop";
 import { SiteFooter } from "@/components/chrome/SiteFooter";
@@ -28,6 +28,9 @@ function easeInOutCubic(t: number): number {
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string>("about");
   const [navScrolled, setNavScrolled] = useState(false);
+  const animationFrameRef = useRef<number | null>(null);
+  const smoothScrollTargetRef = useRef<string | null>(null);
+  const animationIdRef = useRef(0);
 
   const sectionIds = useMemo(() => navItems.map((item) => item.id), []);
 
@@ -102,6 +105,11 @@ export default function Home() {
         return;
       }
 
+      if (smoothScrollTargetRef.current !== null) {
+        setActiveSection(smoothScrollTargetRef.current);
+        return;
+      }
+
       const line = window.scrollY + SCROLL_OFFSET + 1;
       let current = offsets[0].id;
 
@@ -149,6 +157,14 @@ export default function Home() {
     };
   }, [sectionIds]);
 
+  useEffect(() => {
+    return () => {
+      if (animationFrameRef.current !== null) {
+        window.cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, []);
+
   const handleSmoothScroll =
     (sectionId: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
       event.preventDefault();
@@ -158,10 +174,26 @@ export default function Home() {
         return;
       }
 
+      if (animationFrameRef.current !== null) {
+        window.cancelAnimationFrame(animationFrameRef.current);
+      }
+
+      const animationId = animationIdRef.current + 1;
+      animationIdRef.current = animationId;
+      smoothScrollTargetRef.current = sectionId;
+      setActiveSection(sectionId);
+
       const startY = window.scrollY;
       const targetY = target.getBoundingClientRect().top + startY - SCROLL_OFFSET;
 
       const finish = () => {
+        if (animationId !== animationIdRef.current) {
+          return;
+        }
+
+        animationFrameRef.current = null;
+        smoothScrollTargetRef.current = null;
+        setActiveSection(sectionId);
         window.history.replaceState(null, "", `#${sectionId}`);
       };
 
@@ -181,13 +213,13 @@ export default function Home() {
         window.scrollTo(0, startY + distance * easeInOutCubic(progress));
 
         if (progress < 1) {
-          window.requestAnimationFrame(step);
+          animationFrameRef.current = window.requestAnimationFrame(step);
         } else {
           finish();
         }
       };
 
-      window.requestAnimationFrame(step);
+      animationFrameRef.current = window.requestAnimationFrame(step);
     };
 
   return (
