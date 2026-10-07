@@ -663,8 +663,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 .education-card:hover,
 .certificate-card:hover,
 .project-card:focus-within,
-.education-card:focus-within,
-.certificate-card:focus-within {
+.education-card:focus-within {
   transform: translateY(-4px);
   box-shadow: var(--card-shadow-hover);
 }
@@ -1075,8 +1074,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   background: var(--surface);
 }
 
-.certificate-preview-card:hover .certificate-preview-image,
-.certificate-preview-card:focus-within .certificate-preview-image {
+.certificate-preview-card:hover .certificate-preview-image {
   transform: scale(1.04);
 }
 
