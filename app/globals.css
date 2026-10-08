@@ -646,7 +646,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .project-card,
-.education-card,
 .certificate-card {
   border-radius: var(--card-radius);
   transition:
@@ -660,10 +659,8 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .project-card:hover,
-.education-card:hover,
 .certificate-card:hover,
-.project-card:focus-within,
-.education-card:focus-within {
+.project-card:focus-within {
   transform: translateY(-4px);
   box-shadow: var(--card-shadow-hover);
 }
@@ -748,21 +745,11 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   min-height: clamp(280px, 36vw, 400px);
 }
 
-.education-grid--journey .education-card--horizontal {
-  flex-basis: calc((100% - var(--education-gap)) / 2);
-  width: calc((100% - var(--education-gap)) / 2);
-}
-
 @media (max-width: 1200px) {
   .education-card--horizontal,
   .project-card--horizontal {
     flex-basis: calc((100% - var(--education-gap)) / 2);
     width: calc((100% - var(--education-gap)) / 2);
-  }
-
-  .education-grid--journey .education-card--horizontal {
-    flex-basis: min(100%, 42rem);
-    width: min(100%, 42rem);
   }
 }
 
@@ -866,133 +853,8 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   background: var(--text-muted);
 }
 
-/* ==========================================================================
-   Education cards
-   ========================================================================== */
-
-.education-card-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  height: 100%;
-}
-
-.education-card-heading {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.education-logo-shell {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  width: 4.5rem;
-  height: 4.5rem;
-  border-radius: 9px;
-  overflow: hidden;
-  background: var(--surface-muted);
-}
-
-.education-logo-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 0.25rem;
-}
-
-.education-duration {
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.055em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: var(--text-muted);
-}
-
-.education-card-title {
-  min-width: 0;
-}
-
-.education-card-body h3 {
-  font-size: 1.0625rem;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
-  font-weight: 600;
-  color: var(--foreground);
-}
-
-.education-degree {
-  margin-top: 0.2rem;
-  font-size: 0.875rem;
-  color: var(--text-muted);
-}
-
-/* Clamped so the three cards converge in height instead of the longest one
-   dictating a tall box the others fill with blank space.
-   Justified, with hyphenation on: in a column this narrow, justification
-   without hyphens stretches word spacing into visible rivers. */
-.education-summary {
-  font-size: 0.875rem;
-  line-height: 1.6;
-  color: var(--text-muted);
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 6;
-  overflow: hidden;
-}
-
-/* Narrower cards fit fewer characters per line, so the clamp has to grow to
-   keep the same copy from being cut off on phones. */
-@media (max-width: 640px) {
-  .education-summary {
-    -webkit-line-clamp: 9;
-  }
-}
-
-/* Descriptions differ in length, so the leftover space varies per card. A
-   hairline turns it into a deliberate footer rule instead of a hole, and
-   keeps every result pill on the same baseline across the row. */
-.education-card-foot {
-  margin-top: auto;
-  padding-top: 0.9rem;
-  border-top: 1px solid var(--line);
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 0.75rem;
-}
-
-.education-result {
-  display: inline-block;
-  border-radius: var(--pill);
-  border: 1px solid var(--line);
-  padding: 0.25rem 0.7rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-
-.education-card-foot .education-duration {
-  margin-left: auto;
-  text-align: right;
-}
-
-@media (max-width: 640px) {
-  .education-logo-shell {
-    width: 4rem;
-    height: 4rem;
-  }
-}
-
 .certificates-group {
-  margin-top: 1.05rem;
+  margin-top: 2.5rem;
   min-width: 0;
 }
 

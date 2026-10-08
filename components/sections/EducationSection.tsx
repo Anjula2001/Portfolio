@@ -8,6 +8,7 @@ import { createPortal } from "react-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { useRail } from "@/lib/useRail";
 import type { CertificateItem, EducationItem } from "@/data/portfolioData";
+import styles from "./EducationSection.module.css";
 
 type EducationSectionProps = {
   education: EducationItem[];
@@ -15,12 +16,10 @@ type EducationSectionProps = {
 };
 
 export function EducationSection({ education, certificates }: EducationSectionProps) {
-  const journeyRef = useRef<HTMLDivElement | null>(null);
   const certificateRef = useRef<HTMLDivElement | null>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
   const openerRef = useRef<HTMLElement | null>(null);
 
-  const journey = useRail(journeyRef, ".education-card--horizontal", education.length);
   const certRail = useRail(certificateRef, ".certificate-card", certificates.length);
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -84,98 +83,50 @@ export function EducationSection({ education, certificates }: EducationSectionPr
         </p>
       </div>
 
-      <div className="education-carousel mt-10 reveal-item">
-        <button
-          type="button"
-          className={`education-scroll-btn education-scroll-btn--left ${journey.canPrev ? "is-active" : "is-inactive"}`}
-          aria-label="Previous education cards"
-          onClick={() => journey.scrollBy("prev")}
-          disabled={!journey.canPrev}
-        >
-          <ChevronLeft size={18} aria-hidden="true" />
-        </button>
-
-        <div
-          ref={journeyRef}
-          className={`education-grid education-grid--journey ${journey.isDragging ? "is-dragging" : ""}`}
-          role="list"
-          aria-label="Education journey"
-          tabIndex={0}
-          onKeyDown={journey.onKeyDown}
-          onPointerDown={journey.onPointerDown}
-          onPointerMove={journey.onPointerMove}
-          onPointerUp={journey.onPointerUp}
-          onPointerCancel={journey.onPointerCancel}
-          onClick={journey.onClick}
-          onDragStart={journey.onDragStart}
-        >
-          {education.map((item) => (
-            <Card
-              key={`${item.institution}-${item.duration}`}
-              className="education-card education-card--horizontal"
-              role="listitem"
-            >
-              <CardContent className="h-full p-0">
-                <div className="education-card-body p-6 sm:p-7">
-                  <div className="education-card-heading">
-                    {item.logoSrc ? (
-                      <span className="education-logo-shell" aria-hidden="true">
-                        <Image
-                          src={item.logoSrc}
-                          alt=""
-                          width={64}
-                          height={64}
-                          className="education-logo-image"
-                        />
-                      </span>
-                    ) : (
-                      <span />
-                    )}
-
-                    <div className="education-card-title">
-                      <h3>{item.institution}</h3>
-                      <p className="education-degree">{item.degree}</p>
-                    </div>
-                  </div>
-
-                  <p className="education-summary">{item.description}</p>
-
-                  <div className="education-card-foot">
-                    {item.results ? (
-                      <span className="education-result">{item.results}</span>
-                    ) : null}
-                    <span className="education-duration">{item.duration}</span>
-                  </div>
+      <div className={`${styles.journey} mt-10 reveal-item`} role="list" aria-label="Education journey">
+        {education.map((item) => (
+          <article
+            key={`${item.institution}-${item.duration}`}
+            className={`${styles.card} ${item.current ? styles.current : ""}`}
+            role="listitem"
+          >
+            <div className={styles.visual}>
+              <div className={styles.heading}>
+                <p className={styles.eyebrow}>{item.level}</p>
+                <h3 className={styles.headline}>{item.headline}</h3>
+              </div>
+              {item.logoSrc ? (
+                <div className={styles.emblem} aria-hidden="true">
+                  <Image
+                    src={item.logoSrc}
+                    alt=""
+                    width={112}
+                    height={112}
+                    sizes="112px"
+                    className={styles.logo}
+                  />
                 </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+              ) : null}
+            </div>
 
-        <button
-          type="button"
-          className={`education-scroll-btn education-scroll-btn--right ${journey.canNext ? "is-active" : "is-inactive"}`}
-          aria-label="Next education cards"
-          onClick={() => journey.scrollBy("next")}
-          disabled={!journey.canNext}
-        >
-          <ChevronRight size={18} aria-hidden="true" />
-        </button>
+            <div className={styles.details}>
+              <p className={styles.institution}>{item.institution}</p>
+              <p className={styles.duration}>{item.duration}</p>
+              <div className={styles.footer}>
+                {item.results ? (
+                  <p className={styles.result}>
+                    <span className={styles.resultValue}>{item.results.value}</span>
+                    <span className={styles.resultLabel}>{item.results.label}</span>
+                  </p>
+                ) : null}
+                <span className={styles.status}>
+                  {item.current ? "In progress" : "Completed"}
+                </span>
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
-
-      {journey.pageCount > 1 ? (
-        <div className="rail-dots reveal-item" aria-label="Education journey pages">
-          {Array.from({ length: journey.pageCount }, (_, index) => (
-            <button
-              key={index}
-              type="button"
-              aria-current={index === journey.page}
-              aria-label={`Go to education page ${index + 1}`}
-              onClick={() => journey.scrollToPage(index)}
-            />
-          ))}
-        </div>
-      ) : null}
 
       <div className="certificates-group reveal-item">
         <div className="certificates-head">

@@ -35,7 +35,7 @@ export default function Home() {
   const sectionIds = useMemo(() => navItems.map((item) => item.id), []);
 
   useEffect(() => {
-    let hideScrollbarTimer: ReturnType<typeof window.setTimeout> | undefined;
+    let hideScrollbarTimer: number | undefined;
 
     const handleScrollState = () => {
       setNavScrolled(window.scrollY > 8);
