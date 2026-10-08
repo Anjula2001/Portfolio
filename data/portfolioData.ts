@@ -17,12 +17,15 @@ export type ProjectItem = {
 
 export type EducationItem = {
   institution: string;
+  headline: string;
+  level: string;
   degree: string;
   duration: string;
   description: string;
   logoSrc?: string;
   logoAlt?: string;
-  results?: string;
+  results?: { value: string; label: string };
+  current?: boolean;
 };
 
 export type CertificateItem = {
@@ -130,30 +133,37 @@ export const navItems: NavItem[] = [
 export const education: EducationItem[] = [
   {
     institution: "University of Moratuwa",
+    headline: "Information Technology",
+    level: "BSc (Hons)",
     degree: "BSc (Hons) in Information Technology",
     duration: "2024 – Present",
-    description: "Currently pursuing a BSc (Hons) in Information Technology at the University of Moratuwa, Sri Lanka. Actively building a strong foundation in software engineering through coursework in data structures, algorithms, system design, and full-stack development. Passionate about creating scalable, user-focused applications while continuously exploring modern technologies and real-world problem solving.",
+    description: "Building a foundation in software engineering, algorithms, and full-stack development.",
     logoSrc: "https://upload.wikimedia.org/wikipedia/en/6/60/University_of_Moratuwa_logo.png",
     logoAlt: "University of Moratuwa logo",
-    results: "CGPA - 3.6",
+    results: { value: "3.6", label: "CGPA" },
+    current: true,
   },
   {
     institution: "R/ Elapatha Maha Vidyalaya",
+    headline: "Advanced Level",
+    level: "Secondary education",
     degree: "Advanced Level Studies",
     duration: "2018 – 2020",
-    description: "Completed Advanced Level studies in Combined Mathematics, Physics, and Information Technology, developing strong analytical thinking and problem-solving skills. This phase strengthened my logical reasoning and technical foundation, preparing me for higher studies in the IT field.",
+    description: "Combined Mathematics, Physics, and Information Technology, with a focus on analytical thinking.",
     logoSrc:"/elp.png",
     logoAlt:"Elapatha Maha Vidyalaya Logo",
-    results: "Results - ABB",
+    results: { value: "ABB", label: "A/L Results" },
   },
    {
     institution: "R/ Delwala Maha Vidyalaya",
+    headline: "Ordinary Level",
+    level: "Secondary education",
     degree: "Ordinary Level Studies",
     duration: "2006 – 2018",
-    description: "Completed Ordinary Level studies with a focus on Information and Communication Technology, building early interest in computing and digital systems. Developed a solid academic foundation alongside discipline and consistency in learning.",
+    description: "A broad academic foundation, with an early interest in ICT, computing, and digital systems.",
     logoSrc:"/del.png",
     logoAlt:"Delwala Maha Vidyalaya Logo",
-    results: "Results - A8C1",
+    results: { value: "8A · 1C", label: "O/L Results" },
   },
 
 ];
