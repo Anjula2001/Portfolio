@@ -75,24 +75,20 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
               className={`${styles.card} ${styles.railItem} project-card--horizontal`}
               role="listitem"
             >
-              <div className={styles.visual}>
-                <div className={styles.heading}>
-                  <p className={styles.eyebrow}>{idx === 0 ? "Featured" : "Project"}</p>
-                  <h3 className={styles.headline}>{project.name}</h3>
+              {project.imageSrc ? (
+                <div className={`${styles.imageMedia} ${styles.projectMedia}`}>
+                  <Image
+                    src={project.imageSrc}
+                    alt={project.imageAlt ?? `${project.name} preview`}
+                    fill
+                    className={styles.previewImage}
+                    sizes="(max-width: 540px) calc(100vw - 48px), (max-width: 959px) 50vw, 344px"
+                  />
                 </div>
-                <div className={styles.preview}>
-                  {project.imageSrc ? (
-                    <Image
-                      src={project.imageSrc}
-                      alt={project.imageAlt ?? `${project.name} preview`}
-                      fill
-                      className={styles.previewImage}
-                      sizes="(max-width: 540px) 76px, (max-width: 959px) 50vw, 310px"
-                    />
-                  ) : null}
-                </div>
-              </div>
-              <div className={styles.details}>
+              ) : null}
+              <div className={`${styles.details} ${styles.imageDetails}`}>
+                <p className={styles.eyebrow}>{idx === 0 ? "Featured" : "Project"}</p>
+                <h3 className={styles.headline}>{project.name}</h3>
                 <p className={styles.summary}>{project.description}</p>
                 <div className={`${styles.footer} ${styles.projectFooter}`}>
                   <p className={styles.stack}>{project.stack}</p>

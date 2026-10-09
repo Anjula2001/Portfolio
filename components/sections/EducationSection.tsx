@@ -173,7 +173,7 @@ export function EducationSection({ education, certificates }: EducationSectionPr
                   }}
                   aria-label={`View ${item.title} certificate`}
                 >
-                  <span className={styles.certificateMedia} aria-hidden="true">
+                  <span className={styles.imageMedia} aria-hidden="true">
                     <Image
                       src={item.imageSrc}
                       alt=""
@@ -182,7 +182,7 @@ export function EducationSection({ education, certificates }: EducationSectionPr
                       sizes="(max-width: 540px) calc(100vw - 48px), (max-width: 959px) 50vw, 344px"
                     />
                   </span>
-                  <span className={`${styles.details} ${styles.certificateDetails}`}>
+                  <span className={`${styles.details} ${styles.imageDetails}`}>
                     <span className={styles.eyebrow}>Certificate</span>
                     <span className={styles.headline}>{item.title}</span>
                     <span className={styles.institution}>{item.issuer}</span>
