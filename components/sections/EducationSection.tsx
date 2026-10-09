@@ -1,14 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { createPortal } from "react-dom";
 
-import { Card, CardContent } from "@/components/ui/card";
 import { useRail } from "@/lib/useRail";
 import type { CertificateItem, EducationItem } from "@/data/portfolioData";
-import styles from "./EducationSection.module.css";
+import styles from "./PortfolioCards.module.css";
 
 type EducationSectionProps = {
   education: EducationItem[];
@@ -156,49 +155,44 @@ export function EducationSection({ education, certificates }: EducationSectionPr
             onPointerMove={certRail.onPointerMove}
             onPointerUp={certRail.onPointerUp}
             onPointerCancel={certRail.onPointerCancel}
-            onClick={certRail.onClick}
+            onClickCapture={certRail.onClick}
             onDragStart={certRail.onDragStart}
           >
             {certificates.map((item, idx) => (
-              <Card
+              <article
                 key={`${item.title}-${item.year}`}
-                className="certificate-card education-card--horizontal certificate-preview-card"
-                style={{ "--certificate-tint": item.themeTint } as CSSProperties}
+                className={`${styles.card} ${styles.railItem} ${styles.certificateCard} certificate-card`}
                 role="listitem"
               >
-                <CardContent className="h-full p-0">
-                  <button
-                    type="button"
-                    className="certificate-preview-button"
-                    onClick={(event) => {
-                      openerRef.current = event.currentTarget;
-                      setActiveIndex(idx);
-                    }}
-                    aria-label={`View ${item.title} certificate`}
-                  >
-                    <span className="certificate-preview-media" aria-hidden="true">
-                      <Image
-                        src={item.imageSrc}
-                        alt=""
-                        fill
-                        className="certificate-preview-image"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1200px) 42rem, 34rem"
-                      />
-                      <span className="certificate-preview-overlay" />
+                <button
+                  type="button"
+                  className={styles.certificateButton}
+                  onClick={(event) => {
+                    openerRef.current = event.currentTarget;
+                    setActiveIndex(idx);
+                  }}
+                  aria-label={`View ${item.title} certificate`}
+                >
+                  <span className={styles.imageMedia} aria-hidden="true">
+                    <Image
+                      src={item.imageSrc}
+                      alt=""
+                      fill
+                      className={styles.previewImage}
+                      sizes="(max-width: 540px) calc(100vw - 48px), (max-width: 959px) 50vw, 344px"
+                    />
+                  </span>
+                  <span className={`${styles.details} ${styles.imageDetails}`}>
+                    <span className={styles.eyebrow}>Certificate</span>
+                    <span className={styles.headline}>{item.title}</span>
+                    <span className={styles.institution}>{item.issuer}</span>
+                    <span className={styles.duration}>{item.year}</span>
+                    <span className={styles.footer}>
+                      <span className={styles.status}>View certificate</span>
                     </span>
-                    <span className="certificate-preview-content">
-                      <span className="kicker block">Certificate</span>
-                      <span className="certificate-title mt-1 block">{item.title}</span>
-                      <span className="mt-1.5 block text-sm text-[var(--text-muted)]">
-                        {item.issuer}
-                      </span>
-                      <span className="mt-4 block text-xs uppercase tracking-[0.14em] text-[var(--text-muted)]">
-                        {item.year}
-                      </span>
-                    </span>
-                  </button>
-                </CardContent>
-              </Card>
+                  </span>
+                </button>
+              </article>
             ))}
           </div>
 
