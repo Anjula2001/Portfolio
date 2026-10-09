@@ -121,6 +121,7 @@ export function EducationSection({ education, certificates }: EducationSectionPr
                 <span className={styles.status}>
                   {item.current ? "In progress" : "Completed"}
                 </span>
+                // --- IGNORE ---
               </div>
             </div>
           </article>
