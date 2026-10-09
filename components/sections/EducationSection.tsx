@@ -155,7 +155,7 @@ export function EducationSection({ education, certificates }: EducationSectionPr
             onPointerMove={certRail.onPointerMove}
             onPointerUp={certRail.onPointerUp}
             onPointerCancel={certRail.onPointerCancel}
-            onClick={certRail.onClick}
+            onClickCapture={certRail.onClick}
             onDragStart={certRail.onDragStart}
           >
             {certificates.map((item, idx) => (
@@ -173,22 +173,18 @@ export function EducationSection({ education, certificates }: EducationSectionPr
                   }}
                   aria-label={`View ${item.title} certificate`}
                 >
-                  <span className={styles.visual}>
-                    <span className={styles.heading}>
-                      <span className={`${styles.eyebrow} block`}>Certificate</span>
-                      <span className={`${styles.headline} block`}>{item.title}</span>
-                    </span>
-                    <span className={styles.preview} aria-hidden="true">
-                      <Image
-                        src={item.imageSrc}
-                        alt=""
-                        fill
-                        className={`${styles.previewImage} ${styles.certificateImage}`}
-                        sizes="(max-width: 540px) 76px, (max-width: 959px) 50vw, 310px"
-                      />
-                    </span>
+                  <span className={styles.certificateMedia} aria-hidden="true">
+                    <Image
+                      src={item.imageSrc}
+                      alt=""
+                      fill
+                      className={styles.previewImage}
+                      sizes="(max-width: 540px) calc(100vw - 48px), (max-width: 959px) 50vw, 344px"
+                    />
                   </span>
-                  <span className={styles.details}>
+                  <span className={`${styles.details} ${styles.certificateDetails}`}>
+                    <span className={styles.eyebrow}>Certificate</span>
+                    <span className={styles.headline}>{item.title}</span>
                     <span className={styles.institution}>{item.issuer}</span>
                     <span className={styles.duration}>{item.year}</span>
                     <span className={styles.footer}>

@@ -233,7 +233,6 @@ export function useRail(
     };
     rail.style.scrollBehavior = "auto";
     suppressClick.current = false;
-    rail.setPointerCapture(event.pointerId);
   }, [ref]);
 
   const onPointerMove = useCallback((event: PointerEvent<HTMLDivElement>) => {
@@ -244,10 +243,13 @@ export function useRail(
     }
 
     const distance = event.clientX - drag.startX;
-    if (!drag.moved && distance === 0) {
+    if (!drag.moved && Math.abs(distance) < 4) {
       return;
     }
 
+    if (!drag.moved) {
+      rail.setPointerCapture(event.pointerId);
+    }
     drag.moved = true;
     suppressClick.current = true;
     setIsDragging(true);

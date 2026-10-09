@@ -201,8 +201,27 @@
   transition: transform 400ms var(--ease-apple);
 }
 
-.certificateImage {
-  object-fit: contain;
+.certificateMedia {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: 100%;
+  aspect-ratio: 1.414 / 1;
+  overflow: hidden;
+}
+
+.certificateDetails {
+  min-height: 0;
+}
+
+.certificateDetails .headline {
+  min-height: 0;
+  margin-bottom: 0.75rem;
+}
+
+.certificateDetails .footer {
+  margin-top: 1rem;
+  padding-top: 0;
 }
 
 .summary {
@@ -256,6 +275,11 @@
     display: flex;
   }
 
+  .certificateMedia {
+    aspect-ratio: auto;
+    min-height: 15rem;
+  }
+
   .headline {
     font-size: 1.625rem;
   }
@@ -276,6 +300,11 @@
   .card,
   .certificateButton {
     display: block;
+  }
+
+  .certificateMedia {
+    aspect-ratio: 1.414 / 1;
+    min-height: 0;
   }
 
   .visual {

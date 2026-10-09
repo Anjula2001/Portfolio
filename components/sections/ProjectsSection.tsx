@@ -66,7 +66,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerCancel}
-          onClick={onClick}
+          onClickCapture={onClick}
           onDragStart={onDragStart}
         >
           {projects.map((project, idx) => (
