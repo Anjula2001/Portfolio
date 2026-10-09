@@ -645,26 +645,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   box-shadow: var(--card-shadow);
 }
 
-.project-card,
-.certificate-card {
-  border-radius: var(--card-radius);
-  transition:
-    transform 300ms var(--ease-apple),
-    box-shadow 300ms var(--ease-apple);
-}
-
-.project-card {
-  --project-card-radius: var(--card-radius);
-  overflow: hidden;
-}
-
-.project-card:hover,
-.certificate-card:hover,
-.project-card:focus-within {
-  transform: translateY(-4px);
-  box-shadow: var(--card-shadow-hover);
-}
-
 /* ==========================================================================
    Horizontal galleries
    ========================================================================== */
@@ -682,7 +662,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 .education-grid {
   --education-gap: 1.25rem;
-  --education-inline-pad: calc(max((100vw - var(--page-max)) / 2, 0px) + 1.6rem);
+  --education-inline-pad: calc(max((100vw - var(--page-max)) / 2, 0px) + 1.5rem);
   display: flex;
   flex-wrap: nowrap;
   align-items: stretch;
@@ -704,7 +684,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 @media (min-width: 640px) {
   .education-grid {
-    --education-inline-pad: calc(max((100vw - var(--page-max)) / 2, 0px) + 2.65rem);
+    --education-inline-pad: calc(max((100vw - var(--page-max)) / 2, 0px) + 2.5rem);
   }
 }
 
@@ -719,52 +699,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 .education-grid img {
   -webkit-user-drag: none;
   user-select: none;
-}
-
-.education-grid > *,
-.education-grid .certificate-preview-button {
-  cursor: default;
-}
-
-.education-card--horizontal,
-.project-card--horizontal {
-  height: auto;
-  flex: 0 0 calc((100% - (var(--education-gap) * 2)) / 3);
-  width: calc((100% - (var(--education-gap) * 2)) / 3);
-  align-self: stretch;
-  overflow: visible;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-}
-
-.project-card--horizontal {
-  min-height: 21.5rem;
-}
-
-.certificate-card.education-card--horizontal {
-  min-height: clamp(280px, 36vw, 400px);
-}
-
-@media (max-width: 1200px) {
-  .education-card--horizontal,
-  .project-card--horizontal {
-    flex-basis: calc((100% - var(--education-gap)) / 2);
-    width: calc((100% - var(--education-gap)) / 2);
-  }
-}
-
-@media (max-width: 640px) {
-  .education-grid {
-    --education-gap: 0.9rem;
-    --education-inline-pad: 1.5rem;
-  }
-
-  .education-card--horizontal,
-  .project-card--horizontal {
-    flex-basis: 100%;
-    width: 100%;
-    min-height: 22rem;
-  }
 }
 
 .education-scroll-btn {
@@ -874,93 +808,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   letter-spacing: -0.018em;
   font-weight: 600;
   color: var(--foreground);
-}
-
-.certificate-card {
-  scroll-snap-align: start;
-}
-
-.certificate-preview-card {
-  position: relative;
-  overflow: hidden;
-  min-height: clamp(280px, 36vw, 400px);
-  background: var(--surface);
-}
-
-.certificate-preview-button {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  text-align: left;
-  color: inherit;
-  background: transparent;
-}
-
-.certificate-preview-media {
-  position: relative;
-  flex: 0 0 58%;
-  min-height: 170px;
-  overflow: hidden;
-  background: var(--surface-muted);
-}
-
-.certificate-preview-image {
-  object-fit: cover;
-  object-position: center;
-  transform: scale(1);
-  transition: transform 420ms var(--ease-apple);
-}
-
-/* A whisper of tint keeps each certificate distinguishable. */
-.certificate-preview-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 55%,
-    var(--certificate-tint, rgba(243, 246, 250, 0.2)) 100%
-  );
-  opacity: 0.45;
-}
-
-.certificate-preview-content {
-  position: relative;
-  z-index: 1;
-  flex: 1 1 auto;
-  padding: 1.15rem 1.4rem 1.4rem;
-  background: var(--surface);
-}
-
-.certificate-preview-card:hover .certificate-preview-image {
-  transform: scale(1.04);
-}
-
-.certificate-title {
-  font-size: 1.0625rem;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
-  font-weight: 600;
-  color: var(--foreground);
-}
-
-@media (max-width: 640px) {
-  .certificate-preview-card {
-    min-height: 290px;
-  }
-
-  .certificate-preview-media {
-    flex-basis: 52%;
-    min-height: 150px;
-  }
-
-  .certificate-preview-content {
-    padding: 1rem 1.15rem 1.2rem;
-  }
 }
 
 /* ==========================================================================
@@ -1074,56 +921,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
    Projects
    ========================================================================== */
 
-.project-card-shell {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  border-radius: var(--project-card-radius);
-  overflow: hidden;
-}
-
-.project-preview {
-  position: relative;
-  height: 176px;
-  flex: 0 0 auto;
-  background: var(--surface-muted);
-  overflow: hidden;
-}
-
-.project-preview-image {
-  position: absolute;
-  inset: 0;
-  object-fit: cover;
-  object-position: center;
-  transform: scale(1);
-  transition: transform 420ms var(--ease-apple);
-}
-
-.project-card:hover .project-preview-image,
-.project-card:focus-within .project-preview-image {
-  transform: scale(1.04);
-}
-
-.project-card-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  padding: 1.35rem 1.4rem 1.4rem;
-  background: var(--surface);
-}
-
-.project-title-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  font-size: 1.0625rem;
-  font-weight: 600;
-  letter-spacing: -0.015em;
-}
-
 .project-links {
   display: flex;
   align-items: center;
@@ -1139,21 +936,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 .project-link:hover {
   color: var(--foreground);
-}
-
-.project-summary {
-  margin-top: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1.6;
-  color: var(--text-muted);
-}
-
-.project-stack {
-  margin-top: auto;
-  padding-top: 1rem;
-  font-size: 0.78rem;
-  line-height: 1.5;
-  color: var(--text-muted);
 }
 
 /* ==========================================================================

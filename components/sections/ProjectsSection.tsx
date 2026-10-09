@@ -4,10 +4,10 @@ import { useRef } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { Card, CardContent } from "@/components/ui/card";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/icons";
 import { useRail } from "@/lib/useRail";
 import type { ProjectItem } from "@/data/portfolioData";
+import styles from "./PortfolioCards.module.css";
 
 type ProjectsSectionProps = {
   projects: ProjectItem[];
@@ -70,64 +70,59 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
           onDragStart={onDragStart}
         >
           {projects.map((project, idx) => (
-            <Card
+            <article
               key={project.name}
-              className="project-card project-card--horizontal"
+              className={`${styles.card} ${styles.railItem} project-card--horizontal`}
               role="listitem"
             >
-              <CardContent className="h-full p-0">
-                <div className="project-card-shell">
-                  <div className="project-preview">
-                    {project.imageSrc ? (
-                      <Image
-                        src={project.imageSrc}
-                        alt={project.imageAlt ?? `${project.name} preview`}
-                        fill
-                        className="project-preview-image"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1200px) 42rem, 34rem"
-                      />
+              <div className={styles.visual}>
+                <div className={styles.heading}>
+                  <p className={styles.eyebrow}>{idx === 0 ? "Featured" : "Project"}</p>
+                  <h3 className={styles.headline}>{project.name}</h3>
+                </div>
+                <div className={styles.preview}>
+                  {project.imageSrc ? (
+                    <Image
+                      src={project.imageSrc}
+                      alt={project.imageAlt ?? `${project.name} preview`}
+                      fill
+                      className={styles.previewImage}
+                      sizes="(max-width: 540px) 76px, (max-width: 959px) 50vw, 310px"
+                    />
+                  ) : null}
+                </div>
+              </div>
+              <div className={styles.details}>
+                <p className={styles.summary}>{project.description}</p>
+                <div className={`${styles.footer} ${styles.projectFooter}`}>
+                  <p className={styles.stack}>{project.stack}</p>
+                  <div className="project-links">
+                    {project.linkedinUrl ? (
+                      <a
+                        href={project.linkedinUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`${project.name} on LinkedIn`}
+                        className="project-link"
+                      >
+                        <LinkedInIcon className="h-[17px] w-[17px]" />
+                      </a>
+                    ) : null}
+                    {project.githubUrl ? (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`${project.name} source on GitHub`}
+                        className="project-link"
+                      >
+                        <GitHubIcon className="h-[17px] w-[17px]" />
+                      </a>
                     ) : null}
                   </div>
-
-                  <div className="project-card-content">
-                    <p className={`kicker ${idx === 0 ? "kicker--featured" : ""}`}>
-                      {idx === 0 ? "Featured" : "Project"}
-                    </p>
-
-                    <h3 className="project-title-row mt-1">
-                      <span>{project.name}</span>
-                      <span className="project-links">
-                        {project.linkedinUrl ? (
-                          <a
-                            href={project.linkedinUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            aria-label={`${project.name} on LinkedIn`}
-                            className="project-link"
-                          >
-                            <LinkedInIcon className="h-[17px] w-[17px]" />
-                          </a>
-                        ) : null}
-                        {project.githubUrl ? (
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            aria-label={`${project.name} source on GitHub`}
-                            className="project-link"
-                          >
-                            <GitHubIcon className="h-[17px] w-[17px]" />
-                          </a>
-                        ) : null}
-                      </span>
-                    </h3>
-
-                    <p className="project-summary">{project.description}</p>
-                    <p className="project-stack">{project.stack}</p>
-                  </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </article>
           ))}
         </div>
 
