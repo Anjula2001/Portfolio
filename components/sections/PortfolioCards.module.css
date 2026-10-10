@@ -230,7 +230,9 @@
   color: var(--text-muted);
 }
 
-.projectFooter {
+.imageDetails .projectFooter {
+  margin-top: auto;
+  padding-top: 1rem;
   align-items: flex-end;
 }
 
@@ -294,6 +296,10 @@
   .card,
   .certificateButton {
     display: block;
+  }
+
+  .projectCard {
+    display: flex;
   }
 
   .imageMedia {

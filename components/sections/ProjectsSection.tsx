@@ -72,7 +72,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
           {projects.map((project, idx) => (
             <article
               key={project.name}
-              className={`${styles.card} ${styles.railItem} project-card--horizontal`}
+              className={`${styles.card} ${styles.projectCard} ${styles.railItem} project-card--horizontal`}
               role="listitem"
             >
               {project.imageSrc ? (
