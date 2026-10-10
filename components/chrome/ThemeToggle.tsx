@@ -53,6 +53,8 @@ export function ThemeToggle() {
   const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   const apply = (next: Theme) => {
+    if (next === getSnapshot()) return;
+
     document.documentElement.setAttribute("data-theme", next);
     try {
       localStorage.setItem(STORAGE_KEY, next);

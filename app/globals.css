@@ -517,6 +517,47 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   object-position: center;
 }
 
+.hero-eye-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.hero-eye-ring {
+  position: absolute;
+  width: 1.45%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle closest-side,
+    transparent 34%,
+    rgb(0 113 227 / 65%) 46%,
+    #2997ff 60%,
+    #0071e3 72%,
+    rgb(0 113 227 / 55%) 84%,
+    transparent 100%
+  );
+}
+
+/* Pupil centres in DP.jpeg; the small rings stay inside the dark irises. */
+.hero-eye-ring--left {
+  left: 43.62%;
+  top: 29.94%;
+}
+
+.hero-eye-ring--right {
+  left: 55.90%;
+  top: 29.35%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-eye-glow {
+    display: none;
+  }
+}
+
 .hero-caption {
   display: flex;
   flex-direction: column;
