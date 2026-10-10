@@ -3,6 +3,8 @@ export type SkillItem = {
   category: "Web Development" | "Database" | "Programming Languages" | "Other";
   logoSrc: string;
   logoAlt: string;
+  tint: string;
+  highlight?: string;
 };
 
 export type ProjectItem = {
@@ -49,32 +51,32 @@ export type ContactLink = {
 };
 
 export const skills: SkillItem[] = [
-  { name: "HTML", category: "Web Development", logoSrc: "/logos/html.webp", logoAlt: "HTML logo" },
-  { name: "CSS", category: "Web Development", logoSrc: "/logos/css.webp", logoAlt: "CSS logo" },
-  { name: "JavaScript", category: "Web Development", logoSrc: "/logos/js.webp", logoAlt: "JavaScript logo" },
-  { name: "TypeScript", category: "Web Development", logoSrc: "/logos/ts.webp", logoAlt: "TypeScript logo" },
-  { name: "React", category: "Web Development", logoSrc: "/logos/react.webp", logoAlt: "React logo" },
-  { name: "Next.js", category: "Web Development", logoSrc: "/logos/next.webp", logoAlt: "Next.js logo" },
-  { name: "Node.js", category: "Web Development", logoSrc: "/logos/node-js.webp", logoAlt: "Node.js logo" },
-  { name: "Express", category: "Web Development", logoSrc: "/logos/express.webp", logoAlt: "Express logo" },
-  { name: "Tailwind CSS", category: "Web Development", logoSrc: "/logos/tailwind.webp", logoAlt: "Tailwind CSS logo" },
-  { name: "Spring Boot", category: "Web Development", logoSrc: "/logos/springboot.webp", logoAlt: "Spring Boot logo" },
+  { name: "HTML", category: "Web Development", logoSrc: "/logos/html.webp", logoAlt: "HTML logo", tint: "#e44d26", highlight: "#f16529" },
+  { name: "CSS", category: "Web Development", logoSrc: "/logos/css.webp", logoAlt: "CSS logo", tint: "#1572b6", highlight: "#33a9dc" },
+  { name: "JavaScript", category: "Web Development", logoSrc: "/logos/js.webp", logoAlt: "JavaScript logo", tint: "#e5c522" },
+  { name: "TypeScript", category: "Web Development", logoSrc: "/logos/ts.webp", logoAlt: "TypeScript logo", tint: "#3178c6" },
+  { name: "React", category: "Web Development", logoSrc: "/logos/react.webp", logoAlt: "React logo", tint: "#36b9db", highlight: "#61dafb" },
+  { name: "Next.js", category: "Web Development", logoSrc: "/logos/next.webp", logoAlt: "Next.js logo", tint: "#64748b", highlight: "#94a3b8" },
+  { name: "Node.js", category: "Web Development", logoSrc: "/logos/node-js.webp", logoAlt: "Node.js logo", tint: "#539e43", highlight: "#83cd29" },
+  { name: "Express", category: "Web Development", logoSrc: "/logos/express.webp", logoAlt: "Express logo", tint: "#6b706b", highlight: "#a2aaa2" },
+  { name: "Tailwind CSS", category: "Web Development", logoSrc: "/logos/tailwind.webp", logoAlt: "Tailwind CSS logo", tint: "#06b6d4", highlight: "#38bdf8" },
+  { name: "Spring Boot", category: "Web Development", logoSrc: "/logos/springboot.webp", logoAlt: "Spring Boot logo", tint: "#6db33f" },
 
 
-  { name: "MySQL", category: "Database", logoSrc: "/logos/mysql.webp", logoAlt: "MySQL logo" },
-  { name: "PostgreSQL", category: "Database", logoSrc: "/logos/postger.webp", logoAlt: "PostgreSQL logo" },
-  { name: "MongoDB", category: "Database", logoSrc: "/logos/mongodb.webp", logoAlt: "MongoDB logo" },
+  { name: "MySQL", category: "Database", logoSrc: "/logos/mysql.webp", logoAlt: "MySQL logo", tint: "#006078", highlight: "#3a91a0" },
+  { name: "PostgreSQL", category: "Database", logoSrc: "/logos/postger.webp", logoAlt: "PostgreSQL logo", tint: "#336791", highlight: "#6c9bbc" },
+  { name: "MongoDB", category: "Database", logoSrc: "/logos/mongodb.webp", logoAlt: "MongoDB logo", tint: "#479c45", highlight: "#82bd69" },
 
-  { name: "Python", category: "Programming Languages", logoSrc: "/logos/python.webp", logoAlt: "Python logo" },
-  { name: "Java", category: "Programming Languages", logoSrc: "/logos/java.webp", logoAlt: "Java logo" },
-  { name: "C", category: "Programming Languages", logoSrc: "/logos/c.webp", logoAlt: "C language logo" },
-  { name: "C++", category: "Programming Languages", logoSrc: "/logos/c++.png", logoAlt: "C++ language logo" },
+  { name: "Python", category: "Programming Languages", logoSrc: "/logos/python.webp", logoAlt: "Python logo", tint: "#3776ab", highlight: "#ffd343" },
+  { name: "Java", category: "Programming Languages", logoSrc: "/logos/java.webp", logoAlt: "Java logo", tint: "#d73532", highlight: "#5382a1" },
+  { name: "C", category: "Programming Languages", logoSrc: "/logos/c.webp", logoAlt: "C language logo", tint: "#3779af", highlight: "#659ad2" },
+  { name: "C++", category: "Programming Languages", logoSrc: "/logos/c++.png", logoAlt: "C++ language logo", tint: "#00599c", highlight: "#659ad2" },
 
-  { name: "Git", category: "Other", logoSrc: "/logos/git.webp", logoAlt: "Git logo" },
-  { name: "Figma", category: "Other", logoSrc: "/logos/figma.webp", logoAlt: "Figma logo" },
-  { name: "Postman", category: "Other", logoSrc: "/logos/postman.webp", logoAlt: "Postman logo" },
-  { name: "Arduino", category: "Other", logoSrc: "/logos/arduino.webp", logoAlt: "Arduino logo" },
-  { name: "Photoshop", category: "Other", logoSrc: "/logos/photoshop.png", logoAlt: "Photoshop logo" },
+  { name: "Git", category: "Other", logoSrc: "/logos/git.webp", logoAlt: "Git logo", tint: "#f05032" },
+  { name: "Figma", category: "Other", logoSrc: "/logos/figma.webp", logoAlt: "Figma logo", tint: "#a259ff", highlight: "#1abc9c" },
+  { name: "Postman", category: "Other", logoSrc: "/logos/postman.webp", logoAlt: "Postman logo", tint: "#ff6c37" },
+  { name: "Arduino", category: "Other", logoSrc: "/logos/arduino.webp", logoAlt: "Arduino logo", tint: "#00979d", highlight: "#45b8bc" },
+  { name: "Photoshop", category: "Other", logoSrc: "/logos/photoshop.png", logoAlt: "Photoshop logo", tint: "#008fd7", highlight: "#31a8ff" },
 ];
 
 export const projects: ProjectItem[] = [

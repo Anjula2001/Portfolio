@@ -1158,6 +1158,14 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .skill-icon-inner {
+  --skill-wash: light-dark(
+    color-mix(in srgb, var(--skill-tint) 14%, var(--surface)),
+    color-mix(in srgb, var(--skill-tint) 18%, var(--surface))
+  );
+  --skill-glow: light-dark(
+    color-mix(in srgb, var(--skill-highlight) 5%, #ffffff),
+    color-mix(in srgb, var(--skill-highlight) 28%, var(--surface))
+  );
   position: relative;
   z-index: 2;
   display: flex;
@@ -1167,7 +1175,9 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   height: 72px;
   border: 1px solid var(--line);
   border-radius: 16px;
-  background: var(--surface);
+  background:
+    radial-gradient(ellipse at 50% 78%, var(--skill-glow), transparent 75%),
+    var(--skill-wash);
   box-shadow: none;
   transition:
     transform 240ms var(--ease-apple),
