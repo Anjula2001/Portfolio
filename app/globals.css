@@ -103,32 +103,37 @@ body {
 }
 
 html {
+  background: var(--background);
   scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
+  scrollbar-color: transparent var(--background);
 }
 
 html.is-scrolling {
-  scrollbar-color: color-mix(in srgb, var(--foreground) 35%, transparent) transparent;
+  scrollbar-color: color-mix(in srgb, var(--foreground) 35%, transparent) var(--background);
 }
 
 html::-webkit-scrollbar {
   width: 10px;
   height: 10px;
+  background: var(--background);
 }
 
-html.is-scrolling::-webkit-scrollbar-track {
-  background: transparent;
+/* Paint the track in both states so a theme switch never exposes the
+   browser's native gray track. Only the thumb appears while scrolling. */
+html::-webkit-scrollbar-track,
+html::-webkit-scrollbar-corner {
+  background: var(--background);
 }
 
 html::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: var(--pill);
-  background: transparent;
+  background-color: transparent;
   background-clip: padding-box;
 }
 
 html.is-scrolling::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--foreground) 35%, transparent);
+  background-color: color-mix(in srgb, var(--foreground) 35%, transparent);
 }
 
 ::selection {
