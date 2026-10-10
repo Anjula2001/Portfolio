@@ -499,6 +499,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 .hero-portrait-frame {
   position: relative;
+  isolation: isolate;
   width: clamp(15rem, 23vw, 19rem);
   aspect-ratio: 1;
   border-radius: 30px;
@@ -521,6 +522,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  mix-blend-mode: screen;
   opacity: 0;
 }
 
@@ -530,13 +532,16 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   aspect-ratio: 1;
   border-radius: 50%;
   transform: translate(-50%, -50%);
+  filter: blur(0.35px);
+  /* Translucent light blends into the iris texture, with a dark pupil
+     and a gradual falloff instead of an opaque circular outline. */
   background: radial-gradient(
     circle closest-side,
-    transparent 34%,
-    rgb(0 113 227 / 65%) 46%,
-    #2997ff 60%,
-    #0071e3 72%,
-    rgb(0 113 227 / 55%) 84%,
+    transparent 12%,
+    rgb(41 151 255 / 18%) 28%,
+    rgb(65 156 255 / 68%) 48%,
+    rgb(0 113 227 / 40%) 68%,
+    rgb(0 113 227 / 12%) 85%,
     transparent 100%
   );
 }
