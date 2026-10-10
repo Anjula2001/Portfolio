@@ -61,13 +61,20 @@ export function EducationSection({ education, certificates }: EducationSectionPr
         && journey.contains(event.relatedTarget) && event.relatedTarget.matches(":focus-visible");
       schedule();
     };
-    const observer = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting && entry.intersectionRatio >= 0.35;
+    const visibleCards = new Set<Element>();
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) visibleCards.add(entry.target);
+        else visibleCards.delete(entry.target);
+      });
+      const anyCardVisible = visibleCards.size > 0;
+      if (visible === anyCardVisible) return;
+      visible = anyCardVisible;
       schedule();
-    }, { threshold: [0, 0.35] });
+    }, { threshold: 0 });
 
-    observer.observe(journey);
     cards.forEach((card) => {
+      observer.observe(card);
       card.addEventListener("pointerenter", onEnter);
       card.addEventListener("pointerleave", onLeave);
     });
