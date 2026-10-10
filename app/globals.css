@@ -560,6 +560,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 .hero-eye-ring--right {
   left: 55.90%;
   top: 29.35%;
+  opacity: 0.78;
 }
 
 @media (prefers-reduced-motion: reduce) {
