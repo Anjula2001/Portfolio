@@ -22,6 +22,7 @@ export type EducationItem = {
   degree: string;
   duration: string;
   description: string;
+  focus?: string;
   logoSrc?: string;
   logoAlt?: string;
   results?: { value: string; label: string };
@@ -138,6 +139,7 @@ export const education: EducationItem[] = [
     degree: "BSc (Hons) in Information Technology",
     duration: "2024 – Present",
     description: "Building a foundation in software engineering, algorithms, and full-stack development.",
+    focus: "Software engineering, algorithms & full-stack development.",
     logoSrc: "https://upload.wikimedia.org/wikipedia/en/6/60/University_of_Moratuwa_logo.png",
     logoAlt: "University of Moratuwa logo",
     results: { value: "3.6", label: "CGPA" },

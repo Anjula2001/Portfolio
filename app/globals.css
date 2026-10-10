@@ -840,7 +840,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .certificates-group {
-  margin-top: 2.5rem;
+  margin-top: 1.5rem;
   min-width: 0;
 }
 
@@ -851,7 +851,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .certificates-head {
-  margin-top: 1.75rem;
+  margin-top: 1rem;
 }
 
 .certificates-title {

@@ -15,6 +15,8 @@ type EducationSectionProps = {
 };
 
 export function EducationSection({ education, certificates }: EducationSectionProps) {
+  const journeyRef = useRef<HTMLDivElement | null>(null);
+  const [educationRotation, setEducationRotation] = useState({ step: 0, direction: "left" });
   const certificateRef = useRef<HTMLDivElement | null>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
   const openerRef = useRef<HTMLElement | null>(null);
@@ -22,6 +24,70 @@ export function EducationSection({ education, certificates }: EducationSectionPr
   const certRail = useRail(certificateRef, ".certificate-card", certificates.length);
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const journey = journeyRef.current;
+    if (!journey || activeIndex !== null || education.length < 2) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const cards = Array.from(journey.querySelectorAll<HTMLElement>("[data-position]"));
+    let timer: number | undefined;
+    let visible = false;
+    let hovered = window.matchMedia("(hover: hover)").matches && cards.some((card) => card.matches(":hover"));
+    let focused = cards.some((card) => card.querySelector(":focus-visible"));
+
+    const schedule = () => {
+      window.clearTimeout(timer);
+      if (!visible || hovered || focused || document.hidden || reducedMotion.matches) return;
+      timer = window.setTimeout(() => {
+        setEducationRotation(({ step }) => ({ step: step + 1, direction: "left" }));
+      }, 4800);
+    };
+    const onEnter = (event: PointerEvent) => {
+      if (event.pointerType === "touch") return;
+      hovered = true;
+      schedule();
+    };
+    const onLeave = () => {
+      hovered = false;
+      schedule();
+    };
+    const onFocus = () => {
+      focused = cards.some((card) => card.querySelector(":focus-visible"));
+      schedule();
+    };
+    const onBlur = (event: FocusEvent) => {
+      focused = event.relatedTarget instanceof HTMLElement
+        && journey.contains(event.relatedTarget) && event.relatedTarget.matches(":focus-visible");
+      schedule();
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting && entry.intersectionRatio >= 0.35;
+      schedule();
+    }, { threshold: [0, 0.35] });
+
+    observer.observe(journey);
+    cards.forEach((card) => {
+      card.addEventListener("pointerenter", onEnter);
+      card.addEventListener("pointerleave", onLeave);
+    });
+    journey.addEventListener("focusin", onFocus);
+    journey.addEventListener("focusout", onBlur);
+    document.addEventListener("visibilitychange", schedule);
+    reducedMotion.addEventListener("change", schedule);
+    return () => {
+      window.clearTimeout(timer);
+      observer.disconnect();
+      cards.forEach((card) => {
+        card.removeEventListener("pointerenter", onEnter);
+        card.removeEventListener("pointerleave", onLeave);
+      });
+      journey.removeEventListener("focusin", onFocus);
+      journey.removeEventListener("focusout", onBlur);
+      document.removeEventListener("visibilitychange", schedule);
+      reducedMotion.removeEventListener("change", schedule);
+    };
+  }, [education.length, activeIndex, educationRotation.step]);
 
   const close = useCallback(() => {
     setActiveIndex(null);
@@ -69,6 +135,22 @@ export function EducationSection({ education, certificates }: EducationSectionPr
   }, [activeIndex, close, step]);
 
   const active = activeIndex === null ? null : certificates[activeIndex];
+  const initialEducationIndex = Math.max(0, education.findIndex((item) => item.current));
+  const frontEducationIndex = education.length
+    ? (initialEducationIndex - (educationRotation.step % education.length) + education.length) % education.length
+    : 0;
+
+  const selectEducation = (index: number) => {
+    setEducationRotation((rotation) => {
+      const front = (initialEducationIndex - (rotation.step % education.length) + education.length) % education.length;
+      if (index === front) return rotation;
+      const fromLeft = index === (front + 1) % education.length;
+      return {
+        step: rotation.step + (fromLeft ? -1 : 1),
+        direction: fromLeft ? "right" : "left",
+      };
+    });
+  };
 
   return (
     <section
@@ -82,49 +164,66 @@ export function EducationSection({ education, certificates }: EducationSectionPr
         </p>
       </div>
 
-      <div className={`${styles.journey} mt-10 reveal-item`} role="list" aria-label="Education journey">
-        {education.map((item) => (
-          <article
-            key={`${item.institution}-${item.duration}`}
-            className={`${styles.card} ${item.current ? styles.current : ""}`}
-            role="listitem"
-          >
-            <div className={styles.visual}>
-              <div className={styles.heading}>
-                <p className={styles.eyebrow}>{item.level}</p>
-                <h3 className={styles.headline}>{item.headline}</h3>
-              </div>
-              {item.logoSrc ? (
-                <div className={styles.emblem} aria-hidden="true">
-                  <Image
-                    src={item.logoSrc}
-                    alt=""
-                    width={112}
-                    height={112}
-                    sizes="112px"
-                    className={styles.logo}
-                  />
+      <div ref={journeyRef} className={`${styles.journeyStage} mt-8 reveal-item`}>
+        <div className={styles.journey} data-rotation={educationRotation.direction} role="list" aria-label="Education journey">
+          {education.map((item, index) => {
+            const slot = index === frontEducationIndex ? "front"
+              : index === (frontEducationIndex + 1) % education.length ? "left" : "right";
+            const position = slot === "front" ? styles.journeyFront
+              : slot === "left" ? styles.journeyLeft : styles.journeyRight;
+            return (
+              <article
+                key={`${item.institution}-${item.duration}`}
+                className={`${styles.card} ${styles.journeyCard} ${item.current ? styles.current : ""} ${position}`}
+                data-position={slot}
+                role="listitem"
+              >
+                <button
+                  type="button"
+                  className={styles.journeySelect}
+                  aria-label={`Show ${item.institution} card in the center`}
+                  aria-pressed={slot === "front"}
+                  onClick={() => selectEducation(index)}
+                />
+                <div className={styles.visual}>
+                  <div className={styles.heading}>
+                    <p className={styles.eyebrow}>{item.level}</p>
+                    <h3 className={styles.headline}>{item.headline}</h3>
+                  </div>
+                  {item.logoSrc ? (
+                    <div className={styles.emblem} aria-hidden="true">
+                      <Image
+                        src={item.logoSrc}
+                        alt=""
+                        width={112}
+                        height={112}
+                        sizes="112px"
+                        className={styles.logo}
+                      />
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
-            </div>
 
-            <div className={styles.details}>
-              <p className={styles.institution}>{item.institution}</p>
-              <p className={styles.duration}>{item.duration}</p>
-              <div className={styles.footer}>
-                {item.results ? (
-                  <p className={styles.result}>
-                    <span className={styles.resultValue}>{item.results.value}</span>
-                    <span className={styles.resultLabel}>{item.results.label}</span>
-                  </p>
-                ) : null}
-                <span className={styles.status}>
-                  {item.current ? "In progress" : "Completed"}
-                </span>
-              </div>
-            </div>
-          </article>
-        ))}
+                <div className={styles.details}>
+                  <p className={styles.institution}>{item.institution}</p>
+                  <p className={styles.duration}>{item.duration}</p>
+                  {item.focus ? <p className={styles.studyFocus}>{item.focus}</p> : null}
+                  <div className={styles.footer}>
+                    {item.results ? (
+                      <p className={styles.result}>
+                        <span className={styles.resultValue}>{item.results.value}</span>
+                        <span className={styles.resultLabel}>{item.results.label}</span>
+                      </p>
+                    ) : null}
+                    <span className={styles.status}>
+                      {item.current ? "In progress" : "Completed"}
+                    </span>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
 
       <div className="certificates-group reveal-item">
