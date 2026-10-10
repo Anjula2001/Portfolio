@@ -4,6 +4,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type CSSProperties,
   type MouseEvent,
   type PointerEvent,
 } from "react";
@@ -191,7 +192,13 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
                   onPointerMove={(event) => showSkillLabel(skill.name, event)}
                   onPointerLeave={() => setHoveredSkill(null)}
                 >
-                  <span className="skill-icon-inner">
+                  <span
+                    className="skill-icon-inner"
+                    style={{
+                      "--skill-tint": skill.tint,
+                      "--skill-highlight": skill.highlight ?? skill.tint,
+                    } as CSSProperties}
+                  >
                     <Image
                       src={skill.logoSrc}
                       alt=""

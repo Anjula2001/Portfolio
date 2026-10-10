@@ -1,7 +1,15 @@
+.journeyStage {
+  position: relative;
+}
+
 .journey {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  isolation: isolate;
+  padding: 2rem 0 2.5rem;
+  --fan-offset: clamp(8rem, 20vw, 15rem);
+  --fan-angle: 13deg;
 }
 
 .card {
@@ -253,11 +261,6 @@
 }
 
 @media (max-width: 959px) {
-  .journey {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
-
   .railItem {
     flex-basis: var(--rail-width);
   }
@@ -293,6 +296,135 @@
   }
 }
 
+/* Stable grid cells keep the section still while the cards rotate. */
+.journey .journeyCard {
+  grid-area: 1 / 1;
+  position: relative;
+  display: flex;
+  width: clamp(15rem, 28vw, 20rem);
+  transform: var(--fan-transform, translate(0, 0) rotate(0deg) scale(1));
+  translate: 0 0;
+  transform-origin: center;
+  z-index: 1;
+  box-shadow: 0 12px 30px var(--shadow-cast), 0 0 0 1px var(--line);
+  transition: transform 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+    translate 350ms var(--ease-apple),
+    box-shadow 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .journey .journeyCard:hover {
+    translate: 0 -4px;
+  }
+}
+
+.journey .journeyFront {
+  z-index: 3;
+  box-shadow: 0 22px 48px var(--shadow-cast), 0 0 0 1px var(--line-strong);
+}
+
+.journeyLeft {
+  --fan-transform: translate(calc(-1 * var(--fan-offset)), 1rem) rotate(calc(-1 * var(--fan-angle))) scale(0.88);
+}
+
+.journeyRight {
+  --fan-transform: translate(var(--fan-offset), 1rem) rotate(var(--fan-angle)) scale(0.88);
+}
+
+.journey .journeyLeft {
+  z-index: 2;
+}
+
+/* The wrapping card travels behind the card leaving the center. */
+.journey[data-rotation="right"] .journeyLeft {
+  z-index: 1;
+}
+
+.journey[data-rotation="right"] .journeyRight {
+  z-index: 2;
+}
+
+.journeySelect {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 0;
+  border-radius: inherit;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.journeySelect[aria-pressed="true"] {
+  cursor: default;
+}
+
+.journeySelect:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -4px;
+}
+
+@media (min-width: 760px) {
+  .journeyCard .visual {
+    flex-direction: column;
+    min-height: 0;
+    padding: 1rem 1.5rem 0.5rem;
+  }
+
+  .journeyCard .headline {
+    font-size: 1.5rem;
+  }
+
+  .journeyCard .emblem {
+    height: 6.75rem;
+    margin-top: 0.25rem;
+  }
+
+  .journeyCard .logo {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
+}
+
+.journeyCard .details {
+  min-height: 0;
+  padding: 1rem 1.5rem;
+  justify-content: flex-start;
+}
+
+.studyFocus {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+.journeyCard .footer {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+@media (max-width: 759px) {
+  .journey {
+    --fan-offset: 8vw;
+    --fan-angle: 7deg;
+  }
+
+  .journey .journeyCard {
+    width: calc(100% - 3rem);
+    max-width: 20rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey .journeyCard {
+    transition: none;
+    animation: none;
+  }
+
+}
+
 @media (max-width: 540px) {
   .card,
   .certificateButton {
@@ -313,6 +445,11 @@
     gap: 1rem;
     padding: 1.5rem;
     min-height: 12rem;
+  }
+
+  .journeyCard .visual {
+    min-height: 10rem;
+    padding-block: 1rem;
   }
 
   .heading {
