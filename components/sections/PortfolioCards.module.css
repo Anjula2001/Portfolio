@@ -222,6 +222,7 @@
   font-size: 0.9375rem;
   line-height: 1.45;
   color: var(--text-muted);
+  text-align: justify;
 }
 
 .stack {
@@ -230,7 +231,9 @@
   color: var(--text-muted);
 }
 
-.projectFooter {
+.imageDetails .projectFooter {
+  margin-top: auto;
+  padding-top: 1rem;
   align-items: flex-end;
 }
 
@@ -294,6 +297,10 @@
   .card,
   .certificateButton {
     display: block;
+  }
+
+  .projectCard {
+    display: flex;
   }
 
   .imageMedia {

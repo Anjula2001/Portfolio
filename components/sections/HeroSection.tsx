@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
@@ -7,6 +10,36 @@ type HeroSectionProps = {
 };
 
 export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProps) {
+  const eyesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let glow: Animation | undefined;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const flashEyes = () => {
+      glow?.cancel();
+      if (reducedMotion.matches || !eyesRef.current) return;
+
+      // A single quick ignition, brief hold, then fade; never runs on mount.
+      glow = eyesRef.current.animate(
+        [
+          { opacity: 0, offset: 0 },
+          { opacity: 1, offset: 0.08 },
+          { opacity: 0.95, offset: 0.35 },
+          { opacity: 0.55, offset: 0.65 },
+          { opacity: 0, offset: 1 },
+        ],
+        { duration: 950, easing: "ease-out" },
+      );
+    };
+
+    window.addEventListener("themechange", flashEyes);
+    return () => {
+      window.removeEventListener("themechange", flashEyes);
+      glow?.cancel();
+    };
+  }, []);
+
   return (
     <section
       id="about"
@@ -44,6 +77,10 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
                 sizes="(max-width: 640px) 15rem, 19rem"
                 priority
               />
+              <div ref={eyesRef} className="hero-eye-glow" aria-hidden="true">
+                <span className="hero-eye-ring hero-eye-ring--left" />
+                <span className="hero-eye-ring hero-eye-ring--right" />
+              </div>
             </div>
             <figcaption className="hero-caption">
               <span className="hero-caption-role">IT Undergraduate</span>

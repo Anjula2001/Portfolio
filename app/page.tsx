@@ -36,15 +36,14 @@ export default function Home() {
 
   useEffect(() => {
     let hideScrollbarTimer: number | undefined;
+    let lastScrollY = window.scrollY;
 
     const handleScrollState = () => {
       setNavScrolled(window.scrollY > 8);
+      if (window.scrollY === lastScrollY) return;
+      lastScrollY = window.scrollY;
       document.documentElement.classList.add("is-scrolling");
-
-      if (hideScrollbarTimer !== undefined) {
-        window.clearTimeout(hideScrollbarTimer);
-      }
-
+      window.clearTimeout(hideScrollbarTimer);
       hideScrollbarTimer = window.setTimeout(() => {
         document.documentElement.classList.remove("is-scrolling");
       }, 700);
@@ -55,9 +54,7 @@ export default function Home() {
 
     return () => {
       window.removeEventListener("scroll", handleScrollState);
-      if (hideScrollbarTimer !== undefined) {
-        window.clearTimeout(hideScrollbarTimer);
-      }
+      window.clearTimeout(hideScrollbarTimer);
       document.documentElement.classList.remove("is-scrolling");
     };
   }, []);

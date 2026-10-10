@@ -103,32 +103,37 @@ body {
 }
 
 html {
+  background: var(--background);
   scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
+  scrollbar-color: transparent var(--background);
 }
 
 html.is-scrolling {
-  scrollbar-color: color-mix(in srgb, var(--foreground) 35%, transparent) transparent;
+  scrollbar-color: color-mix(in srgb, var(--foreground) 35%, transparent) var(--background);
 }
 
 html::-webkit-scrollbar {
   width: 10px;
   height: 10px;
+  background: var(--background);
 }
 
-html.is-scrolling::-webkit-scrollbar-track {
-  background: transparent;
+/* Paint the track in both states so a theme switch never exposes the
+   browser's native gray track. Only the thumb appears while scrolling. */
+html::-webkit-scrollbar-track,
+html::-webkit-scrollbar-corner {
+  background: var(--background);
 }
 
 html::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: var(--pill);
-  background: transparent;
+  background-color: transparent;
   background-clip: padding-box;
 }
 
 html.is-scrolling::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--foreground) 35%, transparent);
+  background-color: color-mix(in srgb, var(--foreground) 35%, transparent);
 }
 
 ::selection {
@@ -499,6 +504,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 .hero-portrait-frame {
   position: relative;
+  isolation: isolate;
   width: clamp(15rem, 23vw, 19rem);
   aspect-ratio: 1;
   border-radius: 30px;
@@ -515,6 +521,52 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+.hero-eye-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+
+.hero-eye-ring {
+  position: absolute;
+  width: 1.45%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(0.35px);
+  /* Translucent light blends into the iris texture, with a dark pupil
+     and a gradual falloff instead of an opaque circular outline. */
+  background: radial-gradient(
+    circle closest-side,
+    transparent 12%,
+    rgb(41 151 255 / 18%) 28%,
+    rgb(65 156 255 / 68%) 48%,
+    rgb(0 113 227 / 40%) 68%,
+    rgb(0 113 227 / 12%) 85%,
+    transparent 100%
+  );
+}
+
+/* Pupil centres in DP.jpeg; the small rings stay inside the dark irises. */
+.hero-eye-ring--left {
+  left: 43.62%;
+  top: 29.94%;
+}
+
+.hero-eye-ring--right {
+  left: 55.90%;
+  top: 29.35%;
+  opacity: 0.78;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-eye-glow {
+    display: none;
+  }
 }
 
 .hero-caption {
