@@ -70,7 +70,7 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
           <figure className="hero-portrait">
             <div className="hero-portrait-frame">
               <Image
-                src="/DP.jpeg"
+                src="/DP-transparent.png"
                 alt="Anjula Amarakoon"
                 width={420}
                 height={420}

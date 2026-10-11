@@ -487,8 +487,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   display: inline-flex;
 }
 
-/* Profile portrait: one squircle with a hairline edge so it reads as an
-   object on the page, plus a caption with real hierarchy. */
+/* A translucent glass surface behind the portrait cutout. */
 .hero-portrait-wrap {
   display: flex;
   justify-content: center;
@@ -509,11 +508,16 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   aspect-ratio: 1;
   border-radius: 30px;
   overflow: hidden;
-  background: var(--surface);
+  background: linear-gradient(
+    145deg,
+    light-dark(rgb(255 255 255 / 24%), rgb(255 255 255 / 7%)),
+    light-dark(rgb(255 255 255 / 5%), rgb(255 255 255 / 1%))
+  );
+  -webkit-backdrop-filter: blur(16px) saturate(115%);
+  backdrop-filter: blur(16px) saturate(115%);
   box-shadow:
-    inset 0 0 0 1px var(--line-strong),
-    0 2px 6px var(--shadow-soft),
-    0 26px 50px -26px var(--shadow-cast);
+    inset 0 0 0 1px light-dark(rgb(255 255 255 / 60%), rgb(255 255 255 / 12%)),
+    0 14px 36px -24px var(--shadow-cast);
 }
 
 .hero-portrait-frame img {
@@ -551,7 +555,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   );
 }
 
-/* Pupil centres in DP.jpeg; the small rings stay inside the dark irises. */
+/* Pupil centres in the portrait; the small rings stay inside the dark irises. */
 .hero-eye-ring--left {
   left: 43.62%;
   top: 29.94%;
