@@ -447,39 +447,66 @@ html.is-scrolling::-webkit-scrollbar-thumb {
    Hero
    ========================================================================== */
 
+.hero-section {
+  padding-top: clamp(3rem, 5vw, 4rem);
+  padding-bottom: clamp(4rem, 7vw, 6rem);
+}
+
 .hero-grid {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: clamp(2.2rem, 4vw, 4.6rem);
+  gap: clamp(2rem, 3vw, 2.75rem);
   align-items: center;
+  justify-items: center;
+  text-align: center;
 }
 
-@media (min-width: 960px) {
-  .hero-grid {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  }
+.hero-intro {
+  width: 100%;
+}
+
+.hero-eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+  font-weight: 500;
+  color: var(--text-muted);
 }
 
 .hero-title {
-  font-size: clamp(2.7rem, 7vw, 5.3rem);
-  line-height: 1;
-  letter-spacing: -0.035em;
+  display: flex;
+  justify-content: center;
+  gap: 0.22em;
+  font-size: clamp(2.5rem, 7.4vw, 6.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.055em;
   font-weight: 600;
   color: var(--foreground);
 }
 
+.hero-title span {
+  display: inline-block;
+}
+
 .hero-description {
+  margin-top: 1.25rem;
   color: var(--text-muted);
-  font-size: clamp(1rem, 1.4vw, 1.12rem);
+  font-size: clamp(1.0625rem, 1.8vw, 1.375rem);
   line-height: 1.6;
   letter-spacing: -0.012em;
 }
 
 .hero-actions {
+  margin-top: 1.75rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 0.8rem;
 }
 
@@ -487,36 +514,47 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   display: inline-flex;
 }
 
-/* Profile portrait: one squircle with a hairline edge so it reads as an
-   object on the page, plus a caption with real hierarchy. */
+/* A soft ambient wash grounds the portrait without a separate card. */
 .hero-portrait-wrap {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .hero-portrait {
+  position: relative;
+  isolation: isolate;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  width: 100%;
+  align-items: flex-end;
+  justify-content: center;
+  width: min(100%, 28rem);
+}
+
+.hero-portrait::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 8% -4% 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 48%,
+    light-dark(rgb(123 155 188 / 12%), rgb(123 155 188 / 10%)),
+    transparent 68%
+  );
 }
 
 .hero-portrait-frame {
   position: relative;
   isolation: isolate;
-  width: clamp(15rem, 23vw, 19rem);
+  width: 22rem;
+  max-width: 100%;
   aspect-ratio: 1;
-  border-radius: 30px;
-  overflow: hidden;
-  background: var(--surface);
-  box-shadow:
-    inset 0 0 0 1px var(--line-strong),
-    0 2px 6px var(--shadow-soft),
-    0 26px 50px -26px var(--shadow-cast);
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, rgb(0 0 0 / 90%) 80%, rgb(0 0 0 / 35%) 93%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 70%, rgb(0 0 0 / 90%) 80%, rgb(0 0 0 / 35%) 93%, transparent 100%);
 }
 
 .hero-portrait-frame img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -551,7 +589,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   );
 }
 
-/* Pupil centres in DP.jpeg; the small rings stay inside the dark irises. */
+/* Pupil centres in the portrait; the small rings stay inside the dark irises. */
 .hero-eye-ring--left {
   left: 43.62%;
   top: 29.94%;
@@ -569,35 +607,52 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   }
 }
 
-.hero-caption {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
-  text-align: center;
+@keyframes hero-arrive {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.hero-caption-role {
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: -0.012em;
-  color: var(--foreground);
-}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-intro {
+    animation: hero-arrive 650ms var(--ease-apple) both;
+  }
 
-.hero-caption-org {
-  font-size: 0.83rem;
-  line-height: 1.5;
-  color: var(--text-muted);
+  .hero-portrait-wrap {
+    animation: hero-arrive 800ms var(--ease-apple) 100ms both;
+  }
 }
 
 @media (max-width: 640px) {
+  .hero-title span {
+    display: block;
+  }
+
+  .hero-title {
+    flex-direction: column;
+    gap: 0;
+    font-size: clamp(2.5rem, 10.5vw, 4.2rem);
+  }
+
+  .hero-eyebrow {
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .hero-eyebrow-dot {
+    display: none;
+  }
+
   .hero-portrait-frame {
-    width: min(100%, 15rem);
-    border-radius: 26px;
+    width: min(78vw, 20rem);
   }
 
   .hero-actions {
     gap: 0.65rem;
+  }
+
+  .hero-actions a {
+    padding-inline: 1.25rem;
+    font-size: 0.875rem;
   }
 }
 

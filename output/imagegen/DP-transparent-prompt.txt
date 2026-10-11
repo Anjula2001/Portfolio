@@ -1,0 +1,9 @@
+Tool: built-in image_gen (transparent_background: true)
+Source: public/DP.jpeg
+Output: public/DP-transparent.png
+
+Use case: background-extraction
+Asset type: transparent PNG portrait cutout for an existing portfolio.
+Input image: edit target, original portrait.
+Primary request: Remove only the gray studio background, leaving the exact same person on true alpha transparency.
+Constraints: Preserve facial identity, expression, natural eyes, skin texture, hair, beard, navy suit, white shirt, colors and lighting exactly. Preserve the square framing, subject position and scale, all visible shoulders and torso, and existing bottom crop. Carefully retain natural fine hair edges and clean clothing edges without gray halos. Do not redraw, beautify, recolor, add eye effects, add shadows, add objects, or replace the background with a solid color/checkerboard. Background must be genuinely transparent.

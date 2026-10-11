@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 
 type HeroSectionProps = {
   onProjectsClick: (event: React.MouseEvent<HTMLAnchorElement>) => void;
@@ -43,50 +43,50 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
   return (
     <section
       id="about"
-      className="relative mx-auto max-w-6xl px-6 pb-24 pt-24 sm:px-10 sm:pb-28 sm:pt-32"
+      className="hero-section relative mx-auto max-w-6xl px-6 sm:px-10"
     >
       <div className="hero-grid">
-        <div>
-          <h1 className="hero-title text-balance">Anjula Amarakoon</h1>
+        <div className="hero-intro">
+          <p className="hero-eyebrow">
+            <span>IT Undergraduate</span>
+            <span className="hero-eyebrow-dot" aria-hidden="true">·</span>
+            <span>University of Moratuwa</span>
+          </p>
+          <h1 className="hero-title">
+            <span>Anjula</span>{" "}<span>Amarakoon</span>
+          </h1>
 
-          <p className="hero-description mt-7 max-w-xl text-pretty">
-            I design and build thoughtful digital products with a focus on clean
-            architecture, smooth user experience, and reliable full-stack performance.
+          <p className="hero-description">
+            Thoughtful design. Reliable code.
           </p>
 
-          <div className="hero-actions mt-10">
-            <a href="#projects" onClick={onProjectsClick}>
-              <Button size="lg">View Work</Button>
+          <div className="hero-actions">
+            <a className={buttonVariants({ size: "lg" })} href="#projects" onClick={onProjectsClick}>
+              View Work
             </a>
-            <a href="#contact" onClick={onContactClick}>
-              <Button size="lg" variant="outline">
-                Get In Touch
-              </Button>
+            <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#contact" onClick={onContactClick}>
+              Get In Touch
             </a>
           </div>
         </div>
 
         <div className="hero-portrait-wrap">
-          <figure className="hero-portrait">
+          <div className="hero-portrait">
             <div className="hero-portrait-frame">
               <Image
-                src="/DP.jpeg"
+                src="/DP-transparent.png"
                 alt="Anjula Amarakoon"
                 width={420}
                 height={420}
-                sizes="(max-width: 640px) 15rem, 19rem"
-                priority
+                sizes="(max-width: 640px) min(78vw, 20rem), 22rem"
+                preload
               />
               <div ref={eyesRef} className="hero-eye-glow" aria-hidden="true">
                 <span className="hero-eye-ring hero-eye-ring--left" />
                 <span className="hero-eye-ring hero-eye-ring--right" />
               </div>
             </div>
-            <figcaption className="hero-caption">
-              <span className="hero-caption-role">IT Undergraduate</span>
-              <span className="hero-caption-org">University of Moratuwa</span>
-            </figcaption>
-          </figure>
+          </div>
         </div>
       </div>
     </section>
