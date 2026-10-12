@@ -85,11 +85,6 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
     >
       <div className="hero-grid">
         <header className="hero-intro">
-          <p className="hero-eyebrow">
-            <span>IT Undergraduate</span>
-            <span className="hero-eyebrow-dot" aria-hidden="true">·</span>
-            <span>University of Moratuwa</span>
-          </p>
           <h1 className="hero-title">
             <span>Anjula</span>{" "}<span>Amarakoon</span>
           </h1>
@@ -116,7 +111,7 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
           </div>
 
           <div className="hero-portrait-wrap">
-            <div className="hero-portrait">
+            <figure className="hero-portrait">
               <div className="hero-portrait-frame">
                 <Image
                   src="/DP-transparent.png"
@@ -131,7 +126,12 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
                   <span className="hero-eye-ring hero-eye-ring--right" />
                 </div>
               </div>
-            </div>
+              <figcaption className="hero-caption">
+                <span className="hero-caption-role">IT Undergraduate</span>
+                <span aria-hidden="true">·</span>
+                <span>University of Moratuwa</span>
+              </figcaption>
+            </figure>
           </div>
         </div>
       </div>

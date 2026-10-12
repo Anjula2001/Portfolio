@@ -448,8 +448,8 @@ html.is-scrolling::-webkit-scrollbar-thumb {
    ========================================================================== */
 
 .hero-section {
-  padding-top: clamp(3rem, 5vw, 4rem);
-  padding-bottom: clamp(3rem, 5vw, 4.5rem);
+  padding-top: clamp(2rem, 3vw, 2.5rem);
+  padding-bottom: clamp(3rem, 4vw, 3.5rem);
 }
 
 .hero-grid {
@@ -490,16 +490,24 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   color: var(--foreground);
 }
 
-.hero-eyebrow {
+.hero-caption {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1.25rem;
-  font-size: clamp(0.75rem, 1.2vw, 0.875rem);
-  font-weight: 500;
+  gap: 0.45rem;
+  margin-top: 1.25rem;
+  font-size: clamp(0.7rem, 2.6vw, 0.875rem);
+  line-height: 1.5;
+  letter-spacing: 0.025em;
+  text-align: center;
+  white-space: nowrap;
   color: var(--text-muted);
+}
+
+.hero-caption-role {
+  font-weight: 500;
+  color: var(--foreground);
 }
 
 .hero-title {
@@ -551,7 +559,8 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   position: relative;
   isolation: isolate;
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   width: min(100%, 28rem);
 }
@@ -560,7 +569,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   content: "";
   position: absolute;
   z-index: -1;
-  inset: 8% -4% 0;
+  inset: 8% -4% 3.75rem;
   pointer-events: none;
   background: radial-gradient(
     ellipse at 50% 48%,
@@ -652,7 +661,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 @media (min-width: 1000px) {
   .hero-content {
     display: block;
-    height: 25rem;
+    height: 23rem;
   }
 
   .hero-content > .hero-copy,
@@ -712,15 +721,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     flex-direction: column;
     gap: 0;
     font-size: clamp(2.65rem, 11vw, 4.5rem);
-  }
-
-  .hero-eyebrow {
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-
-  .hero-eyebrow-dot {
-    display: none;
   }
 
   .hero-portrait-frame {
