@@ -449,14 +449,14 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 .hero-section {
   padding-top: clamp(3rem, 5vw, 4rem);
-  padding-bottom: clamp(4rem, 7vw, 6rem);
+  padding-bottom: clamp(3rem, 5vw, 4.5rem);
 }
 
 .hero-grid {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: clamp(2rem, 3vw, 2.75rem);
+  gap: clamp(1.5rem, 2.5vw, 2rem);
   align-items: center;
   justify-items: center;
   text-align: center;
@@ -464,6 +464,30 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 .hero-intro {
   width: 100%;
+}
+
+.hero-content {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  justify-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  text-align: center;
+}
+
+.hero-copy {
+  width: min(100%, 22rem);
+  justify-self: center;
+}
+
+.hero-statement {
+  font-size: clamp(1.65rem, 2.5vw, 2rem);
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  color: var(--foreground);
 }
 
 .hero-eyebrow {
@@ -482,7 +506,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   display: flex;
   justify-content: center;
   gap: 0.22em;
-  font-size: clamp(2.5rem, 7.4vw, 6.25rem);
+  font-size: clamp(3rem, 8.4vw, 7.25rem);
   line-height: 1.04;
   letter-spacing: -0.055em;
   font-weight: 600;
@@ -494,15 +518,17 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .hero-description {
-  margin-top: 1.25rem;
+  margin-top: 1rem;
+  margin-inline: auto;
+  max-width: 22rem;
   color: var(--text-muted);
-  font-size: clamp(1.0625rem, 1.8vw, 1.375rem);
+  font-size: clamp(1rem, 1.3vw, 1.0625rem);
   line-height: 1.6;
   letter-spacing: -0.012em;
 }
 
 .hero-actions {
-  margin-top: 1.75rem;
+  margin-top: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -546,7 +572,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 .hero-portrait-frame {
   position: relative;
   isolation: isolate;
-  width: 22rem;
+  width: 20rem;
   max-width: 100%;
   aspect-ratio: 1;
   -webkit-mask-image: linear-gradient(to bottom, #000 70%, rgb(0 0 0 / 90%) 80%, rgb(0 0 0 / 35%) 93%, transparent 100%);
@@ -617,12 +643,67 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     animation: hero-arrive 650ms var(--ease-apple) both;
   }
 
-  .hero-portrait-wrap {
+  .hero-content {
     animation: hero-arrive 800ms var(--ease-apple) 100ms both;
   }
 }
 
-@media (max-width: 640px) {
+/* The expanded composition is permanent. A mount-only animation opens it. */
+@media (min-width: 1000px) {
+  .hero-content {
+    display: block;
+    height: 25rem;
+  }
+
+  .hero-content > .hero-copy,
+  .hero-content > .hero-actions,
+  .hero-content > .hero-portrait-wrap {
+    position: absolute;
+    left: 50%;
+  }
+
+  .hero-content > .hero-copy {
+    top: 8.5rem;
+    width: 18rem;
+    text-align: center;
+    transform: translate(calc(-50% - min(32vw, 22rem)), -3rem);
+    z-index: 2;
+  }
+
+  .hero-content > .hero-actions {
+    top: 20.75rem;
+    width: 19rem;
+    flex-direction: row;
+    transform: translate(calc(-50% + min(32vw, 22rem)), -12rem);
+    z-index: 2;
+  }
+
+  .hero-content > .hero-actions a {
+    min-width: 0;
+  }
+
+  .hero-content > .hero-portrait-wrap {
+    top: 0;
+    width: 20rem;
+    transform-origin: top center;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+
+}
+
+@media (max-width: 700px) {
+  .hero-content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .hero-description {
+    margin-inline: auto;
+    max-width: 22rem;
+  }
+
   .hero-title span {
     display: block;
   }
@@ -630,7 +711,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   .hero-title {
     flex-direction: column;
     gap: 0;
-    font-size: clamp(2.5rem, 10.5vw, 4.2rem);
+    font-size: clamp(2.65rem, 11vw, 4.5rem);
   }
 
   .hero-eyebrow {
@@ -643,10 +724,11 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   }
 
   .hero-portrait-frame {
-    width: min(78vw, 20rem);
+    width: min(72vw, 18rem);
   }
 
   .hero-actions {
+    justify-content: center;
     gap: 0.65rem;
   }
 

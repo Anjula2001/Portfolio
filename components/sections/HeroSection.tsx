@@ -11,6 +11,44 @@ type HeroSectionProps = {
 
 export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProps) {
   const eyesRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const content = contentRef.current;
+    const desktop = window.matchMedia("(min-width: 1000px)");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!content || !desktop.matches || reducedMotion.matches) return;
+
+    // Play once on mount. CSS owns the final layout, even if motion is cancelled.
+    const opening: [string, string][] = [
+      [".hero-copy", "translateX(-50%)"],
+      [".hero-actions", "translateX(-50%)"],
+      [".hero-portrait-wrap", "translateX(-50%) scale(0.36)"],
+    ];
+    const animations = opening.flatMap(([selector, transform]) => {
+      const element = content.querySelector<HTMLElement>(selector);
+      if (!element) return [];
+      return [element.animate(
+        [{ transform }, { transform: getComputedStyle(element).transform }],
+        {
+          duration: 650,
+          delay: 450,
+          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+          fill: "backwards",
+        },
+      )];
+    });
+    const finishOpening = () => animations.forEach((animation) => animation.cancel());
+    window.addEventListener("resize", finishOpening);
+    reducedMotion.addEventListener("change", finishOpening);
+    content.addEventListener("focusin", finishOpening);
+    return () => {
+      finishOpening();
+      window.removeEventListener("resize", finishOpening);
+      reducedMotion.removeEventListener("change", finishOpening);
+      content.removeEventListener("focusin", finishOpening);
+    };
+  }, []);
 
   useEffect(() => {
     let glow: Animation | undefined;
@@ -46,7 +84,7 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
       className="hero-section relative mx-auto max-w-6xl px-6 sm:px-10"
     >
       <div className="hero-grid">
-        <div className="hero-intro">
+        <header className="hero-intro">
           <p className="hero-eyebrow">
             <span>IT Undergraduate</span>
             <span className="hero-eyebrow-dot" aria-hidden="true">·</span>
@@ -55,10 +93,18 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
           <h1 className="hero-title">
             <span>Anjula</span>{" "}<span>Amarakoon</span>
           </h1>
+        </header>
 
-          <p className="hero-description">
-            Thoughtful design. Reliable code.
-          </p>
+        <div ref={contentRef} className="hero-content">
+          <div className="hero-copy">
+            <p className="hero-statement">
+              Thoughtful design.<br />Reliable code.
+            </p>
+            <p className="hero-description">
+              I build thoughtful full-stack experiences, from clean interfaces
+              to reliable code.
+            </p>
+          </div>
 
           <div className="hero-actions">
             <a className={buttonVariants({ size: "lg" })} href="#projects" onClick={onProjectsClick}>
@@ -68,22 +114,22 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
               Get In Touch
             </a>
           </div>
-        </div>
 
-        <div className="hero-portrait-wrap">
-          <div className="hero-portrait">
-            <div className="hero-portrait-frame">
-              <Image
-                src="/DP-transparent.png"
-                alt="Anjula Amarakoon"
-                width={420}
-                height={420}
-                sizes="(max-width: 640px) min(78vw, 20rem), 22rem"
-                preload
-              />
-              <div ref={eyesRef} className="hero-eye-glow" aria-hidden="true">
-                <span className="hero-eye-ring hero-eye-ring--left" />
-                <span className="hero-eye-ring hero-eye-ring--right" />
+          <div className="hero-portrait-wrap">
+            <div className="hero-portrait">
+              <div className="hero-portrait-frame">
+                <Image
+                  src="/DP-transparent.png"
+                  alt="Anjula Amarakoon"
+                  width={420}
+                  height={420}
+                  sizes="(max-width: 700px) min(72vw, 18rem), 20rem"
+                  preload
+                />
+                <div ref={eyesRef} className="hero-eye-glow" aria-hidden="true">
+                  <span className="hero-eye-ring hero-eye-ring--left" />
+                  <span className="hero-eye-ring hero-eye-ring--right" />
+                </div>
               </div>
             </div>
           </div>
