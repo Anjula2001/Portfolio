@@ -126,14 +126,15 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
                   <span className="hero-eye-ring hero-eye-ring--right" />
                 </div>
               </div>
-              <figcaption className="hero-caption">
-                <span className="hero-caption-role">IT Undergraduate</span>
-                <span aria-hidden="true">·</span>
-                <span>University of Moratuwa</span>
-              </figcaption>
             </figure>
           </div>
         </div>
+
+        <p className="hero-summary">
+          I’m an <span>IT undergraduate</span> at the{" "}
+          <span>University of Moratuwa</span>, turning what I learn into thoughtful
+          digital experiences.
+        </p>
       </div>
     </section>
   );
