@@ -490,22 +490,18 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   color: var(--foreground);
 }
 
-.hero-caption {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.45rem;
-  margin-top: 1.25rem;
-  font-size: clamp(0.7rem, 2.6vw, 0.875rem);
-  line-height: 1.5;
-  letter-spacing: 0.025em;
+.hero-summary {
+  max-width: 48rem;
+  margin-top: 0.5rem;
+  font-size: clamp(1rem, 1.7vw, 1.25rem);
+  line-height: 1.6;
+  letter-spacing: -0.015em;
   text-align: center;
-  white-space: nowrap;
+  text-wrap: balance;
   color: var(--text-muted);
 }
 
-.hero-caption-role {
+.hero-summary span {
   font-weight: 500;
   color: var(--foreground);
 }
@@ -569,7 +565,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   content: "";
   position: absolute;
   z-index: -1;
-  inset: 8% -4% 3.75rem;
+  inset: 8% -4% 0;
   pointer-events: none;
   background: radial-gradient(
     ellipse at 50% 48%,
