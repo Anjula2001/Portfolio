@@ -448,15 +448,16 @@ html.is-scrolling::-webkit-scrollbar-thumb {
    ========================================================================== */
 
 .hero-section {
+  --hero-gap: clamp(1.5rem, 2.5vw, 2rem);
   padding-top: clamp(2rem, 3vw, 2.5rem);
-  padding-bottom: clamp(3rem, 4vw, 3.5rem);
+  padding-bottom: calc(var(--hero-gap) + 0.5rem);
 }
 
 .hero-grid {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: clamp(1.5rem, 2.5vw, 2rem);
+  gap: var(--hero-gap);
   align-items: center;
   justify-items: center;
   text-align: center;
@@ -491,9 +492,9 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .hero-summary {
-  max-width: 48rem;
+  max-width: 100%;
   margin-top: 0.5rem;
-  font-size: clamp(1rem, 1.7vw, 1.25rem);
+  font-size: clamp(1rem, 1.4vw, 1.0625rem);
   line-height: 1.6;
   letter-spacing: -0.015em;
   text-align: center;
@@ -655,9 +656,13 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 /* The expanded composition is permanent. A mount-only animation opens it. */
 @media (min-width: 1000px) {
+  .hero-summary {
+    white-space: nowrap;
+  }
+
   .hero-content {
     display: block;
-    height: 23rem;
+    height: 20rem;
   }
 
   .hero-content > .hero-copy,
