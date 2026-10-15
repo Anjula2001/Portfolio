@@ -657,12 +657,14 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 /* The expanded composition is permanent. A mount-only animation opens it. */
 @media (min-width: 1000px) {
   .hero-summary {
+    margin-top: 2rem;
     white-space: nowrap;
   }
 
   .hero-content {
     display: block;
-    height: 20rem;
+    /* Leave room below the buttons while the opening animation is centred. */
+    height: 23rem;
   }
 
   .hero-content > .hero-copy,
