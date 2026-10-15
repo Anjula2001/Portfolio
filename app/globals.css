@@ -502,9 +502,13 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   color: var(--text-muted);
 }
 
-.hero-summary span {
+.hero-summary-emphasis {
   font-weight: 500;
   color: var(--foreground);
+}
+
+.hero-summary-char {
+  position: relative;
 }
 
 .hero-title {
@@ -647,6 +651,22 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 @media (prefers-reduced-motion: no-preference) {
   .hero-summary[data-reveal="pending"] {
     opacity: 0;
+  }
+
+  /* Keep the full sentence's layout while revealing whole characters. */
+  .hero-summary[data-reveal="typing"] .hero-summary-char:not([data-typed]) {
+    opacity: 0;
+  }
+
+  .hero-summary[data-reveal="typing"] .hero-summary-char[data-cursor]::after {
+    content: "";
+    position: absolute;
+    right: -0.12em;
+    top: 0.1em;
+    width: 1px;
+    height: 1em;
+    background: var(--text-muted);
+    opacity: 0.7;
   }
 
   .hero-intro {
