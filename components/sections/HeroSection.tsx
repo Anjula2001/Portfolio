@@ -9,9 +9,18 @@ type HeroSectionProps = {
   onContactClick: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 };
 
+const summaryParts = [
+  { text: "I’m an ", emphasis: false },
+  { text: "IT undergraduate", emphasis: true },
+  { text: " at the ", emphasis: false },
+  { text: "University of Moratuwa", emphasis: true },
+  { text: ", turning what I learn into thoughtful digital experiences.", emphasis: false },
+];
+
 export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProps) {
   const eyesRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const summaryRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const content = contentRef.current;
@@ -47,6 +56,74 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
       window.removeEventListener("resize", finishOpening);
       reducedMotion.removeEventListener("change", finishOpening);
       content.removeEventListener("focusin", finishOpening);
+    };
+  }, []);
+
+  useEffect(() => {
+    const content = contentRef.current;
+    const summary = summaryRef.current;
+    if (!content || !summary) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let active = true;
+    let typingTimer: number | undefined;
+    let index = 0;
+    const characters = Array.from(
+      summary.querySelectorAll<HTMLElement>(".hero-summary-char"),
+    );
+    summary.dataset.reveal = "pending";
+    characters.forEach((character) => {
+      delete character.dataset.typed;
+      delete character.dataset.cursor;
+    });
+
+    const finishTyping = () => {
+      window.clearTimeout(typingTimer);
+      summary.dataset.reveal = "visible";
+      characters.forEach((character) => delete character.dataset.cursor);
+    };
+
+    const typeCharacter = () => {
+      if (!active) return;
+      if (index > 0) delete characters[index - 1].dataset.cursor;
+      const character = characters[index++];
+      if (!character) {
+        finishTyping();
+        return;
+      }
+      character.dataset.typed = "true";
+      character.dataset.cursor = "true";
+      const letter = character.textContent ?? "";
+      const delay = /[,.]/.test(letter) ? 120 : letter === " " ? 18 : 28;
+      typingTimer = window.setTimeout(typeCharacter, delay);
+    };
+
+    const showSummary = () => {
+      if (!active || summary.dataset.reveal !== "pending") return;
+      if (reducedMotion.matches) {
+        finishTyping();
+        return;
+      }
+      summary.dataset.reveal = "typing";
+      typeCharacter();
+    };
+
+    // The opening effect above has started the portrait animation. Wait for
+    // it and the content fade to finish, including when either is cancelled.
+    const opening = content.getAnimations({ subtree: true });
+    if (reducedMotion.matches) showSummary();
+    else void Promise.allSettled(opening.map((animation) => animation.finished))
+      .then(showSummary);
+
+    const handleMotionChange = () => {
+      if (!reducedMotion.matches) return;
+      finishTyping();
+    };
+    reducedMotion.addEventListener("change", handleMotionChange);
+    return () => {
+      active = false;
+      window.clearTimeout(typingTimer);
+      reducedMotion.removeEventListener("change", handleMotionChange);
     };
   }, []);
 
@@ -130,10 +207,17 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
           </div>
         </div>
 
-        <p className="hero-summary">
-          I’m an <span>IT undergraduate</span> at the{" "}
-          <span>University of Moratuwa</span>, turning what I learn into thoughtful
-          digital experiences.
+        <p ref={summaryRef} className="hero-summary" data-reveal="pending">
+          <span className="sr-only">{summaryParts.map((part) => part.text).join("")}</span>
+          <span aria-hidden="true">
+            {summaryParts.map((part, partIndex) => (
+              <span key={partIndex} className={part.emphasis ? "hero-summary-emphasis" : undefined}>
+                {Array.from(part.text).map((character, characterIndex) => (
+                  <span key={characterIndex} className="hero-summary-char">{character}</span>
+                ))}
+              </span>
+            ))}
+          </span>
         </p>
       </div>
     </section>

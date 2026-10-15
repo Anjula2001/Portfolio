@@ -448,15 +448,16 @@ html.is-scrolling::-webkit-scrollbar-thumb {
    ========================================================================== */
 
 .hero-section {
+  --hero-gap: clamp(1.5rem, 2.5vw, 2rem);
   padding-top: clamp(2rem, 3vw, 2.5rem);
-  padding-bottom: clamp(3rem, 4vw, 3.5rem);
+  padding-bottom: calc(var(--hero-gap) + 0.5rem);
 }
 
 .hero-grid {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: clamp(1.5rem, 2.5vw, 2rem);
+  gap: var(--hero-gap);
   align-items: center;
   justify-items: center;
   text-align: center;
@@ -491,9 +492,9 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .hero-summary {
-  max-width: 48rem;
+  max-width: 100%;
   margin-top: 0.5rem;
-  font-size: clamp(1rem, 1.7vw, 1.25rem);
+  font-size: clamp(1rem, 1.4vw, 1.0625rem);
   line-height: 1.6;
   letter-spacing: -0.015em;
   text-align: center;
@@ -501,9 +502,13 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   color: var(--text-muted);
 }
 
-.hero-summary span {
+.hero-summary-emphasis {
   font-weight: 500;
   color: var(--foreground);
+}
+
+.hero-summary-char {
+  position: relative;
 }
 
 .hero-title {
@@ -644,6 +649,26 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .hero-summary[data-reveal="pending"] {
+    opacity: 0;
+  }
+
+  /* Keep the full sentence's layout while revealing whole characters. */
+  .hero-summary[data-reveal="typing"] .hero-summary-char:not([data-typed]) {
+    opacity: 0;
+  }
+
+  .hero-summary[data-reveal="typing"] .hero-summary-char[data-cursor]::after {
+    content: "";
+    position: absolute;
+    right: -0.12em;
+    top: 0.1em;
+    width: 1px;
+    height: 1em;
+    background: var(--text-muted);
+    opacity: 0.7;
+  }
+
   .hero-intro {
     animation: hero-arrive 650ms var(--ease-apple) both;
   }
@@ -655,8 +680,14 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 /* The expanded composition is permanent. A mount-only animation opens it. */
 @media (min-width: 1000px) {
+  .hero-summary {
+    margin-top: 2rem;
+    white-space: nowrap;
+  }
+
   .hero-content {
     display: block;
+    /* Leave room below the buttons while the opening animation is centred. */
     height: 23rem;
   }
 
