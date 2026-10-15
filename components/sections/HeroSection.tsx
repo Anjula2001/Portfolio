@@ -12,6 +12,7 @@ type HeroSectionProps = {
 export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProps) {
   const eyesRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const summaryRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const content = contentRef.current;
@@ -47,6 +48,50 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
       window.removeEventListener("resize", finishOpening);
       reducedMotion.removeEventListener("change", finishOpening);
       content.removeEventListener("focusin", finishOpening);
+    };
+  }, []);
+
+  useEffect(() => {
+    const content = contentRef.current;
+    const summary = summaryRef.current;
+    if (!content || !summary) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let active = true;
+    let reveal: Animation | undefined;
+    summary.dataset.reveal = "pending";
+
+    const showSummary = () => {
+      if (!active || summary.dataset.reveal === "visible") return;
+      summary.dataset.reveal = "visible";
+      if (reducedMotion.matches) return;
+
+      reveal = summary.animate(
+        [
+          { opacity: 0, transform: "translateY(12px)" },
+          { opacity: 1, transform: "translateY(0)" },
+        ],
+        { duration: 550, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
+      );
+    };
+
+    // The opening effect above has started the portrait animation. Wait for
+    // it and the content fade to finish, including when either is cancelled.
+    const opening = content.getAnimations({ subtree: true });
+    if (reducedMotion.matches) showSummary();
+    else void Promise.allSettled(opening.map((animation) => animation.finished))
+      .then(showSummary);
+
+    const handleMotionChange = () => {
+      if (!reducedMotion.matches) return;
+      reveal?.cancel();
+      showSummary();
+    };
+    reducedMotion.addEventListener("change", handleMotionChange);
+    return () => {
+      active = false;
+      reveal?.cancel();
+      reducedMotion.removeEventListener("change", handleMotionChange);
     };
   }, []);
 
@@ -130,7 +175,7 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
           </div>
         </div>
 
-        <p className="hero-summary">
+        <p ref={summaryRef} className="hero-summary" data-reveal="pending">
           I’m an <span>IT undergraduate</span> at the{" "}
           <span>University of Moratuwa</span>, turning what I learn into thoughtful
           digital experiences.

@@ -645,6 +645,10 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .hero-summary[data-reveal="pending"] {
+    opacity: 0;
+  }
+
   .hero-intro {
     animation: hero-arrive 650ms var(--ease-apple) both;
   }
