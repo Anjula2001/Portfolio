@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { ArrowDownToLine, ChevronDown, Code2, Cpu } from "lucide-react";
+import { ArrowDownToLine, ChevronDown } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cvDownloads } from "@/data/cvDownloads";
 
@@ -51,19 +51,12 @@ export function CvDownload() {
       </button>
 
       <div id={panelId} className="cv-panel" inert={!open} aria-hidden={!open}>
-        <p className="cv-panel-label">Choose your CV</p>
         <ul className="cv-options">
           {cvDownloads.map((cv) => {
-            const Icon = cv.id === "aiml" ? Cpu : Code2;
             const content = (
               <>
-                <span className="cv-option-icon"><Icon size={19} strokeWidth={1.6} aria-hidden="true" /></span>
-                <span className="cv-option-copy">
-                  <span className="cv-option-title">{cv.title}</span>
-                  <span className="cv-option-description">{cv.description}</span>
-                  {!cv.href && <span className="cv-option-status">Coming soon</span>}
-                </span>
-                <ArrowDownToLine className="cv-option-download" size={15} aria-hidden="true" />
+                <span className="cv-option-title">{cv.title}</span>
+                <ArrowDownToLine className="cv-option-download" size={14} aria-hidden="true" />
               </>
             );
             return (
