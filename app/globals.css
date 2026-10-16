@@ -469,6 +469,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 .hero-content {
   position: relative;
+  z-index: 2;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
@@ -545,8 +546,149 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   gap: 0.8rem;
 }
 
-.hero-actions a {
+.hero-actions > a {
   display: inline-flex;
+}
+
+.cv-download {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-basis: 100%;
+}
+
+.cv-trigger {
+  color: var(--text-muted);
+}
+
+.cv-trigger:hover,
+.cv-download[data-open="true"] .cv-trigger {
+  color: var(--foreground);
+  background: var(--control-fill);
+  border-color: var(--control-border-hover);
+}
+
+.cv-chevron {
+  transition: transform 220ms var(--ease-apple);
+}
+
+.cv-download[data-open="true"] .cv-chevron {
+  transform: rotate(180deg);
+}
+
+.cv-panel {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 0.75rem);
+  left: 50%;
+  width: min(20rem, calc(100vw - 3rem));
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--card-radius);
+  background: var(--surface);
+  box-shadow: 0 12px 36px var(--shadow-cast);
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, -6px) scale(0.97);
+  transform-origin: top center;
+  transition:
+    opacity 180ms var(--ease-apple),
+    transform 220ms var(--ease-apple),
+    visibility 220ms;
+}
+
+.cv-download[data-open="true"] .cv-panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.cv-panel-label {
+  padding: 0.5rem 0.65rem 0.65rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.cv-options {
+  display: grid;
+  gap: 0.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cv-option {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  padding: 0.8rem 0.65rem;
+  border-radius: 12px;
+  color: var(--foreground);
+  text-align: left;
+  transition: background-color 180ms var(--ease-apple);
+}
+
+.cv-option:hover,
+.cv-option:focus-visible {
+  background: var(--control-fill);
+}
+
+.cv-option[aria-disabled="true"] {
+  cursor: default;
+}
+
+.cv-option-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text-muted);
+}
+
+.cv-option-copy {
+  display: grid;
+  flex: 1;
+  gap: 0.2rem;
+}
+
+.cv-option-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.cv-option-description {
+  font-size: 0.7rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.cv-option-status {
+  font-size: 0.65rem;
+  color: var(--text-subtle);
+}
+
+.cv-option-download {
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.cv-option[aria-disabled="true"] .cv-option-download {
+  opacity: 0.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-panel,
+  .cv-chevron {
+    transition: none;
+  }
 }
 
 /* A soft ambient wash grounds the portrait without a separate card. */
@@ -714,7 +856,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     z-index: 2;
   }
 
-  .hero-content > .hero-actions a {
+  .hero-content > .hero-actions > a {
     min-width: 0;
   }
 
@@ -759,7 +901,8 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     gap: 0.65rem;
   }
 
-  .hero-actions a {
+  .hero-actions > a,
+  .cv-trigger {
     padding-inline: 1.25rem;
     font-size: 0.875rem;
   }
