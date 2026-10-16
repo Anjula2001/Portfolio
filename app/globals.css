@@ -611,10 +611,19 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 .cv-options {
   display: grid;
-  gap: 0.125rem;
+  gap: 0;
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+/* Inset divider aligns with the CV labels and download icons. */
+.cv-options > li + li::before {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-inline: 0.625rem;
+  background: var(--line);
 }
 
 .cv-option {
@@ -641,8 +650,10 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .cv-option-title {
-  font-size: 0.8125rem;
-  font-weight: 500;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.012em;
 }
 
 .cv-option-download {

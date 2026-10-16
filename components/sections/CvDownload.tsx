@@ -56,7 +56,7 @@ export function CvDownload() {
             const content = (
               <>
                 <span className="cv-option-title">{cv.title}</span>
-                <ArrowDownToLine className="cv-option-download" size={14} aria-hidden="true" />
+                <ArrowDownToLine className="cv-option-download" size={14} strokeWidth={1.6} aria-hidden="true" />
               </>
             );
             return (
