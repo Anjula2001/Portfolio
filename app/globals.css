@@ -624,6 +624,12 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   height: 1px;
   margin-inline: 0.625rem;
   background: var(--line);
+  transition: opacity 150ms var(--ease-apple);
+}
+
+/* Fade the divider without shifting either option. */
+.cv-options:has(.cv-option:hover) > li + li::before {
+  opacity: 0;
 }
 
 .cv-option {
