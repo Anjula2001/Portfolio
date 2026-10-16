@@ -557,7 +557,10 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   flex-basis: 100%;
 }
 
+/* Keep the CV action as compact as the adjacent buttons. */
 .cv-trigger {
+  gap: 0.375rem;
+  padding-inline: 0.875rem;
   color: var(--text-muted);
 }
 
@@ -901,9 +904,12 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     gap: 0.65rem;
   }
 
-  .hero-actions > a,
-  .cv-trigger {
+  .hero-actions > a {
     padding-inline: 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .cv-trigger {
     font-size: 0.875rem;
   }
 }

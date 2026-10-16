@@ -46,7 +46,6 @@ export function CvDownload() {
         aria-controls={panelId}
         onClick={() => setOpen((previous) => !previous)}
       >
-        <ArrowDownToLine size={16} strokeWidth={1.7} aria-hidden="true" />
         Download CV
         <ChevronDown className="cv-chevron" size={14} aria-hidden="true" />
       </button>
