@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { buttonVariants } from "@/components/ui/button";
+import { CvDownload } from "@/components/sections/CvDownload";
 
 type HeroSectionProps = {
   onProjectsClick: (event: React.MouseEvent<HTMLAnchorElement>) => void;
@@ -185,6 +186,7 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
             <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#contact" onClick={onContactClick}>
               Get In Touch
             </a>
+            <CvDownload />
           </div>
 
           <div className="hero-portrait-wrap">
