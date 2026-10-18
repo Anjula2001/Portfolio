@@ -1299,6 +1299,32 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   color: var(--text-muted);
 }
 
+.skill-title-text {
+  display: inline-block;
+  animation-duration: 460ms;
+  animation-timing-function: var(--ease-apple);
+  animation-fill-mode: both;
+}
+
+.skill-category-dots {
+  align-items: center;
+  min-height: 2rem;
+  margin-top: 0;
+}
+
+.skill-category-dots button {
+  position: relative;
+  cursor: pointer;
+  transition-duration: 460ms;
+}
+
+/* Expand the click area while preserving the rail's small dots. */
+.skill-category-dots button::before {
+  content: "";
+  position: absolute;
+  inset: -0.75rem -0.2rem;
+}
+
 .skill-cursor-label {
   position: fixed;
   display: block !important;
@@ -1411,11 +1437,13 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   animation-fill-mode: both;
 }
 
-.skill-dock-content--next {
+.skill-dock-content--next,
+.skill-title-text--next {
   animation-name: skill-dock-content-enter-next;
 }
 
-.skill-dock-content--previous {
+.skill-dock-content--previous,
+.skill-title-text--previous {
   animation-name: skill-dock-content-enter-previous;
 }
 
