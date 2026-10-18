@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useId,
   useMemo,
   useRef,
   useState,
@@ -36,6 +37,7 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
   );
 
   const [index, setIndex] = useState(0);
+  const dockId = useId();
   const dockRef = useRef<HTMLDivElement | null>(null);
   const suppressClickRef = useRef(false);
   const dragRef = useRef<{
@@ -54,9 +56,19 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
   } | null>(null);
   const active = groups[index];
 
+  const selectCategory = (nextIndex: number, direction: "next" | "previous") => {
+    if (nextIndex === index) return;
+    setAnimationDirection(direction);
+    setIndex(nextIndex);
+    setHoveredSkill(null);
+    if (dockRef.current) dockRef.current.scrollLeft = 0;
+  };
+
   const move = (delta: number) => {
-    setAnimationDirection(delta > 0 ? "next" : "previous");
-    setIndex((current) => (current + delta + groups.length) % groups.length);
+    selectCategory(
+      (index + delta + groups.length) % groups.length,
+      delta > 0 ? "next" : "previous",
+    );
   };
 
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
@@ -145,7 +157,12 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
 
       <div className="skill-slider reveal-item">
         <p className="skill-active-title" aria-live="polite">
-          {active.title}
+          <span
+            key={active.title}
+            className={`skill-title-text skill-title-text--${animationDirection}`}
+          >
+            {active.title}
+          </span>
         </p>
 
         <div className="skill-slider-shell">
@@ -159,6 +176,7 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
           </button>
 
           <div
+            id={dockId}
             ref={dockRef}
             className={`skill-dock ${isDragging ? "is-dragging" : ""}`}
             aria-label={`${active.title} skills`}
@@ -223,6 +241,21 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
             <ChevronRight size={20} aria-hidden="true" />
           </button>
         </div>
+
+        {groups.length > 1 && (
+          <div className="rail-dots skill-category-dots" role="group" aria-label="Skill categories">
+            {groups.map((group, categoryIndex) => (
+              <button
+                key={group.title}
+                type="button"
+                aria-label={`Show ${group.title} skills`}
+                aria-current={categoryIndex === index}
+                aria-controls={dockId}
+                onClick={() => selectCategory(categoryIndex, categoryIndex > index ? "next" : "previous")}
+              />
+            ))}
+          </div>
+        )}
       </div>
       {hoveredSkill && !isDragging
         ? createPortal(
