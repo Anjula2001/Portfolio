@@ -1106,6 +1106,8 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 /* Progress dots give the rail a position indicator on touch, where the
    paddles are hidden. */
 .rail-dots {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: center;
   gap: 0.4rem;

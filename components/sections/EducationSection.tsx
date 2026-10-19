@@ -16,85 +16,17 @@ type EducationSectionProps = {
 
 export function EducationSection({ education, certificates }: EducationSectionProps) {
   const journeyRef = useRef<HTMLDivElement | null>(null);
-  const [educationRotation, setEducationRotation] = useState({ step: 0, direction: "left" });
   const certificateRef = useRef<HTMLDivElement | null>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
   const openerRef = useRef<HTMLElement | null>(null);
 
+  const educationRail = useRail(journeyRef, ".education-card", education.length);
+  const journey = [...education].sort(
+    (a, b) => Number.parseInt(a.duration, 10) - Number.parseInt(b.duration, 10),
+  );
   const certRail = useRail(certificateRef, ".certificate-card", certificates.length);
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  useEffect(() => {
-    const journey = journeyRef.current;
-    if (!journey || activeIndex !== null || education.length < 2) return;
-
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const cards = Array.from(journey.querySelectorAll<HTMLElement>("[data-position]"));
-    let timer: number | undefined;
-    let visible = false;
-    let hovered = window.matchMedia("(hover: hover)").matches && cards.some((card) => card.matches(":hover"));
-    let focused = cards.some((card) => card.querySelector(":focus-visible"));
-
-    const schedule = () => {
-      window.clearTimeout(timer);
-      if (!visible || hovered || focused || document.hidden || reducedMotion.matches) return;
-      timer = window.setTimeout(() => {
-        setEducationRotation(({ step }) => ({ step: step + 1, direction: "left" }));
-      }, 4800);
-    };
-    const onEnter = (event: PointerEvent) => {
-      if (event.pointerType === "touch") return;
-      hovered = true;
-      schedule();
-    };
-    const onLeave = () => {
-      hovered = false;
-      schedule();
-    };
-    const onFocus = () => {
-      focused = cards.some((card) => card.querySelector(":focus-visible"));
-      schedule();
-    };
-    const onBlur = (event: FocusEvent) => {
-      focused = event.relatedTarget instanceof HTMLElement
-        && journey.contains(event.relatedTarget) && event.relatedTarget.matches(":focus-visible");
-      schedule();
-    };
-    const visibleCards = new Set<Element>();
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) visibleCards.add(entry.target);
-        else visibleCards.delete(entry.target);
-      });
-      const anyCardVisible = visibleCards.size > 0;
-      if (visible === anyCardVisible) return;
-      visible = anyCardVisible;
-      schedule();
-    }, { threshold: 0 });
-
-    cards.forEach((card) => {
-      observer.observe(card);
-      card.addEventListener("pointerenter", onEnter);
-      card.addEventListener("pointerleave", onLeave);
-    });
-    journey.addEventListener("focusin", onFocus);
-    journey.addEventListener("focusout", onBlur);
-    document.addEventListener("visibilitychange", schedule);
-    reducedMotion.addEventListener("change", schedule);
-    return () => {
-      window.clearTimeout(timer);
-      observer.disconnect();
-      cards.forEach((card) => {
-        card.removeEventListener("pointerenter", onEnter);
-        card.removeEventListener("pointerleave", onLeave);
-      });
-      journey.removeEventListener("focusin", onFocus);
-      journey.removeEventListener("focusout", onBlur);
-      document.removeEventListener("visibilitychange", schedule);
-      reducedMotion.removeEventListener("change", schedule);
-    };
-  }, [education.length, activeIndex, educationRotation.step]);
 
   const close = useCallback(() => {
     setActiveIndex(null);
@@ -142,23 +74,6 @@ export function EducationSection({ education, certificates }: EducationSectionPr
   }, [activeIndex, close, step]);
 
   const active = activeIndex === null ? null : certificates[activeIndex];
-  const initialEducationIndex = Math.max(0, education.findIndex((item) => item.current));
-  const frontEducationIndex = education.length
-    ? (initialEducationIndex - (educationRotation.step % education.length) + education.length) % education.length
-    : 0;
-
-  const selectEducation = (index: number) => {
-    setEducationRotation((rotation) => {
-      const front = (initialEducationIndex - (rotation.step % education.length) + education.length) % education.length;
-      if (index === front) return rotation;
-      const fromLeft = index === (front + 1) % education.length;
-      return {
-        step: rotation.step + (fromLeft ? -1 : 1),
-        direction: fromLeft ? "right" : "left",
-      };
-    });
-  };
-
   return (
     <section
       className="section-block reveal-on-scroll mx-auto max-w-6xl px-6 sm:px-10"
@@ -171,67 +86,100 @@ export function EducationSection({ education, certificates }: EducationSectionPr
         </p>
       </div>
 
-      <div ref={journeyRef} className={`${styles.journeyStage} mt-8 reveal-item`}>
-        <div className={styles.journey} data-rotation={educationRotation.direction} role="list" aria-label="Education journey">
-          {education.map((item, index) => {
-            const slot = index === frontEducationIndex ? "front"
-              : index === (frontEducationIndex + 1) % education.length ? "left" : "right";
-            const position = slot === "front" ? styles.journeyFront
-              : slot === "left" ? styles.journeyLeft : styles.journeyRight;
-            return (
-              <article
-                key={`${item.institution}-${item.duration}`}
-                className={`${styles.card} ${styles.journeyCard} ${item.current ? styles.current : ""} ${position}`}
-                data-position={slot}
-                role="listitem"
-              >
-                <button
-                  type="button"
-                  className={styles.journeySelect}
-                  aria-label={`Show ${item.institution} card in the center`}
-                  aria-pressed={slot === "front"}
-                  onClick={() => selectEducation(index)}
-                />
-                <div className={styles.visual}>
-                  <div className={styles.heading}>
-                    <p className={styles.eyebrow}>{item.level}</p>
-                    <h3 className={styles.headline}>{item.headline}</h3>
-                  </div>
-                  {item.logoSrc ? (
-                    <div className={styles.emblem} aria-hidden="true">
-                      <Image
-                        src={item.logoSrc}
-                        alt=""
-                        width={112}
-                        height={112}
-                        sizes="112px"
-                        className={styles.logo}
-                      />
-                    </div>
-                  ) : null}
-                </div>
+      <div className="education-carousel mt-10 reveal-item">
+        <button
+          type="button"
+          className={`education-scroll-btn education-scroll-btn--left ${educationRail.canPrev ? "is-active" : "is-inactive"}`}
+          aria-label="Previous education"
+          onClick={() => educationRail.scrollBy("prev")}
+          disabled={!educationRail.canPrev}
+        >
+          <ChevronLeft size={18} aria-hidden="true" />
+        </button>
 
-                <div className={styles.details}>
-                  <p className={styles.institution}>{item.institution}</p>
-                  <p className={styles.duration}>{item.duration}</p>
-                  {item.focus ? <p className={styles.studyFocus}>{item.focus}</p> : null}
-                  <div className={styles.footer}>
-                    {item.results ? (
-                      <p className={styles.result}>
-                        <span className={styles.resultValue}>{item.results.value}</span>
-                        <span className={styles.resultLabel}>{item.results.label}</span>
-                      </p>
-                    ) : null}
-                    <span className={styles.status}>
-                      {item.current ? "In progress" : "Completed"}
-                    </span>
-                  </div>
+        <div
+          ref={journeyRef}
+          className={`education-grid ${educationRail.isDragging ? "is-dragging" : ""}`}
+          role="list"
+          aria-label="Education journey"
+          tabIndex={0}
+          onKeyDown={educationRail.onKeyDown}
+          onPointerDown={educationRail.onPointerDown}
+          onPointerMove={educationRail.onPointerMove}
+          onPointerUp={educationRail.onPointerUp}
+          onPointerCancel={educationRail.onPointerCancel}
+          onClickCapture={educationRail.onClick}
+          onDragStart={educationRail.onDragStart}
+        >
+          {journey.map((item) => (
+            <article
+              key={`${item.institution}-${item.duration}`}
+              className={`${styles.card} ${styles.railItem} ${styles.educationCard} ${item.current ? styles.current : ""} education-card`}
+              role="listitem"
+            >
+              <div className={styles.visual}>
+                <div className={styles.heading}>
+                  <p className={styles.eyebrow}>{item.level}</p>
+                  <h3 className={styles.headline}>{item.headline}</h3>
                 </div>
-              </article>
-            );
-          })}
+                {item.logoSrc ? (
+                  <div className={styles.emblem} aria-hidden="true">
+                    <Image
+                      src={item.logoSrc}
+                      alt=""
+                      width={112}
+                      height={112}
+                      sizes="112px"
+                      className={styles.logo}
+                    />
+                  </div>
+                ) : null}
+              </div>
+
+              <div className={styles.details}>
+                <p className={styles.institution}>{item.institution}</p>
+                <p className={styles.duration}>{item.duration}</p>
+                {item.focus ? <p className={styles.studyFocus}>{item.focus}</p> : null}
+                <div className={styles.footer}>
+                  {item.results ? (
+                    <p className={styles.result}>
+                      <span className={styles.resultValue}>{item.results.value}</span>
+                      <span className={styles.resultLabel}>{item.results.label}</span>
+                    </p>
+                  ) : null}
+                  <span className={styles.status}>
+                    {item.current ? "In progress" : "Completed"}
+                  </span>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
+
+        <button
+          type="button"
+          className={`education-scroll-btn education-scroll-btn--right ${educationRail.canNext ? "is-active" : "is-inactive"}`}
+          aria-label="Next education"
+          onClick={() => educationRail.scrollBy("next")}
+          disabled={!educationRail.canNext}
+        >
+          <ChevronRight size={18} aria-hidden="true" />
+        </button>
       </div>
+
+      {educationRail.pageCount > 1 ? (
+        <div className="rail-dots reveal-item" aria-label="Education pages">
+          {Array.from({ length: educationRail.pageCount }, (_, index) => (
+            <button
+              key={index}
+              type="button"
+              aria-current={index === educationRail.page}
+              aria-label={`Go to education page ${index + 1}`}
+              onClick={() => educationRail.scrollToPage(index)}
+            />
+          ))}
+        </div>
+      ) : null}
 
       <div className="certificates-group reveal-item">
         <div className="certificates-head">
