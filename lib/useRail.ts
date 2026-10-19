@@ -78,8 +78,10 @@ export function useRail(
     }
 
     const maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth);
-    return Array.from(rail.querySelectorAll<HTMLElement>(cardSelector))
-      .map((card) => Math.min(card.offsetLeft, maxScroll))
+    const cards = Array.from(rail.querySelectorAll<HTMLElement>(cardSelector));
+    const firstOffset = cards[0]?.offsetLeft ?? 0;
+    return cards
+      .map((card) => Math.min(card.offsetLeft - firstOffset, maxScroll))
       .filter((offset, index, offsets) => index === 0 || offset > offsets[index - 1]);
   }, [cardSelector, ref]);
 
