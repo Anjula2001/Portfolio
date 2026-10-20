@@ -25,21 +25,23 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
 
   useEffect(() => {
     const content = contentRef.current;
+    const grid = content?.parentElement;
     const desktop = window.matchMedia("(min-width: 1000px)");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (!content || !desktop.matches || reducedMotion.matches) return;
+    if (!content || !grid || !desktop.matches || reducedMotion.matches) return;
 
     // Play once on mount. CSS owns the final layout, even if motion is cancelled.
-    const opening = [".hero-copy", ".hero-actions", ".hero-portrait-wrap"];
+    const opening = [".hero-intro", ".hero-copy", ".hero-actions", ".hero-portrait-wrap"];
+    const startTime = document.timeline.currentTime;
     const animations = opening.flatMap((selector) => {
-      const element = content.querySelector<HTMLElement>(selector);
+      const element = grid.querySelector<HTMLElement>(selector);
       if (!element) return [];
       const isPortrait = selector === ".hero-portrait-wrap";
       // Start each side in its own column, slightly nearer the portrait.
-      const offset = isPortrait ? 0 : selector === ".hero-copy" ? 24 : -24;
+      const offset = selector === ".hero-copy" ? 24 : selector === ".hero-actions" ? -24 : 0;
       const scale = isPortrait ? 0.9 : 1;
       const transform = `translateX(${offset}px) scale(${scale})`;
-      return [element.animate(
+      const animation = element.animate(
         [
           { transform, opacity: isPortrait ? 1 : 0.12 },
           { transform: getComputedStyle(element).transform, opacity: 1 },
@@ -50,7 +52,9 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
           easing: "cubic-bezier(0.4, 0, 0.2, 1)",
           fill: "backwards",
         },
-      )];
+      );
+      animation.startTime = startTime;
+      return [animation];
     });
     const finishOpening = () => animations.forEach((animation) => animation.cancel());
     window.addEventListener("resize", finishOpening);
