@@ -69,9 +69,8 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
   }, []);
 
   useEffect(() => {
-    const content = contentRef.current;
     const summary = summaryRef.current;
-    if (!content || !summary) return;
+    if (!summary) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let active = true;
@@ -117,12 +116,8 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
       typeCharacter();
     };
 
-    // The opening effect above has started the portrait animation. Wait for
-    // it and the content fade to finish, including when either is cancelled.
-    const opening = content.getAnimations({ subtree: true });
-    if (reducedMotion.matches) showSummary();
-    else void Promise.allSettled(opening.map((animation) => animation.finished))
-      .then(showSummary);
+    // Start typing on mount, alongside the other hero animations.
+    showSummary();
 
     const handleMotionChange = () => {
       if (!reducedMotion.matches) return;
