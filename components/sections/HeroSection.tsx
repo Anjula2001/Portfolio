@@ -25,28 +25,36 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
 
   useEffect(() => {
     const content = contentRef.current;
+    const grid = content?.parentElement;
     const desktop = window.matchMedia("(min-width: 1000px)");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (!content || !desktop.matches || reducedMotion.matches) return;
+    if (!content || !grid || !desktop.matches || reducedMotion.matches) return;
 
     // Play once on mount. CSS owns the final layout, even if motion is cancelled.
-    const opening: [string, string][] = [
-      [".hero-copy", "translateX(-50%)"],
-      [".hero-actions", "translateX(-50%)"],
-      [".hero-portrait-wrap", "translateX(-50%) scale(0.36)"],
-    ];
-    const animations = opening.flatMap(([selector, transform]) => {
-      const element = content.querySelector<HTMLElement>(selector);
+    const opening = [".hero-intro", ".hero-copy", ".hero-actions", ".hero-portrait-wrap"];
+    const startTime = document.timeline.currentTime;
+    const animations = opening.flatMap((selector) => {
+      const element = grid.querySelector<HTMLElement>(selector);
       if (!element) return [];
-      return [element.animate(
-        [{ transform }, { transform: getComputedStyle(element).transform }],
+      const isPortrait = selector === ".hero-portrait-wrap";
+      // Start each side in its own column, slightly nearer the portrait.
+      const offset = selector === ".hero-copy" ? 24 : selector === ".hero-actions" ? -24 : 0;
+      const scale = isPortrait ? 0.9 : 1;
+      const transform = `translateX(${offset}px) scale(${scale})`;
+      const animation = element.animate(
+        [
+          { transform, opacity: isPortrait ? 1 : 0.12 },
+          { transform: getComputedStyle(element).transform, opacity: 1 },
+        ],
         {
-          duration: 650,
-          delay: 450,
-          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+          duration: 850,
+          delay: 100,
+          easing: "cubic-bezier(0.4, 0, 0.2, 1)",
           fill: "backwards",
         },
-      )];
+      );
+      animation.startTime = startTime;
+      return [animation];
     });
     const finishOpening = () => animations.forEach((animation) => animation.cancel());
     window.addEventListener("resize", finishOpening);
@@ -61,9 +69,8 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
   }, []);
 
   useEffect(() => {
-    const content = contentRef.current;
     const summary = summaryRef.current;
-    if (!content || !summary) return;
+    if (!summary) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let active = true;
@@ -109,12 +116,8 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
       typeCharacter();
     };
 
-    // The opening effect above has started the portrait animation. Wait for
-    // it and the content fade to finish, including when either is cancelled.
-    const opening = content.getAnimations({ subtree: true });
-    if (reducedMotion.matches) showSummary();
-    else void Promise.allSettled(opening.map((animation) => animation.finished))
-      .then(showSummary);
+    // Start typing on mount, alongside the other hero animations.
+    showSummary();
 
     const handleMotionChange = () => {
       if (!reducedMotion.matches) return;
@@ -174,8 +177,7 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
               Thoughtful design.<br />Reliable code.
             </p>
             <p className="hero-description">
-              I build thoughtful full-stack experiences, from clean interfaces
-              to reliable code.
+              I build full-stack experiences with clean interfaces and reliable code.
             </p>
           </div>
 

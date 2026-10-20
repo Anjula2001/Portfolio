@@ -2,7 +2,6 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { ArrowDownToLine, ChevronDown } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
 import { cvDownloads } from "@/data/cvDownloads";
 
 export function CvDownload() {
@@ -41,7 +40,7 @@ export function CvDownload() {
       <button
         ref={triggerRef}
         type="button"
-        className={buttonVariants({ size: "lg", variant: "outline", className: "cv-trigger" })}
+        className="cv-trigger"
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((previous) => !previous)}
