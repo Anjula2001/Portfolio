@@ -30,22 +30,24 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
     if (!content || !desktop.matches || reducedMotion.matches) return;
 
     // Play once on mount. CSS owns the final layout, even if motion is cancelled.
-    const contentBounds = content.getBoundingClientRect();
-    const center = contentBounds.left + contentBounds.width / 2;
     const opening = [".hero-copy", ".hero-actions", ".hero-portrait-wrap"];
     const animations = opening.flatMap((selector) => {
       const element = content.querySelector<HTMLElement>(selector);
       if (!element) return [];
-      const bounds = element.getBoundingClientRect();
-      const offset = center - (bounds.left + bounds.width / 2);
-      const scale = selector === ".hero-portrait-wrap" ? 0.36 : 1;
+      const isPortrait = selector === ".hero-portrait-wrap";
+      // Start each side in its own column, slightly nearer the portrait.
+      const offset = isPortrait ? 0 : selector === ".hero-copy" ? 24 : -24;
+      const scale = isPortrait ? 0.9 : 1;
       const transform = `translateX(${offset}px) scale(${scale})`;
       return [element.animate(
-        [{ transform }, { transform: getComputedStyle(element).transform }],
+        [
+          { transform, opacity: isPortrait ? 1 : 0.12 },
+          { transform: getComputedStyle(element).transform, opacity: 1 },
+        ],
         {
-          duration: 650,
-          delay: 450,
-          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+          duration: 850,
+          delay: 100,
+          easing: "cubic-bezier(0.4, 0, 0.2, 1)",
           fill: "backwards",
         },
       )];

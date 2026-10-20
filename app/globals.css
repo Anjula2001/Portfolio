@@ -826,6 +826,8 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     grid-template-columns: minmax(0, 1fr) 20rem minmax(0, 1fr);
     column-gap: clamp(2rem, 4vw, 4rem);
     min-height: 22rem;
+    /* Children handle the opening; keep the portrait visible from the start. */
+    animation: none;
   }
 
   .hero-content > .hero-copy,
