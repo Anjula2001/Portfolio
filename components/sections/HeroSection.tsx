@@ -30,14 +30,16 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
     if (!content || !desktop.matches || reducedMotion.matches) return;
 
     // Play once on mount. CSS owns the final layout, even if motion is cancelled.
-    const opening: [string, string][] = [
-      [".hero-copy", "translateX(-50%)"],
-      [".hero-actions", "translateX(-50%)"],
-      [".hero-portrait-wrap", "translateX(-50%) scale(0.36)"],
-    ];
-    const animations = opening.flatMap(([selector, transform]) => {
+    const contentBounds = content.getBoundingClientRect();
+    const center = contentBounds.left + contentBounds.width / 2;
+    const opening = [".hero-copy", ".hero-actions", ".hero-portrait-wrap"];
+    const animations = opening.flatMap((selector) => {
       const element = content.querySelector<HTMLElement>(selector);
       if (!element) return [];
+      const bounds = element.getBoundingClientRect();
+      const offset = center - (bounds.left + bounds.width / 2);
+      const scale = selector === ".hero-portrait-wrap" ? 0.36 : 1;
+      const transform = `translateX(${offset}px) scale(${scale})`;
       return [element.animate(
         [{ transform }, { transform: getComputedStyle(element).transform }],
         {
@@ -174,8 +176,7 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
               Thoughtful design.<br />Reliable code.
             </p>
             <p className="hero-description">
-              I build thoughtful full-stack experiences, from clean interfaces
-              to reliable code.
+              I build full-stack experiences with clean interfaces and reliable code.
             </p>
           </div>
 
