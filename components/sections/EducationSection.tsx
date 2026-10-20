@@ -33,7 +33,7 @@ export function EducationSection({ education, certificates }: EducationSectionPr
     // Return focus to the card that opened the lightbox.
     openerRef.current?.focus();
     openerRef.current = null;
-  }, []);
+  }, [setActiveIndex]);
 
   const step = useCallback(
     (delta: number) => {
@@ -44,7 +44,7 @@ export function EducationSection({ education, certificates }: EducationSectionPr
         return (current + delta + certificates.length) % certificates.length;
       });
     },
-    [certificates.length],
+    [certificates.length, setActiveIndex],
   );
 
   useEffect(() => {
