@@ -73,14 +73,14 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
     if (!content || !grid || !desktop.matches || reducedMotion.matches) return;
 
     // Play once on mount. CSS owns the final layout, even if motion is cancelled.
-    const opening = [".hero-copy", ".hero-actions", ".hero-portrait-wrap"];
+    const opening = [".hero-copy", ".hero-portrait-wrap"];
     const startTime = document.timeline.currentTime;
     const animations = opening.flatMap((selector) => {
       const element = grid.querySelector<HTMLElement>(selector);
       if (!element) return [];
       const isPortrait = selector === ".hero-portrait-wrap";
       // Start each side in its own column, slightly nearer the portrait.
-      const offset = selector === ".hero-copy" ? 24 : selector === ".hero-actions" ? -24 : 0;
+      const offset = selector === ".hero-copy" ? 24 : 0;
       const scale = isPortrait ? 0.9 : 1;
       const transform = `translateX(${offset}px) scale(${scale})`;
       const animation = element.animate(
@@ -208,20 +208,33 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
     >
       <div className="hero-grid">
         <header className="hero-intro">
-          <div ref={nameRef} className="hero-name-lockup">
-            <h1 className="hero-title" aria-label="Anjula Amarakoon">
-              <span className="hero-first-name" aria-hidden="true">
-                {Array.from("Anjula").map((letter, index) => (
-                  <span key={index}>{letter}</span>
-                ))}
-              </span>
-              <span className="hero-last-name">Amarakoon</span>
-            </h1>
-            <p className="hero-role">
-              <span className="sr-only">University of Moratuwa undergraduate</span>
-              <span className="hero-role-university" aria-hidden="true">UOM</span>
-              <span className="hero-role-status" aria-hidden="true">Undergraduate</span>
-            </p>
+          <div className="hero-heading">
+            <div className="hero-actions" role="group" aria-label="Explore my work and get in touch">
+              <div className="hero-actions-primary">
+                <a className={buttonVariants({ size: "lg" })} href="#projects" onClick={onProjectsClick}>
+                  View Work
+                </a>
+                <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#contact" onClick={onContactClick}>
+                  Get In Touch
+                </a>
+              </div>
+              <CvDownload />
+            </div>
+            <div ref={nameRef} className="hero-name-lockup">
+              <h1 className="hero-title" aria-label="Anjula Amarakoon">
+                <span className="hero-first-name" aria-hidden="true">
+                  {Array.from("Anjula").map((letter, index) => (
+                    <span key={index}>{letter}</span>
+                  ))}
+                </span>
+                <span className="hero-last-name">Amarakoon</span>
+              </h1>
+              <p className="hero-role">
+                <span className="sr-only">University of Moratuwa undergraduate</span>
+                <span className="hero-role-university" aria-hidden="true">UOM</span>
+                <span className="hero-role-status" aria-hidden="true">Undergraduate</span>
+              </p>
+            </div>
           </div>
         </header>
 
@@ -233,16 +246,6 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
             <p className="hero-description">
               I build full-stack experiences with clean interfaces and reliable code.
             </p>
-          </div>
-
-          <div className="hero-actions">
-            <a className={buttonVariants({ size: "lg" })} href="#projects" onClick={onProjectsClick}>
-              View Work
-            </a>
-            <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#contact" onClick={onContactClick}>
-              Get In Touch
-            </a>
-            <CvDownload />
           </div>
 
           <div className="hero-portrait-wrap">

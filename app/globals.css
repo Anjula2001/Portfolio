@@ -469,7 +469,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(1.75rem, 3vw, 3rem);
+  gap: clamp(2rem, 4vw, 4.5rem);
   width: 100%;
   min-width: 0;
   min-height: calc(100svh - 5rem);
@@ -603,29 +603,62 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .hero-actions {
-  --action-gap: 0.8rem;
-  margin-top: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-items: center;
-  width: min(100%, 15rem);
-  gap: var(--action-gap);
+  width: 100%;
+  contain: inline-size;
+  gap: 1rem;
 }
 
-.hero-actions > a {
-  width: min(100%, 12rem);
+.hero-heading {
+  display: grid;
+  gap: clamp(2rem, 4vw, 4.5rem);
+  width: max-content;
+  max-width: 100%;
+}
+
+.hero-actions-primary {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.hero-actions-primary > a,
+.hero-actions .cv-trigger {
   height: 3rem;
-  padding-inline: 0.75rem;
+  padding-inline: 1.5rem;
+}
+
+.hero-actions .cv-download {
+  width: auto;
+  flex-shrink: 0;
+}
+
+.hero-actions .cv-panel {
+  left: auto;
+  right: 0;
+  transform: translateY(-6px) scale(0.97);
+  transform-origin: top right;
+}
+
+.hero-actions .cv-download[data-open="true"] .cv-panel {
+  transform: translateY(0) scale(1);
+}
+
+.hero-actions .cv-trigger {
+  border: 1px solid var(--control-border);
+  font-weight: 500;
+  color: var(--foreground);
 }
 
 .cv-download {
   position: relative;
   display: flex;
   justify-content: center;
-  grid-column: 1 / -1;
   justify-self: center;
-  width: auto;
+  width: 100%;
 }
 
 .cv-trigger {
@@ -888,7 +921,8 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   }
 
   .hero-content {
-    grid-template-columns: minmax(0, 1fr) 20rem minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    max-width: 52rem;
     column-gap: clamp(2rem, 4vw, 4rem);
     min-height: 22rem;
     /* Children handle the opening; keep the portrait visible from the start. */
@@ -896,7 +930,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   }
 
   .hero-content > .hero-copy,
-  .hero-content > .hero-actions,
   .hero-content > .hero-portrait-wrap {
     grid-row: 1;
   }
@@ -906,16 +939,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     width: 100%;
     text-align: center;
     z-index: 2;
-  }
-
-  .hero-content > .hero-actions {
-    grid-column: 3;
-    width: 100%;
-    z-index: 2;
-  }
-
-  .hero-actions > a {
-    width: min(100%, 15rem);
   }
 
   .hero-content > .hero-portrait-wrap {
@@ -966,14 +989,28 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     width: min(72vw, 18rem);
   }
 
+  .hero-actions-primary > a,
+  .hero-actions .cv-trigger {
+    padding-inline: 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
   .hero-actions {
-    --action-gap: 0.65rem;
+    align-items: flex-start;
+    gap: 0.75rem;
   }
 
-  .hero-actions > a,
+  .hero-actions-primary {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .hero-actions-primary > a,
   .hero-actions .cv-trigger {
-    padding-inline: 0.5rem;
-    font-size: 0.875rem;
+    padding-inline: 0.75rem;
+    font-size: 0.8125rem;
   }
 }
 
