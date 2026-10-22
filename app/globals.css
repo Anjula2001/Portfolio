@@ -535,18 +535,20 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .hero-summary {
-  max-width: 67rem;
-  margin-top: clamp(1.25rem, 3vw, 2.5rem);
+  width: 100%;
+  max-width: 42rem;
+  contain: inline-size;
+  margin-top: clamp(1rem, 2vw, 1.5rem);
   font-size: clamp(1rem, 1.4vw, 1.0625rem);
   line-height: 1.6;
   letter-spacing: -0.015em;
-  text-align: center;
+  text-align: left;
   text-wrap: balance;
   color: var(--text-muted);
 }
 
 .hero-summary-emphasis {
-  font-weight: 500;
+  font-weight: 600;
   color: var(--foreground);
 }
 

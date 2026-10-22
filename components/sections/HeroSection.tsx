@@ -236,6 +236,18 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
                 <span className="hero-role-status" aria-hidden="true">Undergraduate</span>
               </p>
             </div>
+            <p ref={summaryRef} className="hero-summary" data-reveal="pending">
+              <span className="sr-only">{summaryParts.map((part) => part.text).join("")}</span>
+              <span aria-hidden="true">
+                {summaryParts.map((part, partIndex) => (
+                  <span key={partIndex} className={part.emphasis ? "hero-summary-emphasis" : undefined}>
+                    {Array.from(part.text).map((character, characterIndex) => (
+                      <span key={characterIndex} className="hero-summary-char">{character}</span>
+                    ))}
+                  </span>
+                ))}
+              </span>
+            </p>
           </div>
         </header>
 
@@ -268,19 +280,6 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
             </figure>
           </div>
         </div>
-
-        <p ref={summaryRef} className="hero-summary" data-reveal="pending">
-          <span className="sr-only">{summaryParts.map((part) => part.text).join("")}</span>
-          <span aria-hidden="true">
-            {summaryParts.map((part, partIndex) => (
-              <span key={partIndex} className={part.emphasis ? "hero-summary-emphasis" : undefined}>
-                {Array.from(part.text).map((character, characterIndex) => (
-                  <span key={characterIndex} className="hero-summary-char">{character}</span>
-                ))}
-              </span>
-            ))}
-          </span>
-        </p>
       </div>
     </section>
   );
