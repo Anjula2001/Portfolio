@@ -619,6 +619,16 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   margin-bottom: clamp(3rem, 12svh, 7.5rem);
 }
 
+.hero-greeting {
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
 .hero-actions-primary {
   display: flex;
   gap: 0.5rem;

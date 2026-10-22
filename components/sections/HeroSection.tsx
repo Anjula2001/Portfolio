@@ -220,6 +220,7 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
             <CvDownload />
           </div>
           <div className="hero-heading">
+            <p className="hero-greeting">Hey, I’m</p>
             <div ref={nameRef} className="hero-name-lockup">
               <h1 className="hero-title" aria-label="Anjula Amarakoon">
                 <span className="hero-first-name" aria-hidden="true">
