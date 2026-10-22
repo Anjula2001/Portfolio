@@ -465,16 +465,16 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .hero-intro {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
   align-items: center;
-  justify-content: center;
+  justify-items: center;
   gap: clamp(2rem, 4vw, 4.5rem);
   width: 100%;
   min-width: 0;
   min-height: calc(100svh - 5rem);
   container-type: inline-size;
-  padding-block: 3rem;
+  padding-block: 1.5rem 3rem;
 }
 
 .hero-role {
@@ -608,14 +608,12 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  contain: inline-size;
+  width: min(100%, var(--page-max));
   gap: 1rem;
 }
 
 .hero-heading {
   display: grid;
-  gap: clamp(2rem, 4vw, 4.5rem);
   width: max-content;
   max-width: 100%;
 }

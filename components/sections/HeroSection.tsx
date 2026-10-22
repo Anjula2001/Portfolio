@@ -208,18 +208,18 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
     >
       <div className="hero-grid">
         <header className="hero-intro">
-          <div className="hero-heading">
-            <div className="hero-actions" role="group" aria-label="Explore my work and get in touch">
-              <div className="hero-actions-primary">
-                <a className={buttonVariants({ size: "lg" })} href="#projects" onClick={onProjectsClick}>
-                  View Work
-                </a>
-                <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#contact" onClick={onContactClick}>
-                  Get In Touch
-                </a>
-              </div>
-              <CvDownload />
+          <div className="hero-actions" role="group" aria-label="Explore my work and get in touch">
+            <div className="hero-actions-primary">
+              <a className={buttonVariants({ size: "lg" })} href="#projects" onClick={onProjectsClick}>
+                View Work
+              </a>
+              <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#contact" onClick={onContactClick}>
+                Get In Touch
+              </a>
             </div>
+            <CvDownload />
+          </div>
+          <div className="hero-heading">
             <div ref={nameRef} className="hero-name-lockup">
               <h1 className="hero-title" aria-label="Anjula Amarakoon">
                 <span className="hero-first-name" aria-hidden="true">
