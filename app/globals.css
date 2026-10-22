@@ -536,13 +536,12 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 .hero-summary {
   width: 100%;
-  max-width: 42rem;
   contain: inline-size;
-  margin-top: clamp(1rem, 2vw, 1.5rem);
+  margin-top: clamp(2.5rem, 5vw, 4.5rem);
   font-size: clamp(1rem, 1.4vw, 1.0625rem);
   line-height: 1.6;
   letter-spacing: -0.015em;
-  text-align: left;
+  text-align: center;
   text-wrap: balance;
   color: var(--text-muted);
 }
