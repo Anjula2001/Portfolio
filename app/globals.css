@@ -449,7 +449,8 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 .hero-section {
   --hero-gap: clamp(1.25rem, 2vw, 1.5rem);
-  padding-top: clamp(2rem, 3vw, 2.5rem);
+  max-width: 120rem;
+  padding-top: 0;
   padding-bottom: calc(var(--hero-gap) + 0.5rem);
 }
 
@@ -464,7 +465,47 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .hero-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.75rem, 3vw, 3rem);
   width: 100%;
+  min-width: 0;
+  min-height: calc(100svh - 5rem);
+  container-type: inline-size;
+  padding-block: 3rem;
+}
+
+.hero-role {
+  position: absolute;
+  top: 0;
+  right: 0.26em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.2em;
+  width: 31%;
+  height: calc(100% / 1.94);
+  padding-bottom: 0.42em;
+  font-size: clamp(0.875rem, 0.2em, 2.6rem);
+  text-align: right;
+}
+
+.hero-role-university {
+  font-size: 1.9em;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  color: var(--foreground);
+}
+
+.hero-role-status {
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: var(--text-muted);
+  white-space: nowrap;
 }
 
 .hero-content {
@@ -476,6 +517,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   justify-items: center;
   gap: 1.5rem;
   width: 100%;
+  max-width: 67rem;
   text-align: center;
 }
 
@@ -493,7 +535,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .hero-summary {
-  max-width: 100%;
+  max-width: 67rem;
   margin-top: clamp(1.25rem, 3vw, 2.5rem);
   font-size: clamp(1rem, 1.4vw, 1.0625rem);
   line-height: 1.6;
@@ -512,19 +554,42 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   position: relative;
 }
 
+.hero-name-lockup {
+  position: relative;
+  width: max-content;
+  font-size: min(11cqw, 13rem);
+}
+
 .hero-title {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  gap: 0.22em;
-  font-size: clamp(3rem, 7vw, 6rem);
-  line-height: 1.04;
-  letter-spacing: -0.055em;
-  font-weight: 600;
+  align-items: center;
+  width: max-content;
+  gap: 0;
+  font-size: 1em;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+  text-transform: uppercase;
   color: var(--foreground);
 }
 
 .hero-title span {
   display: inline-block;
+  white-space: nowrap;
+}
+
+.hero-title .hero-first-name {
+  display: flex;
+  align-self: flex-start;
+  width: max-content;
+  letter-spacing: -0.0141em;
+}
+
+.hero-last-name {
+  font-size: 0.94em;
+  letter-spacing: -0.015em;
 }
 
 .hero-description {
@@ -807,7 +872,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     opacity: 0.7;
   }
 
-  .hero-intro,
   .hero-content {
     animation: hero-arrive 850ms cubic-bezier(0.4, 0, 0.2, 1) 100ms both;
   }
@@ -862,6 +926,12 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 }
 
+@media (max-width: 767px) {
+  .hero-intro {
+    min-height: calc(100svh - 7.5rem);
+  }
+}
+
 @media (max-width: 700px) {
   .hero-content {
     grid-template-columns: minmax(0, 1fr);
@@ -878,10 +948,18 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     display: block;
   }
 
-  .hero-title {
-    flex-direction: column;
-    gap: 0;
-    font-size: clamp(2.65rem, 11vw, 4.5rem);
+  .hero-name-lockup {
+    font-size: 15cqw;
+  }
+
+  .hero-role {
+    position: static;
+    width: min(100%, 18rem);
+    height: auto;
+    padding-bottom: 0;
+    margin: 1.5rem auto 0;
+    font-size: 1.125rem;
+    text-align: center;
   }
 
   .hero-portrait-frame {
