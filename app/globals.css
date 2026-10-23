@@ -561,6 +561,12 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   font-size: min(11cqw, 10rem);
 }
 
+/* Lift the name and greeting without moving the summary below them. */
+.hero-greeting,
+.hero-name-lockup {
+  translate: 0 -1.25rem;
+}
+
 .hero-title {
   display: flex;
   flex-direction: column;
