@@ -677,6 +677,14 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   color: var(--foreground);
 }
 
+.hero-actions-primary .btn-secondary {
+  background: var(--control-fill);
+}
+
+.hero-actions-primary .btn-secondary:hover {
+  background: light-dark(rgba(0, 0, 0, 0.07), rgba(255, 255, 255, 0.12));
+}
+
 .cv-download {
   position: relative;
   display: flex;
