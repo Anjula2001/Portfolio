@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import { buttonVariants } from "@/components/ui/button";
 import { CvDownload } from "@/components/sections/CvDownload";
@@ -22,6 +22,48 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
   const eyesRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const summaryRef = useRef<HTMLParagraphElement>(null);
+  const nameRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const name = nameRef.current;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!name || reducedMotion.matches) return;
+
+    const title = name.querySelector<HTMLElement>(".hero-title");
+    const role = name.querySelector<HTMLElement>(".hero-role");
+    const letters = Array.from(name.querySelectorAll<HTMLElement>(".hero-first-name > span"));
+    if (!title || !role || letters.length < 2) return;
+
+    // Measure the final layout, then animate from the previous centered name.
+    const bounds = title.getBoundingClientRect();
+    const boxes = letters.map((letter) => letter.getBoundingClientRect());
+    const totalWidth = boxes.reduce((sum, box) => sum + box.width, 0);
+    const gap = (bounds.width * 0.77 - totalWidth) / (letters.length - 1);
+    let startLeft = bounds.left + bounds.width * 0.115;
+    const startTime = document.timeline.currentTime;
+    const animations = letters.map((letter, index) => {
+      const offset = startLeft - boxes[index].left;
+      startLeft += boxes[index].width + gap;
+      return letter.animate(
+        [{ transform: `translateX(${offset}px)` }, { transform: "translateX(0)" }],
+        { duration: 1100, delay: 250, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "backwards" },
+      );
+    });
+    animations.push(role.animate(
+      [{ opacity: 0, transform: "translateX(8px)" }, { opacity: 1, transform: "translateX(0)" }],
+      { duration: 450, delay: 1050, easing: "ease-out", fill: "backwards" },
+    ));
+    animations.forEach((animation) => { animation.startTime = startTime; });
+
+    const finish = () => animations.forEach((animation) => animation.cancel());
+    window.addEventListener("resize", finish);
+    reducedMotion.addEventListener("change", finish);
+    return () => {
+      finish();
+      window.removeEventListener("resize", finish);
+      reducedMotion.removeEventListener("change", finish);
+    };
+  }, []);
 
   useEffect(() => {
     const content = contentRef.current;
@@ -31,14 +73,14 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
     if (!content || !grid || !desktop.matches || reducedMotion.matches) return;
 
     // Play once on mount. CSS owns the final layout, even if motion is cancelled.
-    const opening = [".hero-intro", ".hero-copy", ".hero-actions", ".hero-portrait-wrap"];
+    const opening = [".hero-copy", ".hero-portrait-wrap"];
     const startTime = document.timeline.currentTime;
     const animations = opening.flatMap((selector) => {
       const element = grid.querySelector<HTMLElement>(selector);
       if (!element) return [];
       const isPortrait = selector === ".hero-portrait-wrap";
       // Start each side in its own column, slightly nearer the portrait.
-      const offset = selector === ".hero-copy" ? 24 : selector === ".hero-actions" ? -24 : 0;
+      const offset = selector === ".hero-copy" ? 24 : 0;
       const scale = isPortrait ? 0.9 : 1;
       const transform = `translateX(${offset}px) scale(${scale})`;
       const animation = element.animate(
@@ -162,13 +204,51 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
   return (
     <section
       id="about"
-      className="hero-section relative mx-auto max-w-6xl px-6 sm:px-10"
+      className="hero-section relative mx-auto px-6 sm:px-10"
     >
       <div className="hero-grid">
         <header className="hero-intro">
-          <h1 className="hero-title">
-            <span>Anjula</span>{" "}<span>Amarakoon</span>
-          </h1>
+          <div className="hero-actions" role="group" aria-label="Explore my work and get in touch">
+            <div className="hero-actions-primary">
+              <a className={buttonVariants({ size: "lg" })} href="#projects" onClick={onProjectsClick}>
+                View Work
+              </a>
+              <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#contact" onClick={onContactClick}>
+                Get In Touch
+              </a>
+            </div>
+            <CvDownload />
+          </div>
+          <div className="hero-heading">
+            <p className="hero-greeting">Hey, I’m</p>
+            <div ref={nameRef} className="hero-name-lockup">
+              <h1 className="hero-title" aria-label="Anjula Amarakoon">
+                <span className="hero-first-name" aria-hidden="true">
+                  {Array.from("Anjula").map((letter, index) => (
+                    <span key={index}>{letter}</span>
+                  ))}
+                </span>
+                <span className="hero-last-name">Amarakoon</span>
+              </h1>
+              <p className="hero-role">
+                <span className="sr-only">University of Moratuwa undergraduate</span>
+                <span className="hero-role-university" aria-hidden="true">UOM</span>
+                <span className="hero-role-status" aria-hidden="true">Undergraduate</span>
+              </p>
+            </div>
+            <p ref={summaryRef} className="hero-summary" data-reveal="pending">
+              <span className="sr-only">{summaryParts.map((part) => part.text).join("")}</span>
+              <span aria-hidden="true">
+                {summaryParts.map((part, partIndex) => (
+                  <span key={partIndex} className={part.emphasis ? "hero-summary-emphasis" : undefined}>
+                    {Array.from(part.text).map((character, characterIndex) => (
+                      <span key={characterIndex} className="hero-summary-char">{character}</span>
+                    ))}
+                  </span>
+                ))}
+              </span>
+            </p>
+          </div>
         </header>
 
         <div ref={contentRef} className="hero-content">
@@ -179,16 +259,6 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
             <p className="hero-description">
               I build full-stack experiences with clean interfaces and reliable code.
             </p>
-          </div>
-
-          <div className="hero-actions">
-            <a className={buttonVariants({ size: "lg" })} href="#projects" onClick={onProjectsClick}>
-              View Work
-            </a>
-            <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#contact" onClick={onContactClick}>
-              Get In Touch
-            </a>
-            <CvDownload />
           </div>
 
           <div className="hero-portrait-wrap">
@@ -210,19 +280,6 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
             </figure>
           </div>
         </div>
-
-        <p ref={summaryRef} className="hero-summary" data-reveal="pending">
-          <span className="sr-only">{summaryParts.map((part) => part.text).join("")}</span>
-          <span aria-hidden="true">
-            {summaryParts.map((part, partIndex) => (
-              <span key={partIndex} className={part.emphasis ? "hero-summary-emphasis" : undefined}>
-                {Array.from(part.text).map((character, characterIndex) => (
-                  <span key={characterIndex} className="hero-summary-char">{character}</span>
-                ))}
-              </span>
-            ))}
-          </span>
-        </p>
       </div>
     </section>
   );
