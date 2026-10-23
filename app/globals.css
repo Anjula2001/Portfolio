@@ -469,12 +469,12 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   grid-template-rows: auto minmax(0, 1fr);
   align-items: center;
   justify-items: center;
-  gap: clamp(2rem, 4vw, 4.5rem);
+  gap: clamp(2.5rem, 6svh, 4rem);
   width: 100%;
   min-width: 0;
   min-height: calc(100svh - 5rem);
   container-type: inline-size;
-  padding-block: 1.5rem 3rem;
+  padding-block: 1.5rem 4rem;
 }
 
 .hero-role {
@@ -537,7 +537,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 .hero-summary {
   width: 100%;
   contain: inline-size;
-  margin-top: clamp(3.5rem, 7vw, 6.5rem);
+  margin-top: clamp(2rem, 4.5svh, 3rem);
   font-size: clamp(1rem, 1.4vw, 1.0625rem);
   line-height: 1.6;
   letter-spacing: -0.015em;
@@ -558,7 +558,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 .hero-name-lockup {
   position: relative;
   width: max-content;
-  font-size: min(11cqw, 13rem);
+  font-size: min(11cqw, 10rem);
 }
 
 .hero-title {
@@ -617,11 +617,12 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   display: grid;
   width: max-content;
   max-width: 100%;
-  margin-bottom: clamp(3rem, 12svh, 7.5rem);
+  margin-inline: auto;
+  margin-bottom: clamp(2rem, 5svh, 3rem);
 }
 
 .hero-greeting {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.875rem;
   color: var(--text-muted);
   font-size: clamp(1rem, 1.4vw, 1.25rem);
   font-weight: 400;
@@ -975,6 +976,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 @media (max-width: 767px) {
   .hero-intro {
     min-height: calc(100svh - 7.5rem);
+    padding-block: 1.5rem 3rem;
   }
 }
 
@@ -996,6 +998,14 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
   .hero-name-lockup {
     font-size: 15cqw;
+  }
+
+  .hero-title .hero-first-name {
+    align-self: center;
+  }
+
+  .hero-greeting {
+    text-align: center;
   }
 
   .hero-role {
