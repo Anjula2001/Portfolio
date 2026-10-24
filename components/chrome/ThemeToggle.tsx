@@ -51,6 +51,8 @@ function getServerSnapshot(): Theme {
 
 export function ThemeToggle() {
   const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const nextTheme = theme === "light" ? "dark" : "light";
+  const label = `Switch to ${nextTheme} mode`;
 
   const apply = (next: Theme) => {
     if (next === getSnapshot()) return;
@@ -65,26 +67,18 @@ export function ThemeToggle() {
   };
 
   return (
-    <div className="theme-toggle" data-active={theme} role="group" aria-label="Appearance">
-      <span className="theme-toggle-thumb" aria-hidden="true" />
-      <button
-        type="button"
-        onClick={() => apply("light")}
-        aria-pressed={theme === "light"}
-        aria-label="Use light appearance"
-        title="Light"
-      >
-        <Sun size={15} aria-hidden="true" />
-      </button>
-      <button
-        type="button"
-        onClick={() => apply("dark")}
-        aria-pressed={theme === "dark"}
-        aria-label="Use dark appearance"
-        title="Dark"
-      >
-        <Moon size={15} aria-hidden="true" />
-      </button>
-    </div>
+    <button
+      type="button"
+      className="theme-toggle"
+      onClick={() => apply(nextTheme)}
+      aria-label={label}
+      title={label}
+    >
+      {theme === "light" ? (
+        <Moon size={19} strokeWidth={1.7} aria-hidden="true" />
+      ) : (
+        <Sun size={19} strokeWidth={1.7} aria-hidden="true" />
+      )}
+    </button>
   );
 }
