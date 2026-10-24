@@ -1049,11 +1049,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     gap: 0.75rem;
   }
 
-  .hero-actions-primary {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
 }
 
 @media (pointer: coarse) {

@@ -308,7 +308,6 @@ export default function Home() {
 
         <HeroSection
           onProjectsClick={handleSmoothScroll("projects")}
-          onContactClick={handleSmoothScroll("contact")}
         />
         <EducationSection education={education} certificates={certificates} />
         <ProjectsSection projects={projects} />
