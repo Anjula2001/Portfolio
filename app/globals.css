@@ -676,10 +676,18 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   color: var(--text-muted);
 }
 
-.hero-actions .btn-secondary:hover,
+.hero-actions .btn-secondary:hover {
+  background: light-dark(rgba(0, 0, 0, 0.07), rgba(255, 255, 255, 0.12));
+  color: var(--foreground);
+}
+
+.hero-actions .cv-trigger {
+  background: transparent;
+}
+
 .hero-actions .cv-trigger:hover,
 .hero-actions .cv-download[data-open="true"] .cv-trigger {
-  background: light-dark(rgba(0, 0, 0, 0.07), rgba(255, 255, 255, 0.12));
+  background: var(--control-fill);
   color: var(--foreground);
 }
 
@@ -1043,7 +1051,6 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
   .hero-actions-primary {
     flex-direction: column;
-    gap: 0.5rem;
   }
 
 }

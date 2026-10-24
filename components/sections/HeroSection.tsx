@@ -208,7 +208,7 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
     >
       <div className="hero-grid">
         <header className="hero-intro">
-          <div className="hero-actions" role="group" aria-label="Explore my work and get in touch">
+          <div className="hero-actions" role="group" aria-label="Explore my work, download my CV, and get in touch">
             <div className="hero-actions-primary">
               <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#projects" onClick={onProjectsClick}>
                 View Work
@@ -216,7 +216,7 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
               <CvDownload />
             </div>
             <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#contact" onClick={onContactClick}>
-              Get In Touch
+              Let&apos;s Talk
             </a>
           </div>
           <div className="hero-heading">

@@ -268,13 +268,6 @@ export default function Home() {
 
               <div className="nav-actions">
                 <ThemeToggle />
-                <a
-                  href="#contact"
-                  className={`nav-cta ${activeSection === "contact" ? "active" : ""}`}
-                  onClick={handleSmoothScroll("contact")}
-                >
-                  Let&apos;s Talk
-                </a>
               </div>
             </div>
 
