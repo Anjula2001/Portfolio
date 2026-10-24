@@ -210,7 +210,7 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
         <header className="hero-intro">
           <div className="hero-actions" role="group" aria-label="Explore my work and get in touch">
             <div className="hero-actions-primary">
-              <a className={buttonVariants({ size: "lg" })} href="#projects" onClick={onProjectsClick}>
+              <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#projects" onClick={onProjectsClick}>
                 View Work
               </a>
               <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#contact" onClick={onContactClick}>
