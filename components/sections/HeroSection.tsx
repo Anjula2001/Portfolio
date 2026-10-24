@@ -7,6 +7,7 @@ import { CvDownload } from "@/components/sections/CvDownload";
 
 type HeroSectionProps = {
   onProjectsClick: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+  onContactClick: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 };
 
 const summaryParts = [
@@ -17,7 +18,7 @@ const summaryParts = [
   { text: ", turning what I learn into thoughtful digital experiences.", emphasis: false },
 ];
 
-export function HeroSection({ onProjectsClick }: HeroSectionProps) {
+export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProps) {
   const eyesRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const summaryRef = useRef<HTMLParagraphElement>(null);
@@ -207,13 +208,16 @@ export function HeroSection({ onProjectsClick }: HeroSectionProps) {
     >
       <div className="hero-grid">
         <header className="hero-intro">
-          <div className="hero-actions" role="group" aria-label="Explore my work and download my CV">
+          <div className="hero-actions" role="group" aria-label="Explore my work, download my CV, and get in touch">
             <div className="hero-actions-primary">
               <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#projects" onClick={onProjectsClick}>
                 View Work
               </a>
               <CvDownload />
             </div>
+            <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#contact" onClick={onContactClick}>
+              Let&apos;s Talk
+            </a>
           </div>
           <div className="hero-heading">
             <p className="hero-greeting">Hey, I’m</p>

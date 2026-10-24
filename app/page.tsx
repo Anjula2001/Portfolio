@@ -268,13 +268,6 @@ export default function Home() {
 
               <div className="nav-actions">
                 <ThemeToggle />
-                <a
-                  href="#contact"
-                  className={`nav-cta ${activeSection === "contact" ? "active" : ""}`}
-                  onClick={handleSmoothScroll("contact")}
-                >
-                  Let&apos;s Talk
-                </a>
               </div>
             </div>
 
@@ -308,6 +301,7 @@ export default function Home() {
 
         <HeroSection
           onProjectsClick={handleSmoothScroll("projects")}
+          onContactClick={handleSmoothScroll("contact")}
         />
         <EducationSection education={education} certificates={certificates} />
         <ProjectsSection projects={projects} />
