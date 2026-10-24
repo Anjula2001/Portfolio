@@ -396,50 +396,29 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 /* ==========================================================================
-   Theme toggle — a two-position segmented control, macOS style
+   Theme toggle — a quiet icon with a circular hover state
    ========================================================================== */
 
 .theme-toggle {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  flex: 0 0 auto;
-  padding: 2px;
-  border-radius: var(--pill);
-  border: 1px solid var(--control-border);
-  background: var(--surface-sunken);
-}
-
-.theme-toggle-thumb {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 28px;
-  height: 28px;
-  border-radius: var(--pill);
-  background: var(--surface);
-  box-shadow: 0 1px 3px var(--shadow-soft);
-  transition: transform 320ms var(--ease-apple);
-}
-
-.theme-toggle[data-active="dark"] .theme-toggle-thumb {
-  transform: translateX(28px);
-}
-
-.theme-toggle button {
-  position: relative;
-  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  flex: 0 0 auto;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
   border-radius: var(--pill);
+  border: 0;
+  background: transparent;
   color: var(--text-muted);
-  transition: color 240ms var(--ease-apple);
+  cursor: pointer;
+  transition:
+    color 220ms var(--ease-apple),
+    background-color 220ms var(--ease-apple);
 }
 
-.theme-toggle button[aria-pressed="true"] {
+.theme-toggle:hover {
+  background: var(--control-fill);
   color: var(--foreground);
 }
 
