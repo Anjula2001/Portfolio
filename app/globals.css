@@ -642,7 +642,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   gap: 0.5rem;
 }
 
-.hero-actions-primary > a,
+.hero-actions .btn-secondary,
 .hero-actions .cv-trigger {
   height: 2.5rem;
   min-height: 2.5rem;
@@ -658,10 +658,10 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .hero-actions .cv-panel {
-  left: auto;
-  right: 0;
+  left: 0;
+  right: auto;
   transform: translateY(-6px) scale(0.97);
-  transform-origin: top right;
+  transform-origin: top left;
 }
 
 .hero-actions .cv-download[data-open="true"] .cv-panel {
@@ -671,7 +671,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 .hero-actions .btn-secondary,
 .hero-actions .cv-trigger {
   border: 0;
-  background: transparent;
+  background: var(--control-fill);
   font-weight: 500;
   color: var(--text-muted);
 }
@@ -679,16 +679,8 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 .hero-actions .btn-secondary:hover,
 .hero-actions .cv-trigger:hover,
 .hero-actions .cv-download[data-open="true"] .cv-trigger {
-  background: var(--control-fill);
-  color: var(--foreground);
-}
-
-.hero-actions-primary .btn-secondary {
-  background: var(--control-fill);
-}
-
-.hero-actions-primary .btn-secondary:hover {
   background: light-dark(rgba(0, 0, 0, 0.07), rgba(255, 255, 255, 0.12));
+  color: var(--foreground);
 }
 
 .cv-download {
@@ -1036,7 +1028,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     width: min(72vw, 18rem);
   }
 
-  .hero-actions-primary > a,
+  .hero-actions .btn-secondary,
   .hero-actions .cv-trigger {
     padding-inline: 0.625rem;
     font-size: 0.75rem;
@@ -1057,7 +1049,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 @media (pointer: coarse) {
-  .hero-actions-primary > a,
+  .hero-actions .btn-secondary,
   .hero-actions .cv-trigger {
     min-height: 2.75rem;
   }
