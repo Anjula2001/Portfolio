@@ -484,16 +484,16 @@ html.is-scrolling::-webkit-scrollbar-thumb {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  gap: 0.2em;
+  gap: 0.07em;
   width: 31%;
   height: calc(100% / 1.94);
-  padding-bottom: 0.42em;
-  font-size: clamp(0.875rem, 0.2em, 2.6rem);
+  padding-bottom: 0.44em;
+  font-size: 0.25em;
   text-align: right;
 }
 
 .hero-role-university {
-  font-size: 1.9em;
+  font-size: 1.8em;
   font-weight: 600;
   line-height: 1;
   letter-spacing: -0.045em;
@@ -1024,6 +1024,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
   .hero-role {
     position: static;
+    gap: 0.2em;
     width: min(100%, 18rem);
     height: auto;
     padding-bottom: 0;
