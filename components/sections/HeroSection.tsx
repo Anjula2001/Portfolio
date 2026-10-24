@@ -213,11 +213,11 @@ export function HeroSection({ onProjectsClick, onContactClick }: HeroSectionProp
               <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#projects" onClick={onProjectsClick}>
                 View Work
               </a>
-              <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#contact" onClick={onContactClick}>
-                Get In Touch
-              </a>
+              <CvDownload />
             </div>
-            <CvDownload />
+            <a className={buttonVariants({ size: "lg", variant: "outline" })} href="#contact" onClick={onContactClick}>
+              Get In Touch
+            </a>
           </div>
           <div className="hero-heading">
             <p className="hero-greeting">Hey, I’m</p>
